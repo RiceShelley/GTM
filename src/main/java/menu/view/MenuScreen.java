@@ -36,8 +36,8 @@ public class MenuScreen extends JLayeredPane {
 	 */
 	private static final long serialVersionUID = 6097571045147215752L;   //added in PCM
 	public static final ImageManager IMAGE = new ImageManager();
-	private static final Dimension size = new Dimension(1920, 1080);
-	//private static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+	//private static final Dimension size = new Dimension(1920, 1080);
+	private static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public static final int frameWidth = size.width;
 	public static final int frameHeight = size.height;
@@ -48,7 +48,7 @@ public class MenuScreen extends JLayeredPane {
 	CubeController cubeController;
 	MGController prevController;
 	JPanel gameView = new JPanel();
-	//Wave wave;
+	Wave wave;
 	JPanel menu;
 	JPanel scoreboard;
 	JButton menuButton;
@@ -73,10 +73,9 @@ public class MenuScreen extends JLayeredPane {
 		cubeController = new CubeController();
 
 
-		//wave = new Wave();
-		//wave.setVisible(false);
+		wave = new Wave();
 		buildMenu();
-		// this.add(wave,4,0);
+		this.add(wave,4,0);
 		this.add(menu, 2, 0);
 		tutorialBoat = new Tutorial((frameWidth - boatButton.getWidth()) / 2, (frameHeight - boatButton.getHeight()) / 2,
 				boatButton.getX(), boatButton.getY(), boatButton.getWidth(), boatButton.getHeight());
