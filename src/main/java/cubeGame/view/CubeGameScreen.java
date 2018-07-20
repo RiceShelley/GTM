@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +18,6 @@ import main.java.menu.enums.IMAGES;
 import main.java.menu.view.ImageManager;
 import main.java.menu.view.MenuScreen;
 import main.java.cubeGame.controller.CubeController;
-import main.java.cubeGame.enums.STATE;
 import main.java.cubeGame.model.Die;
 
 public class CubeGameScreen extends MGView {
@@ -109,7 +107,6 @@ public class CubeGameScreen extends MGView {
 
 	private void rollDiceButtonActionPerformed(ActionEvent e) {
 		control.getWorld().rollDice();
-		control.getWorld().setState(STATE.MOVE);
 	}
 
 	private void startButtonPerformed(ActionEvent e) {
@@ -118,8 +115,6 @@ public class CubeGameScreen extends MGView {
 	}
 
 	protected void endButtonPerformed(ActionEvent arg0) {
-		// TODO: control.finish();
-
 		if (DEBUG)
 			System.out.println("endButtonPerformed()");
 		control.recording = false;

@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;
-
-import main.java.cubeGame.enums.STATE;
 import main.java.cubeGame.model.Die;
 
 public class CubeListener implements MouseInputListener, ActionListener {
@@ -34,9 +32,6 @@ public class CubeListener implements MouseInputListener, ActionListener {
 		curX = point.x;
 		curY = point.y;
 		dragging = true;
-		if (selectedImage >= 0 && control.getWorld().getState() != STATE.MOVE) {
-			control.getWorld().setState(STATE.MOVE);
-		}
 	}
 	
 	/*
@@ -109,7 +104,6 @@ public class CubeListener implements MouseInputListener, ActionListener {
 	 * An internal timer constantly updates the view 
 	 */
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println(control.getWorld().getState());
 		control.getView().repaint();
 		control.world.update();
 	}

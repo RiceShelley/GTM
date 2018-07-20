@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Random;
 
-import main.java.cubeGame.controller.CubeListener;
-import main.java.cubeGame.enums.STATE;
 import main.java.menu.view.MenuScreen;
 
 public class CubeWorld {
@@ -18,7 +16,6 @@ public class CubeWorld {
 			new Point((w + 4 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
 			new Point((w + 7 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2) };
 	public final Rectangle rollZone = new Rectangle(0, h / 3, w, 2 * h / 3);
-	private STATE state;
 	public static final Random RAND = new Random();
 
 	public boolean hasRolled = false;
@@ -31,14 +28,12 @@ public class CubeWorld {
 		for (int i = 0; i < dice.length; i++) {
 			dice[i] = new Die(diceLoc());
 		}
-		state = STATE.ROLL;
 	}
 
 	public void update() {
 		for (Die d : dice) {
 			Rectangle intersection = rollZone.intersection(d.bounds);
 			if (d.isRolling()) {
-				state = STATE.ROLL;
 				if (intersection.equals(null)) {
 					d.gameReset(diceLoc());
 					System.out.println("Something went wrong. Resetting.");
@@ -82,7 +77,6 @@ public class CubeWorld {
 		for (Die d : dice) {
 			d.gameReset(diceLoc());
 		}
-		state = STATE.ROLL;
 		hasRolled = false;
 	}
 
@@ -110,14 +104,4 @@ public class CubeWorld {
 		return rollZone.height;
 	}
 
-	// TODO: Currently, the state begins as ROLL and remains that way until the
-	// first die is touched
-	// Once any die has been interacted with, the state remains MOVE for the rest
-	public void setState(STATE state) {
-		this.state = state;
-	}
-
-	public STATE getState() {
-		return state;
-	}
 }

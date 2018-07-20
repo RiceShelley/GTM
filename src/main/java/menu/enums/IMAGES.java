@@ -62,7 +62,7 @@ public enum IMAGES {
 	MENU_CUBE4("/main/resources/images/tutcube4.png"),
 	QUESTION_MARK("/main/resources/images/qmark.png"),
 	// The following are the new ending faces for the dice game
-	DICE_ALLIGATOR("/main/resources/images/qmark.png"),
+	DICE_ALLIGATOR("/main/resources/images/alligatorCard.png"),
 	DICE_CATFISH("/main/resources/images/catfishCard.png"),
 	DICE_CLAM("/main/resources/images/clamCard.png"),
 	DICE_CORAL("/main/resources/images/coralCard.png"),
@@ -79,7 +79,7 @@ public enum IMAGES {
 	DICE_ROCK("/main/resources/images/rockCard.png"),
 	DICE_SEAWEED("/main/resources/images/seaweedCard.png"),
 	DICE_SNAPPER("/main/resources/images/snapperCard.png"),
-	DICE_WILDCARD("/main/resources/images/questionCard.png"),
+	DICE_WILDCARD("/main/resources/images/wildCard.png"),
 	DICE_MANGROVE("/main/resources/images/mangroveCard.png");
 
 	
