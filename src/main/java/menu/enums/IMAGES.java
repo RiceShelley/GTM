@@ -79,11 +79,10 @@ public enum IMAGES {
 	DICE_ROCK("/main/resources/images/rockCard.png"),
 	DICE_SEAWEED("/main/resources/images/seaweedCard.png"),
 	DICE_SNAPPER("/main/resources/images/snapperCard.png"),
-	DICE_WILDCARD("/main/resources/images/qmark.png"),
+	DICE_WILDCARD("/main/resources/images/questionCard.png"),
 	DICE_MANGROVE("/main/resources/images/mangroveCard.png");
 
 	
-
 	public final String path;
 
 	IMAGES(String path) {

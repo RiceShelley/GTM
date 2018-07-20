@@ -41,10 +41,16 @@ public class Die {
 		endImageIndex = getRandomImageIndex();
 	}
 
+	/*
+	 * Returns the index corresponding to the final image
+	 */
 	private int getRandomImageIndex() {
 		return CubeWorld.RAND.nextInt(NUMFACE);
 	}
 
+	/*
+	 * Update's the die's position
+	 */
 	public void move() {
 		if (isRolling()) {
 			if (xVel != 0) {
@@ -58,7 +64,7 @@ public class Die {
 			rollingImageIndex = (rollingImageIndex + 1) % CubeGameScreen.diceFrames;
 		}
 	}
-	
+
 	/*
 	 * Moves the die by (x, y)
 	 */
