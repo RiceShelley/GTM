@@ -8,6 +8,9 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,51 +23,47 @@ import main.java.cubeGame.enums.STATE;
 import main.java.cubeGame.model.Die;
 
 public class CubeGameScreen extends MGView {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private final int MPF = 11;
 	public static final int diceFrames = 6;
 	private static final boolean DEBUG = false;
 	private final int rollExtend = 5;
-	private final double buttonScale = (MenuScreen.frameHeight *1.0) / 1340;
+	private final double buttonScale = (MenuScreen.frameHeight * 1.0) / 1340;
 
 	CubeController control;
 
-	BufferedImage bg = MenuScreen.IMAGE.get(IMAGES.CUBE_BG);
+	BufferedImage bg = ImageManager.get(IMAGES.CUBE_BG);
 	BufferedImage[] diceImage = ImageManager.arrayPopulator(IMAGES.CUBE_ROLL, diceFrames);
 	BufferedImage[] movePrompt = ImageManager.arrayPopulator(IMAGES.UP_ARROW, MPF);
-	BufferedImage[] endFaces = ImageManager.arrayPopulator(IMAGES.CUBE_FACE, Die.NUMFACE);
+	List<BufferedImage> endFaces;
 	Image[] rollPrompt;
 
 	private int cur = 0;
 	JButton rollDice;
-	private JButton startRecording;
-	private JButton endRecording;
+	private JButton startRecordingButton;
+	private JButton endRecordingButton;
 
 	public boolean showingEnd = false;
 	private int rollCur = 0;
 
 	private boolean mDisplay = false;
 	private boolean rDisplay = false;
-	
+
 	private int mpWidth = Die.WIDTH;
-	private int mpHeight = mpWidth*movePrompt[0].getHeight()/movePrompt[0].getWidth();
-	
+	private int mpHeight = mpWidth * movePrompt[0].getHeight() / movePrompt[0].getWidth();
 
 	public CubeGameScreen(CubeController control) {
 		this.control = control;
 		this.setBounds(0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight);
 
-		rollDice = new JButton(new ImageIcon(MenuScreen.IMAGE.scaleButton(IMAGES.ROLL_BUTTON, buttonScale)));
-		rollDice.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				rollDiceActionPerformed(arg0);
-			}
-		});
-		MenuScreen.IMAGE.tailorButton(rollDice);
+		// Filters only the images that correspond to dice faces into a list
+		endFaces = Arrays.stream(IMAGES.values()).filter(name -> String.valueOf(name).contains("DICE_"))
+				.map(ImageManager::get).collect(Collectors.toList());
+
+		rollDice = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.ROLL_BUTTON, buttonScale)));
+		rollDice.addActionListener(actionEvent -> rollDiceActionPerformed(actionEvent));
+		ImageManager.tailorButton(rollDice);
 		this.add(rollDice);
 		Dimension rpDimStart = new Dimension(rollDice.getPreferredSize().width / 3,
 				rollDice.getPreferredSize().height / 3);
@@ -72,24 +71,14 @@ public class CubeGameScreen extends MGView {
 				(int) (rollDice.getPreferredSize().getHeight() + rollExtend));
 		rollPrompt = ImageManager.getScaled(IMAGES.CUBE_TUT_1, rpDimStart, rpDimEnd);
 
-		startRecording = new JButton(new ImageIcon(MenuScreen.IMAGE.scaleButton(IMAGES.START_BUTTON, buttonScale)));
-		startRecording.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				startButtonPerformed(arg0);
-			}
-		});
-		MenuScreen.IMAGE.tailorButton(startRecording);
-		this.add(startRecording);
-		endRecording = new JButton(new ImageIcon(MenuScreen.IMAGE.scaleButton(IMAGES.STOP_BUTTON, buttonScale)));
-		endRecording.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				endButtonPerformed(arg0);
-			}
-		});
-		MenuScreen.IMAGE.tailorButton(endRecording);
-		this.add(endRecording);
+		startRecordingButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.START_BUTTON, buttonScale)));
+		startRecordingButton.addActionListener(actionEvent -> startButtonPerformed(actionEvent));
+		ImageManager.tailorButton(startRecordingButton);
+		this.add(startRecordingButton);
+		endRecordingButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.STOP_BUTTON, buttonScale)));
+		endRecordingButton.addActionListener(actionEvent -> endButtonPerformed(actionEvent));
+		ImageManager.tailorButton(endRecordingButton);
+		this.add(endRecordingButton);
 		hideRecordingButtons();
 	}
 
@@ -103,21 +92,21 @@ public class CubeGameScreen extends MGView {
 		g.drawRect(0, 0, width, height);
 		g.drawImage(bg, 0, 0, width, height, null);
 		for (Point p : control.getWorld().markers) {
-			g.drawImage(MenuScreen.IMAGE.get(IMAGES.DIE_SIL), p.x - Die.WIDTH, p.y - Die.HEIGHT, Die.WIDTH,
-					Die.HEIGHT, null);
+			g.drawImage(ImageManager.get(IMAGES.DIE_SIL), p.x - Die.WIDTH, p.y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT,
+					null);
 		}
-		// g.fillRect(0, 0, CRABWORLDWIDTH, CRABWORLDHEIGHT);
+		
+		// Draws an image of a rolling or resting die for each die
 		for (Die die : control.getWorld().dice) {
 			if (die.isRolling()) {
-				g.drawImage(diceImage[die.getCur()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
-			} else {
-				g.drawImage(endFaces[die.getEndFace()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
+				g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
+			} else { // is this repainted every single screen?
+				g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
 			}
 		}
 
 		if (showingEnd) {
-			g.drawImage(MenuScreen.IMAGE.get(IMAGES.CUBE_END), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight,
-					null);
+			g.drawImage(ImageManager.get(IMAGES.CUBE_END), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
 		}
 
 		if (rDisplay) {
@@ -135,7 +124,8 @@ public class CubeGameScreen extends MGView {
 			for (Die die : control.getWorld().dice) {
 				if (!die.isRolling() && die.bounds.intersects(control.getWorld().rollZone) && !flag) {
 					flag = true;
-					g.drawImage(movePrompt[++cur % MPF], die.bounds.x, die.bounds.y - mpHeight, mpWidth, mpHeight, null);
+					g.drawImage(movePrompt[++cur % MPF], die.bounds.x, die.bounds.y - mpHeight, mpWidth, mpHeight,
+							null);
 				}
 			}
 		}
@@ -155,19 +145,20 @@ public class CubeGameScreen extends MGView {
 	protected void endButtonPerformed(ActionEvent arg0) {
 		// TODO: control.finish();
 
-		if (DEBUG) System.out.println("endButtonPerformed()");
+		if (DEBUG)
+			System.out.println("endButtonPerformed()");
 		control.recording = false;
 		control.stopRecorder();
 	}
 
 	public void showRecordingButtons() {
-		startRecording.setVisible(true);
-		endRecording.setVisible(true);
+		startRecordingButton.setVisible(true);
+		endRecordingButton.setVisible(true);
 	}
 
 	public void hideRecordingButtons() {
-		startRecording.setVisible(false);
-		endRecording.setVisible(false);
+		startRecordingButton.setVisible(false);
+		endRecordingButton.setVisible(false);
 	}
 
 	public void hideButtons() {
@@ -187,7 +178,7 @@ public class CubeGameScreen extends MGView {
 		mDisplay = false;
 		rDisplay = false;
 	}
-	
+
 	public void reset() {
 		showingEnd = false;
 		setOK();
