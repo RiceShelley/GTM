@@ -20,16 +20,18 @@ public class WorldRenderer {
 	static BufferedImage[] trail = ImageManager.arrayPopulator(IMAGES.TRAIL, 7);
 	static BufferedImage[] enemies = ImageManager.arrayPopulator(IMAGES.BASS, NQF);
 	static BufferedImage[] bgs = ImageManager.arrayPopulator(IMAGES.CRAB_BG, 4);
-	//need to scale panels so they fill height, then find how many of those fill the screen
-	static int numBgPanels = MenuScreen.frameWidth/(bgs[0].getWidth()*(MenuScreen.frameHeight/bgs[0].getHeight()))+1;
+	// need to scale panels so they fill height, then find how many of those fill
+	// the screen
+	static int numBgPanels = MenuScreen.frameWidth / (bgs[0].getWidth() * (MenuScreen.frameHeight / bgs[0].getHeight()))
+			+ 1;
 	static int[] bgPanels = new int[numBgPanels];
 	static Random rand = new Random();
-	
+
 	/**
 	 * Draws a CrabGamePanel's game, should call all other draw methods
 	 */
 	public static void render(Graphics g) {
-		//System.out.println("WorldRenderer: " + game);
+		// System.out.println("WorldRenderer: " + game);
 
 		drawBackground(g);
 		drawCrabbies(CrabGameWorld.crabbies, g);
@@ -45,13 +47,10 @@ public class WorldRenderer {
 	 * @param g
 	 */
 	static void drawBackground(Graphics g) {
-		
-
 
 		g.drawImage(MenuScreen.IMAGE.get(IMAGES.CRAB_BG), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
 
 	}
-
 
 	static void drawCrabbies(ArrayList<Crabby> crabbies, Graphics g) {
 		for (Crabby crabby : crabbies) {
@@ -67,7 +66,7 @@ public class WorldRenderer {
 	 * @param g
 	 */
 	static void drawCrabby(Crabby crabby, Graphics g) {
-		//System.out.println("drawCrabby: " + crabby);
+		// System.out.println("drawCrabby: " + crabby);
 
 //		g.setColor(Color.CYAN);
 //		fillBounds(crabby.getBounds(), g);
@@ -86,12 +85,15 @@ public class WorldRenderer {
 		} else {
 			drawImageBounds(crabby.getBounds(), g, crab[crabby.getFrame()]);
 		}
-
-
+		
+		// draw a velocity vector on top of crab
+		g.setColor(Color.red);
+		Point cCenter = new Point();
+		cCenter.x = (int) (crabby.getxPos() + crabby.getBounds().getWidth() / 2);
+		cCenter.y = (int) (crabby.getyPos() + crabby.getBounds().getHeight() / 2);
+		g.drawLine(cCenter.x, cCenter.y, (int) (cCenter.x + crabby.getxVel() * 400.0), (int) (cCenter.y + crabby.getyVel() * 400.0));
 
 	}
-
-
 
 	static void fillBounds(Rectangle bounds, Graphics g) {
 		g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
@@ -111,10 +113,10 @@ public class WorldRenderer {
 	 * @param g
 	 */
 	static void drawFriends(ArrayList<Friend> friends, Graphics g) {
-		//System.out.println("drawFriends: " + friends);
+		System.out.println("drawFriends: " + friends);
 		for (Friend f : friends) {
 			drawFriend(f, g);
-			//drawFact(f, g);
+			// drawFact(f, g);
 		}
 	}
 
@@ -125,7 +127,7 @@ public class WorldRenderer {
 	 * @param g
 	 */
 	static void drawFriend(Friend friend, Graphics g) {
-		//System.out.println("drawFriend: " + friend );
+		// System.out.println("drawFriend: " + friend );
 
 		g.setColor(Color.PINK);
 		fillBounds(friend.getBounds(), g);
@@ -133,11 +135,11 @@ public class WorldRenderer {
 		g.setColor(Color.BLACK);
 		drawBounds(friend.getBounds(), g);
 
-		//		g.drawImage(
-		//				MainMenuScreen.IMAGE.get(IMAGES.BOGTURTLE0.path),
-		//				friend.getBounds().x,
-		//				friend.getBounds().y,
-		//				this);
+		// g.drawImage(
+		// MainMenuScreen.IMAGE.get(IMAGES.BOGTURTLE0.path),
+		// friend.getBounds().x,
+		// friend.getBounds().y,
+		// this);
 	}
 
 //	/**
@@ -176,7 +178,7 @@ public class WorldRenderer {
 	 * @param g
 	 */
 	static void drawSaltClouds(ArrayList<SaltCloud> saltClouds, Graphics g) {
-		//System.out.println("drawSaltClouds: " + saltClouds);
+		// System.out.println("drawSaltClouds: " + saltClouds);
 		for (SaltCloud s : saltClouds) {
 			drawSaltCloud(s, g);
 		}
@@ -189,7 +191,7 @@ public class WorldRenderer {
 	 * @param g
 	 */
 	static void drawEnemy(Enemy enemy, Graphics g) {
-		//System.out.println("drawEnemy: " + enemy);
+		// System.out.println("drawEnemy: " + enemy);
 //		g.setColor(Color.RED);
 //		fillBounds(enemy.getBounds(), g);
 //		g.setColor(Color.BLACK);
@@ -205,7 +207,7 @@ public class WorldRenderer {
 	 * @param g
 	 */
 	static void drawEnemies(ArrayList<Enemy> enemies, Graphics g) {
-		//	System.out.println("drawEnemies: " + enemies);
+		// System.out.println("drawEnemies: " + enemies);
 		for (Enemy e : enemies) {
 			drawEnemy(e, g);
 		}

@@ -12,16 +12,16 @@ import static main.java.crabGame.model.SaltCloud.getTrailState;
 
 /**
  * @author Zachary
- * <p>
- * This class is the game class that includes all elements that exist in the game and
- * are displayed on screen.
- * It updates their positions and checks for any and all collisions.
+ *         <p>
+ *         This class is the game class that includes all elements that exist in
+ *         the game and are displayed on screen. It updates their positions and
+ *         checks for any and all collisions.
  */
 public class CrabGameWorld {
-	public final static int WORLD_ORIGIN_X = 0; //200; //
-	public final static int WORLD_ORIGIN_Y = 0; //200; //
-	public final static int WORLD_WIDTH = MenuScreen.frameWidth;//- 400; //
-	public final static int WORLD_HEIGHT = MenuScreen.frameHeight;//- 400; //
+	public final static int WORLD_ORIGIN_X = 0; // 200; //
+	public final static int WORLD_ORIGIN_Y = 0; // 200; //
+	public final static int WORLD_WIDTH = MenuScreen.frameWidth;// - 400; //
+	public final static int WORLD_HEIGHT = MenuScreen.frameHeight;// - 400; //
 	final static int WORLD_RIGHT_BOUND = WORLD_ORIGIN_X + WORLD_WIDTH;
 	final static int WORLD_LEFT_BOUND = WORLD_ORIGIN_X;
 	final static int WORLD_TOP_BOUND = WORLD_ORIGIN_Y;
@@ -40,14 +40,12 @@ public class CrabGameWorld {
 
 	public static boolean crabbyScoring;
 
-
 	/**
 	 * Creates the world and everything in it
 	 */
 	public CrabGameWorld() {
 		restartWorld();
 	}
-
 
 	public void restartWorld() {
 		final int littleBitOfSpace = 10;
@@ -58,21 +56,18 @@ public class CrabGameWorld {
 
 		spawnCrabby();
 
-		saltClouds.add(new SaltCloud(
-				WORLD_RIGHT_BOUND + SALT_CLOUD_WIDTH + littleBitOfSpace,
-				WORLD_BOTTOM_BOUND / 2,
-				SALT_CLOUD_WIDTH,
-				SALT_CLOUD_HEIGHT));
+		saltClouds.add(new SaltCloud(WORLD_RIGHT_BOUND + SALT_CLOUD_WIDTH + littleBitOfSpace, WORLD_BOTTOM_BOUND / 2,
+				SALT_CLOUD_WIDTH, SALT_CLOUD_HEIGHT));
 
 		crabbyScoring = false;
 
 		setGameStateToReady();
-		//setGameState(State.WIN);
+		// setGameState(State.WIN);
 	}
 
-
 	/**
-	 * What happens to CrabGameWorld every frame, this should call all other update and check methods
+	 * What happens to CrabGameWorld every frame, this should call all other update
+	 * and check methods
 	 */
 	public void update(long deltaTime) {
 		setWorldStateTime(getWorldStateTime() + deltaTime);
@@ -81,8 +76,10 @@ public class CrabGameWorld {
 		updateEnemies(deltaTime);
 		updateFriends(deltaTime);
 
-		if (crabbies.size() == 0) setGameState(State.CONTINUE); // Checks if crabby died
-		if (CrabController.score >= CrabController.MAX_SCORE) setGameState(State.WIN); // Check if the game is over or not
+		if (crabbies.size() == 0)
+			setGameState(State.CONTINUE); // Checks if crabby died
+		if (CrabController.score >= CrabController.MAX_SCORE)
+			setGameState(State.WIN); // Check if the game is over or not
 
 	}
 
@@ -93,7 +90,8 @@ public class CrabGameWorld {
 			Crabby crabby = crabbyIterator.next(); // Grab the next thing from the iterator
 			crabby.update(deltaTime); // Update the thing
 			checkCollisions(crabby); // Check if this ran into anything else in the world
-			if (crabby.getState() == Mover.State.DIE) crabbyIterator.remove(); // Remove the thing from the world if the state is DIE
+			if (crabby.getState() == Mover.State.DIE)
+				crabbyIterator.remove(); // Remove the thing from the world if the state is DIE
 		}
 	}
 
@@ -102,8 +100,9 @@ public class CrabGameWorld {
 		while (enemyIterator.hasNext()) {
 			// Update all of enemies
 			Enemy enemy = enemyIterator.next(); // Grab the next thing from the iterator
-			enemy.update(deltaTime);  // Update the thing
-			if (enemy.getState() == Mover.State.DIE) enemyIterator.remove(); // Remove the thing from the world if the state is DIE
+			enemy.update(deltaTime); // Update the thing
+			if (enemy.getState() == Mover.State.DIE)
+				enemyIterator.remove(); // Remove the thing from the world if the state is DIE
 		}
 	}
 
@@ -111,9 +110,10 @@ public class CrabGameWorld {
 		ListIterator<Friend> friendIterator = friends.listIterator();
 		while (friendIterator.hasNext()) {
 			// Update all of friends
-			Friend friend = friendIterator.next();  // Grab the next thing from the iterator
+			Friend friend = friendIterator.next(); // Grab the next thing from the iterator
 			friend.update(deltaTime); // Update the thing
-			if (friend.getState() == Mover.State.DIE) friendIterator.remove(); // Remove the thing from the world if the state is DIE
+			if (friend.getState() == Mover.State.DIE)
+				friendIterator.remove(); // Remove the thing from the world if the state is DIE
 		}
 	}
 
@@ -127,27 +127,35 @@ public class CrabGameWorld {
 			saltCloud.update(deltaTime); // Update the thing
 			////
 
-
 			SaltCloud newSaltCloud = null;
 
 			final int littleBitOfSpace = 5;
 
 			// If it's ok to spawn the next saltCloud
-			boolean spawnNextSaltCloud = !saltCloudIterator.hasNext() && saltCloud.getxPos() < WORLD_RIGHT_BOUND + littleBitOfSpace && saltCloud.getxPos() > WORLD_RIGHT_BOUND - littleBitOfSpace;
+			boolean spawnNextSaltCloud = !saltCloudIterator.hasNext()
+					&& saltCloud.getxPos() < WORLD_RIGHT_BOUND + littleBitOfSpace
+					&& saltCloud.getxPos() > WORLD_RIGHT_BOUND - littleBitOfSpace;
 
 			int saltCloudStateCountMax = 4;
-			if (saltCloudCount >= saltCloudStateCountMax) tryToChangeTrailState();
+			if (saltCloudCount >= saltCloudStateCountMax)
+				tryToChangeTrailState();
 
-			if (spawnNextSaltCloud) newSaltCloud = saltCloud.generateNextSaltCloud(saltCloud); // If this particular saltCloud's position is its width of the way through the screen and is the last one on the list, generate the next one
+			if (spawnNextSaltCloud)
+				newSaltCloud = saltCloud.generateNextSaltCloud(saltCloud); // If this particular saltCloud's position is
+																			// its width of the way through the screen
+																			// and is the last one on the list, generate
+																			// the next one
 
 			if (newSaltCloud != null) {
-				saltCloudIterator.add(newSaltCloud);  // Add the next one if it exists
+				saltCloudIterator.add(newSaltCloud); // Add the next one if it exists
 				saltCloudCount++;
-				//System.out.println("salt cloud count: " + saltCloudCount + " Trail State: " + SaltCloud.getTrailState());
+				// System.out.println("salt cloud count: " + saltCloudCount + " Trail State: " +
+				// SaltCloud.getTrailState());
 			}
 
 			////
-			if (saltCloud.getState() == Mover.State.DIE) saltCloudIterator.remove(); // Remove from the world if its state is DIE
+			if (saltCloud.getState() == Mover.State.DIE)
+				saltCloudIterator.remove(); // Remove from the world if its state is DIE
 		}
 	}
 
@@ -159,20 +167,26 @@ public class CrabGameWorld {
 
 		SaltCloud.TrailState newTrailState = getTrailState();
 
-		if (SaltCloud.getTrailState() == SaltCloud.TrailState.NORMAL_ENTRY) newTrailState = SaltCloud.TrailState.NORMAL;
-		else if (SaltCloud.getTrailState() == SaltCloud.TrailState.DROUGHT_ENTRY) newTrailState = SaltCloud.TrailState.DROUGHT;
-		else if (SaltCloud.getTrailState() == SaltCloud.TrailState.STORM_ENTRY) newTrailState = SaltCloud.TrailState.STORM;
+		if (SaltCloud.getTrailState() == SaltCloud.TrailState.NORMAL_ENTRY)
+			newTrailState = SaltCloud.TrailState.NORMAL;
+		else if (SaltCloud.getTrailState() == SaltCloud.TrailState.DROUGHT_ENTRY)
+			newTrailState = SaltCloud.TrailState.DROUGHT;
+		else if (SaltCloud.getTrailState() == SaltCloud.TrailState.STORM_ENTRY)
+			newTrailState = SaltCloud.TrailState.STORM;
 		else if (SaltCloud.getTrailState() == SaltCloud.TrailState.NORMAL) {
 			if (rand > toChangeChance) {
-				newTrailState = (Math.random() > fiftyPercent) ? SaltCloud.TrailState.DROUGHT_ENTRY : SaltCloud.TrailState.STORM_ENTRY;
+				newTrailState = (Math.random() > fiftyPercent) ? SaltCloud.TrailState.DROUGHT_ENTRY
+						: SaltCloud.TrailState.STORM_ENTRY;
 			}
 		} else if (SaltCloud.getTrailState() == SaltCloud.TrailState.STORM) {
 			if (rand > toChangeChance) {
-				newTrailState = (Math.random() > fiftyPercent) ? SaltCloud.TrailState.NORMAL_ENTRY : SaltCloud.TrailState.STORM;
+				newTrailState = (Math.random() > fiftyPercent) ? SaltCloud.TrailState.NORMAL_ENTRY
+						: SaltCloud.TrailState.STORM;
 			}
 		} else if (SaltCloud.getTrailState() == SaltCloud.TrailState.DROUGHT) {
 			if (rand > toChangeChance) {
-				newTrailState = (Math.random() > fiftyPercent) ? SaltCloud.TrailState.NORMAL_ENTRY : SaltCloud.TrailState.DROUGHT;
+				newTrailState = (Math.random() > fiftyPercent) ? SaltCloud.TrailState.NORMAL_ENTRY
+						: SaltCloud.TrailState.DROUGHT;
 			}
 		}
 
@@ -184,12 +198,12 @@ public class CrabGameWorld {
 	// Collision Checks //
 
 	/**
-	 * Checks the various collisions that could be going on in the world between a given crabby and the rest of the world,
-	 * which call what should happen afterwards when one of them does
+	 * Checks the various collisions that could be going on in the world between a
+	 * given crabby and the rest of the world, which call what should happen
+	 * afterwards when one of them does
 	 */
 	private static void checkCollisions(Crabby crabby) {
 		crabbyScoring = checkSaltCloudCollision(crabby);
-		System.out.println("Crabby Scoring: " + crabbyScoring);
 		checkEnemyCollision(crabby);
 	}
 
@@ -198,13 +212,14 @@ public class CrabGameWorld {
 	 */
 	private static void checkEnemyCollision(Crabby crabby) {
 		for (Enemy enemy : enemies) {
-			if (crabby.getState() != Mover.State.SAFE && crabby.getBounds().intersects(enemy.getBounds())) crabby.hitEnemy();
+			if (crabby.getState() != Mover.State.SAFE && crabby.getBounds().intersects(enemy.getBounds()))
+				crabby.hitEnemy();
 		}
 	}
 
-
 	/**
-	 * Checks whether or not a given crabby is intersected with any of the world's saltClouds
+	 * Checks whether or not a given crabby is intersected with any of the world's
+	 * saltClouds
 	 */
 	private static boolean checkSaltCloudCollision(Crabby crabby) {
 		for (SaltCloud saltCloud : saltClouds) {
@@ -222,18 +237,22 @@ public class CrabGameWorld {
 	 * Various game states
 	 */
 	public enum State {
-		// READY is when the gamePanel is about ready to start with an introductory screen, this should be at the beginning
+		// READY is when the gamePanel is about ready to start with an introductory
+		// screen, this should be at the beginning
 		READY,
 		// PLAY_ENTRY is the part where you just got here and things are 'soft'
 		PLAY_ENTRY,
-		// PLAY is when the gamePanel is, well, running, this should be the vast majority of the time
+		// PLAY is when the gamePanel is, well, running, this should be the vast
+		// majority of the time
 		PLAY,
-		// CONTINUE is when the player has died, it should be a prompt to try again with a classic arcade-style countdown that goes back to the main menu afterwards
+		// CONTINUE is when the player has died, it should be a prompt to try again with
+		// a classic arcade-style countdown that goes back to the main menu afterwards
 		CONTINUE,
-		// WIN is the win screen, congrats you beat the game, this is what it should look and act like, it should probably go back to the main menu after a timeout or a tap
+		// WIN is the win screen, congrats you beat the game, this is what it should
+		// look and act like, it should probably go back to the main menu after a
+		// timeout or a tap
 		WIN
 	}
-
 
 	public float getWorldStateTime() {
 		return worldStateTime;
@@ -292,19 +311,23 @@ public class CrabGameWorld {
 	}
 
 	public static void moveCrabbyUp() {
-		for (Crabby crabby : crabbies) crabby.moveUp();
+		for (Crabby crabby : crabbies)
+			crabby.moveUp();
 	}
 
 	public static void moveCrabbyRight() {
-		for (Crabby crabby : crabbies) crabby.moveRight();
+		for (Crabby crabby : crabbies)
+			crabby.moveRight();
 	}
 
 	public static void moveCrabbyLeft() {
-		for (Crabby crabby : crabbies) crabby.moveLeft();
+		for (Crabby crabby : crabbies)
+			crabby.moveLeft();
 	}
 
 	public static void moveCrabbyDown() {
-		for (Crabby crabby : crabbies) crabby.moveDown();
+		for (Crabby crabby : crabbies)
+			crabby.moveDown();
 	}
 
 	// Enemy Controls //
@@ -323,7 +346,8 @@ public class CrabGameWorld {
 	// Misc World Controls //
 
 	public static void moveSaltClouds() {
-		for (SaltCloud saltCloud : saltClouds) saltCloud.moveLeft();
+		for (SaltCloud saltCloud : saltClouds)
+			saltCloud.moveLeft();
 	}
 
 }

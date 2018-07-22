@@ -6,8 +6,7 @@ import main.java.crabGame.view.*;
 import main.java.menu.controller.MGView;
 
 /**
- * @author Zach
- * handles the visuals of the CrabGameWorld
+ * @author Zach handles the visuals of the CrabGameWorld
  */
 public class CrabGamePanel extends MGView {
 

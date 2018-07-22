@@ -2,6 +2,7 @@ package main.java.crabGame;
 
 import main.java.crabGame.controller.CrabGameListeners;
 import main.java.crabGame.model.CrabGameWorld;
+import main.java.crabGame.model.Friend;
 import main.java.crabGame.model.Utilities;
 import main.java.menu.controller.MGController;
 import main.java.menu.controller.MGView;
