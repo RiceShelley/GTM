@@ -20,6 +20,7 @@ public class WorldRenderer {
 	static BufferedImage[] trail = ImageManager.arrayPopulator(IMAGES.TRAIL, 7);
 	static BufferedImage[] enemies = ImageManager.arrayPopulator(IMAGES.BASS, NQF);
 	static BufferedImage[] bgs = ImageManager.arrayPopulator(IMAGES.CRAB_BG, 4);
+	static BufferedImage[] friends = ImageManager.arrayPopulator(IMAGES.TURTLE, 1);
 	// need to scale panels so they fill height, then find how many of those fill
 	// the screen
 	static int numBgPanels = MenuScreen.frameWidth / (bgs[0].getWidth() * (MenuScreen.frameHeight / bgs[0].getHeight()))
@@ -36,8 +37,8 @@ public class WorldRenderer {
 		drawBackground(g);
 		drawCrabbies(CrabGameWorld.crabbies, g);
 		drawEnemies(CrabGameWorld.enemies, g);
-		drawFriends(CrabGameWorld.friends, g);
 		drawSaltClouds(CrabGameWorld.saltClouds, g);
+		drawFriends(CrabGameWorld.friends, g);
 
 	}
 
@@ -116,7 +117,7 @@ public class WorldRenderer {
 		System.out.println("drawFriends: " + friends);
 		for (Friend f : friends) {
 			drawFriend(f, g);
-			// drawFact(f, g);
+			drawFact(f, g);
 		}
 	}
 
@@ -129,14 +130,10 @@ public class WorldRenderer {
 	static void drawFriend(Friend friend, Graphics g) {
 		// System.out.println("drawFriend: " + friend );
 
-		g.setColor(Color.PINK);
-		fillBounds(friend.getBounds(), g);
 
-		g.setColor(Color.BLACK);
-		drawBounds(friend.getBounds(), g);
-
+		drawImageBounds(friend.getBounds(), g, WorldRenderer.friends[0]);
 		// g.drawImage(
-		// MainMenuScreen.IMAGE.get(IMAGES.BOGTURTLE0.path),
+		//MainMenuScreen.IMAGE.get(IMAGES.BOGTURTLE0.path),
 		// friend.getBounds().x,
 		// friend.getBounds().y,
 		// this);
@@ -148,15 +145,15 @@ public class WorldRenderer {
 //	 * @param friend
 //	 * @param g
 //	 */
-//	void drawFact(Friend friend, Graphics g) {
-//		g.setColor(Color.BLACK);
-//		g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 30));
-//		friend.setTextSize(g.getFontMetrics().stringWidth(Friend.facts[friend.getFriendCounter()]));
-//		g.drawString(
-//				Friend.facts[friend.getFriendCounter()],
-//				(int) (friend.getBounds().getX() + friend.getBounds().getWidth()),
-//				(int) friend.getBounds().getY());
-//	}
+	static void drawFact(Friend friend, Graphics g) {
+		g.setColor(Color.BLACK);
+		g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 30));
+		friend.setTextSize(g.getFontMetrics().stringWidth(Friend.facts[friend.getFriendCounter()]));
+		g.drawString(
+				Friend.facts[friend.getFriendCounter()],
+				(int) (friend.getBounds().getX() - 300 + friend.getBounds().getWidth()),
+				(int) friend.getBounds().getY());
+	}
 
 	/**
 	 * Draw a given salt cloud

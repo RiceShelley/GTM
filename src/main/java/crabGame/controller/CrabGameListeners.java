@@ -40,8 +40,7 @@ public class CrabGameListeners implements KeyListener, MouseListener, MouseMotio
 			CrabGameWorld.moveCrabbyDown();
 		}
 		if (keyCode == KeyEvent.VK_SPACE) {
-			//paused = !paused;
-			CrabGameWorld.friends.add(new Friend(CrabGameWorld.WORLD_WIDTH, CrabGameWorld.WORLD_HEIGHT / 3));
+			paused = !paused;
 		}
 
 	}

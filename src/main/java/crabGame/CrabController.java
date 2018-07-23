@@ -66,15 +66,17 @@ public class CrabController extends MGController {
 			}
 		});
 
-		int TUTORIAL_TIMER_DELAY = 10000;
+		int TUTORIAL_TIMER_DELAY = 4000;
 		tutorialTimer = new Timer(TUTORIAL_TIMER_DELAY, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				endPlayEntry();
+				if (Friend.friendCounter < Friend.facts.length - 1)
+					CrabGameWorld.friends.add(new Friend(CrabGameWorld.WORLD_WIDTH, CrabGameWorld.WORLD_HEIGHT - 300));
+				else
+					endPlayEntry();
 				System.out.println("tutorial ended");
 			}
 		});
-		tutorialTimer.setRepeats(false);
 
 		CrabGameListeners listeners = new CrabGameListeners();
 		gamePanel.addKeyListener(listeners); // Input listeners
@@ -140,7 +142,8 @@ public class CrabController extends MGController {
 	 * What happens while a crabby overlaps a saltCloud
 	 */
 	public static void incrementScore() {
-		if (score <= MAX_SCORE) score++;
+		if (score <= MAX_SCORE)
+			score++;
 		if (score == MAX_SCORE / 4) {
 			difficultyLevel++;
 			System.out.println("difficulty level increased to " + difficultyLevel);
@@ -157,6 +160,7 @@ public class CrabController extends MGController {
 	}
 
 	void endPlayEntry() {
+		tutorialTimer.setRepeats(false);
 		game.setGameStateToPlay();
 		enemySpawnTimer.restart();
 	}

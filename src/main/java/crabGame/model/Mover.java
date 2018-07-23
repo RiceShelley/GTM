@@ -1,7 +1,8 @@
 package main.java.crabGame.model;
 
 /**
- * Abstract class that outlines behaviour of movable figures in the game (Friend, Enemy, Crabby)
+ * Abstract class that outlines behaviour of movable figures in the game
+ * (Friend, Enemy, Crabby)
  */
 public abstract class Mover extends GameObject {
 	public double movementVelocity;
@@ -11,7 +12,7 @@ public abstract class Mover extends GameObject {
 	// The point the mover is trying to get to, if any
 	public double xGoal, yGoal;
 
-	//The current velocity of the mover
+	// The current velocity of the mover
 	private double xVel, yVel;
 
 	Mover(int x, int y, int width, int height) {
@@ -19,7 +20,8 @@ public abstract class Mover extends GameObject {
 
 		movementVelocity = .1;
 		stateTime = 0;
-		//System.out.println("Mover Created, " + this.getClass() + ": " + state + ", Bounds: " + this.getBounds());
+		// System.out.println("Mover Created, " + this.getClass() + ": " + state + ",
+		// Bounds: " + this.getBounds());
 	}
 
 	public double getxVel() {
@@ -61,7 +63,8 @@ public abstract class Mover extends GameObject {
 
 		setBounds(); // Update bounds
 
-		if (getxPos() > rightBound) {  // If the thing's position is greater than the width of the world and its own boundaries, the rightmost bound of the screen...
+		if (getxPos() > rightBound) { // If the thing's position is greater than the width of the world and its own
+										// boundaries, the rightmost bound of the screen...
 			if (this instanceof Crabby) {
 				setxVel(-getxVel()); // Reverse movement
 				setxPos(rightBound); // Set position to the edge of the screen
@@ -70,7 +73,8 @@ public abstract class Mover extends GameObject {
 			}
 		}
 
-		if (getyPos() > bottomBound) { // If the thing's position is greater than the world's height, minus its own boundaries, the bottommost bound of the screen...
+		if (getyPos() > bottomBound) { // If the thing's position is greater than the world's height, minus its own
+										// boundaries, the bottommost bound of the screen...
 			setyVel(-getyVel() + FLOOR_DAMPENER); // Decrease and reverse movement
 			setyPos(bottomBound); // Set position to the edge of the screen
 		}
@@ -81,7 +85,8 @@ public abstract class Mover extends GameObject {
 				setxPos(leftBound);
 			}
 			if (getxPos() + getBounds().width <= leftBound) {
-				die(); // Set its state to die, which should have the world's update function remove it later
+				die(); // Set its state to die, which should have the world's update function remove it
+						// later
 			}
 		}
 
@@ -90,12 +95,13 @@ public abstract class Mover extends GameObject {
 			setyPos(topBound);
 		}
 
-		if (!(this instanceof SaltCloud)) yVel += GRAVITY_CONSTANT; // Apply the world's gravity to everything but SaltCloud
+		if (!(this instanceof SaltCloud) && !(this instanceof Friend))
+			yVel += GRAVITY_CONSTANT; // Apply the world's gravity to everything but SaltCloud and Friends
 
 		setStateTime(getStateTime() + deltaTime); // Update the amount of time since the current state has been set
 
 		int SAFE_TIME = 5000;
-		if (state == State.SAFE && stateTime > SAFE_TIME){
+		if (state == State.SAFE && stateTime > SAFE_TIME) {
 			setState(State.ALIVE);
 			System.out.println("set to alive" + stateTime);
 		}
@@ -151,26 +157,27 @@ public abstract class Mover extends GameObject {
 	}
 
 	/**
-	 * Determines the state of the mover, this should usually be either alive or dead,
-	 * but some movers get more specific states for their own purposes.
+	 * Determines the state of the mover, this should usually be either alive or
+	 * dead, but some movers get more specific states for their own purposes.
 	 * <p>
-	 * There's probably a better way to do this that doesn't have them all use the same set of states, but oh well.
+	 * There's probably a better way to do this that doesn't have them all use the
+	 * same set of states, but oh well.
 	 */
 	public enum State {
-		// Standard states for all movers, used to determine what to do with something when it's alive or dead,
+		// Standard states for all movers, used to determine what to do with something
+		// when it's alive or dead,
 		// usually either draw it or delete it
 		ALIVE, DIE,
 		// Crabby specific states
 		SAFE
 	}
 
-
 	public State getState() {
 		return state;
 	}
 
 	public void setState(State state) {
-		//System.out.println("Set state to: " + state);
+		// System.out.println("Set state to: " + state);
 		this.state = state;
 		setStateTime(0);
 	}

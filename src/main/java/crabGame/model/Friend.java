@@ -5,9 +5,9 @@ package main.java.crabGame.model;
  * useful hints for the crabbies
  */
 public class Friend extends Mover {
-	static final int FRIEND_HEIGHT = 64;
-	static final int FRIEND_WIDTH = 114;
-	public static int friendCounter;
+	static final int FRIEND_HEIGHT = 130;
+	static final int FRIEND_WIDTH = 150;
+	public static int friendCounter = 0;
 	public static int textSize;
 	public static String[] facts = { "Welcome to Crab Run! Press SPACE to Jump.",
 			"The goal of this game is to fill up the distanceSoFar bar above.",
@@ -15,6 +15,7 @@ public class Friend extends Mover {
 			"Avoid fish at all costs or you'll be forced to answer a question.",
 			"Watch out for storms and droughts that make it more difficult to return home. Good Luck!" };
 	private static int picNum = 0;
+	private int pFriendCounter;
 
 	/**
 	 * Creates new instance of Friend
@@ -23,13 +24,15 @@ public class Friend extends Mover {
 	 */
 	public Friend(int x, int y) {
 		super(x, y, FRIEND_WIDTH, FRIEND_HEIGHT);
-		setxVel(-5);
+		super.setxVel(-6);
 		// Friends start down in the bottom moveRight corner and move across, carrying a
 		// fun fact along with them
 
-		Friend.friendCounter = 0;
-
-		friendCounter++;
+		//Friend.friendCounter = 0;
+		pFriendCounter = friendCounter;
+		super.setyPos(y - (pFriendCounter * 150));
+		if (friendCounter < facts.length - 1)
+			friendCounter++;
 	}
 
 	public static void load() {
@@ -42,18 +45,19 @@ public class Friend extends Mover {
 	@Override
 	void update(long deltaTime) {
 		super.update(deltaTime);
-		if (super.getyVel() > -100) {
-			super.moveUp();
-		}
+		System.out.println(super.getyVel());
+		//if (super.getyVel() < -.3) {
+			//super.setyVel(-.2);
+		//}
 		picNum = ++picNum % 3;
 	}
 
 	public int getFriendCounter() {
-		return Friend.friendCounter;
+		return pFriendCounter;
 	}
 
-	public void setFriendCounter(int fc) {
-		Friend.friendCounter = fc;
+	public static void setFriendCounter(int fc) {
+		//Friend.friendCounter = fc;
 	}
 
 	public int getTextSize() {
