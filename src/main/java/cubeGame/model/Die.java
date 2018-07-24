@@ -19,6 +19,7 @@ public class Die {
 	public int yVel;
 	private double minDrag = .99;
 	private int dragVariable = 100;
+	private boolean placed;
 
 	
 	private int rollingImageIndex; // Random value corresponding to how the rolling dice looks
@@ -35,6 +36,7 @@ public class Die {
 	public void gameReset(Point pos) {
 		bounds.x = pos.x;
 		bounds.y = pos.y;
+		placed = false;
 		xVel = 0;
 		yVel = 0;
 		rollingImageIndex = 0;
@@ -98,5 +100,13 @@ public class Die {
 
 	public int getEndImageIndex() {
 		return endImageIndex;
+	}
+	
+	public void setPlaced(boolean b) {
+		placed = b;
+	}
+	
+	public boolean getPlaced() {
+		return placed;
 	}
 }

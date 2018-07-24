@@ -10,6 +10,7 @@ public class CubeWorld {
 	public final Die[] dice = new Die[5];
 	private int h = MenuScreen.frameHeight;
 	private int w = MenuScreen.frameWidth;
+	// The five slots that accept dice
 	public final Point[] markers = { new Point((w - 5 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
 			new Point((w - 2 * Die.WIDTH) / 2, h / 3 - Die.WIDTH / 2),
 			new Point((w + Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
@@ -17,9 +18,9 @@ public class CubeWorld {
 			new Point((w + 7 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2) };
 	public final Rectangle rollZone = new Rectangle(0, h / 3, w, 2 * h / 3);
 	public static final Random RAND = new Random();
-
 	public boolean hasRolled = false;
 	public boolean hasMoved = false;
+	public boolean allPlaced = false;  // Stores whether all the dice have been placed
 
 	/*
 	 * Initializes 5 dice in random positions and allows the user to roll
@@ -30,6 +31,9 @@ public class CubeWorld {
 		}
 	}
 
+	/*
+	 * Updates the logic every frame and ensures that the dice roll within bounds
+	 */
 	public void update() {
 		for (Die d : dice) {
 			Rectangle intersection = rollZone.intersection(d.bounds);
@@ -38,7 +42,6 @@ public class CubeWorld {
 					d.gameReset(diceLoc());
 					System.out.println("Something went wrong. Resetting.");
 				} else {
-
 					if (intersection.width < Die.WIDTH) {
 						d.bounceX(Die.WIDTH - intersection.width);
 					} // if width

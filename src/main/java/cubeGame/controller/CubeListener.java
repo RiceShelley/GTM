@@ -37,9 +37,10 @@ public class CubeListener implements MouseInputListener, ActionListener {
 	/*
 	 * Returns the index of the die currently selected by the mouse
 	 */
-	private int getSelected(Point p) {
+	private int getSelected(Point p) { 
 		for (int i = 0; i < control.getWorld().dice.length; i ++) {
 			if (control.getWorld().dice[i].bounds.contains(p)) {
+				control.getWorld().dice[i].setPlaced(false); // While the die is selected, it can't be placed
 				return i;
 			}
 		}
@@ -50,6 +51,7 @@ public class CubeListener implements MouseInputListener, ActionListener {
 	public void mouseReleased(MouseEvent e) {
 		int sel = getSelected(e.getPoint());
 		int marker = -1;
+		dragging = false;
 		Rectangle markBounds = new Rectangle(0, 0, 0, 0);
 		for (int i = 0; i < control.getWorld().markers.length; i ++) {
 			markBounds.setBounds(control.getWorld().markers[i].x - Die.WIDTH, control.getWorld().markers[i].y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT);
@@ -65,6 +67,7 @@ public class CubeListener implements MouseInputListener, ActionListener {
 			if (DEBUG) System.out.println("snap to place die? " + sel + " marker: " + marker);
 			control.getWorld().dice[sel].translate(-1*control.getWorld().dice[sel].bounds.x, -1*control.getWorld().dice[sel].bounds.y);
 			control.getWorld().dice[sel].translate(control.getWorld().markers[marker].x-Die.WIDTH, control.getWorld().markers[marker].y-Die.HEIGHT);
+			control.getWorld().dice[sel].setPlaced(true); // Marks the die as PLACED
 		}
 		if (control.getWorld().checkBounds()) {
 			control.attemptRecording();
@@ -104,14 +107,13 @@ public class CubeListener implements MouseInputListener, ActionListener {
 	 * An internal timer constantly updates the view 
 	 */
 	public void actionPerformed(ActionEvent arg0) {
+		System.out.println(dragging);
 		control.getView().repaint();
 		control.world.update();
 	}
-
-	
 	
 	/*
-	 *Unimplemented MouseListener Methods
+	 *Unused MouseListener Methods
 	 */
 	
 	@Override

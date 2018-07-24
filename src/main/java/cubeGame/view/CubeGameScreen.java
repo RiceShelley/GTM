@@ -25,7 +25,6 @@ public class CubeGameScreen extends MGView {
 	private static final long serialVersionUID = 1L;
 	private final int MPF = 11;
 	public static final int diceFrames = 6;
-	private static final boolean DEBUG = false;
 	private final int rollExtend = 5;
 	private final double buttonScale = (MenuScreen.frameHeight * 1.0) / 1340;
 
@@ -53,7 +52,7 @@ public class CubeGameScreen extends MGView {
 				.map(ImageManager::get).collect(Collectors.toList());
 
 		rollDiceButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.ROLL_BUTTON, buttonScale)));
-		rollDiceButton.addActionListener(actionEvent -> rollDiceButtonActionPerformed(actionEvent));
+		rollDiceButton.addActionListener(actionEvent -> control.getWorld().rollDice());
 		ImageManager.tailorButton(rollDiceButton);
 		this.add(rollDiceButton);
 		
@@ -105,18 +104,12 @@ public class CubeGameScreen extends MGView {
 		}
 	}
 
-	private void rollDiceButtonActionPerformed(ActionEvent e) {
-		control.getWorld().rollDice();
-	}
-
 	private void startButtonPerformed(ActionEvent e) {
 		control.recording = true;
 		control.record2();
 	}
 
 	protected void endButtonPerformed(ActionEvent arg0) {
-		if (DEBUG)
-			System.out.println("endButtonPerformed()");
 		control.recording = false;
 		control.stopRecorder();
 	}

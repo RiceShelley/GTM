@@ -44,12 +44,6 @@ public class CubeController extends MGController{
 		view.addMouseListener(listener);
 		view.addMouseMotionListener(listener);
 	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public void dispose() {
@@ -78,7 +72,6 @@ public class CubeController extends MGController{
 	}
 	
 	public void record2(){
-
 		if (DEBUG) System.out.println("calling record2(): " + "Recording" + curRecordingNum + ".wav");
 		
 	    class RecordingWorker extends SwingWorker<Integer, Integer>
@@ -190,5 +183,10 @@ public class CubeController extends MGController{
 
 	public void hideRecorder() {
 		view.hideRecordingButtons();
+	}
+	
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 	}
 }
