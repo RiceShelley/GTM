@@ -16,11 +16,11 @@ import main.java.menu.controller.MGController;
 /**
  * 
  * @author Cathrine and Collin
- *Controls the Cube game. Detects screen size and creates a crabWorld and an animation.
+ *Controls the Cube game. Detects screen size and creates a cubeWorld and an animation.
  */
 public class CubeController extends MGController{
 	private static final int RECORD_TIME = 10000; // in milliseconds
-	public static final Integer RECORDING_FILE_ERROR = new Integer(-1);
+	public static final Integer RECORDING_FILE_ERROR = -1;
 	private static final boolean DEBUG = false;
 	final int timerTick = 17;
 	static int curRecordingNum = 0;
@@ -35,19 +35,14 @@ public class CubeController extends MGController{
 	
 	public boolean recording = false;
 	
+	
 	public CubeController(){
-		world = new CubeWorld();
 		view = new CubeGameScreen(this);
+		world = new CubeWorld();
 		listener = new CubeListener(this);
-		timer = new Timer (timerTick, listener);
+		timer = new Timer (timerTick, listener); // The timer triggers an actionevent in cubeListener every frame
 		view.addMouseListener(listener);
 		view.addMouseMotionListener(listener);
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -77,7 +72,6 @@ public class CubeController extends MGController{
 	}
 	
 	public void record2(){
-
 		if (DEBUG) System.out.println("calling record2(): " + "Recording" + curRecordingNum + ".wav");
 		
 	    class RecordingWorker extends SwingWorker<Integer, Integer>
@@ -189,5 +183,10 @@ public class CubeController extends MGController{
 
 	public void hideRecorder() {
 		view.hideRecordingButtons();
+	}
+	
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 	}
 }
