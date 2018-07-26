@@ -1,5 +1,6 @@
 package main.java.boatGame.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -37,8 +38,16 @@ public class BoatGameScreen extends MGView {
 	Font defaultFont;
 	JLabel score;
 	JLabel time;
-	Rectangle scoreLoc = new Rectangle(10, 50, 125, 30);
-	Rectangle timeLoc = new Rectangle(10, 90, 125, 30);
+	JLabel oysterHUD;
+	JLabel rockHUD;
+	JLabel cordgrassHUD;
+	
+	//Location of each HUD item
+	Rectangle scoreLoc = new Rectangle(10, 100, 250, 50);
+	Rectangle timeLoc = new Rectangle(10, 450, 250, 500);
+	Rectangle oysterLoc = new Rectangle(120, 220, 250, 50);
+	Rectangle rockLoc = new Rectangle(120, 370, 250, 50);
+	Rectangle cordgrassLoc = new Rectangle(120, 555, 250, 50);
 	Rectangle endScoreLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 500, MenuScreen.frameHeight - 500);
 
 	BufferedImage sea = MenuScreen.IMAGE.get(IMAGES.WATER);
@@ -94,16 +103,37 @@ public class BoatGameScreen extends MGView {
 
 		score = new JLabel("Score: " + controller.world.score + "");
 		score.setBounds(scoreLoc);
+		score.setForeground(Color.white);
 		scaleFont(score, scoreLoc);
 		this.add(score);
+		
+		oysterHUD = new JLabel(controller.world.oysters + " / " + " 3");
+		oysterHUD.setBounds(oysterLoc);
+		oysterHUD.setForeground(Color.white);
+		scaleFont(oysterHUD, oysterLoc);
+		this.add(oysterHUD);
+		
+		rockHUD = new JLabel(controller.world.rocks + " / " + " 3");
+		rockHUD.setBounds(rockLoc);
+		rockHUD.setForeground(Color.white);
+		scaleFont(rockHUD, rockLoc);
+		this.add(rockHUD);
+		
+		cordgrassHUD = new JLabel(controller.world.cordgrass + " / " + " 3");
+		cordgrassHUD.setBounds(cordgrassLoc);
+		cordgrassHUD.setForeground(Color.white);
+		scaleFont(cordgrassHUD, cordgrassLoc);
+		this.add(cordgrassHUD);
 
 		time = new JLabel("Time left: " + getTimeLeft());
 		time.setBounds(timeLoc);
-		//scaleFont(time, timeLoc);
+		time.setForeground(Color.white);
+		scaleFont(time, timeLoc);
 		this.add(time);
 
 		youWin.setVisible(false);
 		this.add(youWin);
+		
 	}
 
 	@Override
@@ -146,7 +176,13 @@ public class BoatGameScreen extends MGView {
 					(int) ((q.pos.y - ITEM.HEIGHT / 2) * BoatWorld.heightRatio), ITEM.WIDTH, ITEM.HEIGHT, null);
 			q.updateCur(NQF);
 		}
+		
+		g.drawImage(MenuScreen.IMAGE.get(IMAGES.OYSTER), 10, 200, 97, 97, null);
+		g.drawImage(MenuScreen.IMAGE.get(IMAGES.ROCK), 10, 350, 97, 97, null);
+		g.drawImage(MenuScreen.IMAGE.get(IMAGES.CORDGRASS), 10, 525, 97, 97, null);
+		
 		drawTutorial(g);
+		
 	}
 
 	private void drawTutorial(Graphics g) {
@@ -238,6 +274,9 @@ public class BoatGameScreen extends MGView {
 		defaultFont = score.getFont();
 		youWin.setVisible(true);
 		time.setVisible(false);
+		oysterHUD.setVisible(false);
+		rockHUD.setVisible(false);
+		cordgrassHUD.setVisible(false);
 		scaleFont(score, endScoreLoc);
 		
 		boatLabel.setVisible(false);
@@ -267,11 +306,21 @@ public class BoatGameScreen extends MGView {
 	}
 
 	public void reset() {
-		youWin.setVisible(false);
-		time.setVisible(true);
 		score.setBounds(scoreLoc);
-		score.setFont(defaultFont);
+		oysterHUD.setBounds(oysterLoc);
+		rockHUD.setBounds(rockLoc);
+		cordgrassHUD.setBounds(cordgrassLoc);
+		
+		youWin.setVisible(false);
+		score.setVisible(true);
+		time.setVisible(true);
+		oysterHUD.setVisible(true);
+		rockHUD.setVisible(true);
+		cordgrassHUD.setVisible(true);
 		boatLabel.setVisible(true);
+		score.setFont(defaultFont);
+		scaleFont(score, scoreLoc);
+		
 		mDisplay = false;
 		dDisplay = false;
 		qDisplay = false;
@@ -287,15 +336,20 @@ public class BoatGameScreen extends MGView {
 		int time = controller.milliTimeLimit - controller.getMillisPassed();
 		double min = time / MIN;
 		double sec = (time - min * MIN) / SEC;
-		return (int) min + ":" + sec;
+		return (int) min + ":" + (String.format("%.2f", sec));
 	}
 
 	/**
 	 * updates the score and time labels with their current game values
 	 */
 	public void updateLabels() {
+		scaleFont(time, timeLoc);
 		score.setText("Score: " + controller.world.score + "");
-		time.setText("Time left: " + getTimeLeft());
+		oysterHUD.setText(controller.world.oysters + " / " + " 3");
+		rockHUD.setText(controller.world.rocks + " / " + " 3");
+		cordgrassHUD.setText(controller.world.cordgrass + " / " + " 3");
+		
+		time.setText("Time Left: " + getTimeLeft());
 		boatIcon.setAngle(controller.world.boat.angle);
 		boatIcon.setIcon(MenuScreen.IMAGE.get(controller.world.boat.holding.boatImg), Boaty.WIDTH, Boaty.HEIGHT);
 		updateBoatBounds();

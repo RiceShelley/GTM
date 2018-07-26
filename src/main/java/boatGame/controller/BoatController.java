@@ -74,6 +74,10 @@ public class BoatController extends MGController implements ActionListener {
 		count();
 		millisPassed += frameWait;
 		gameOver = millisPassed >= milliTimeLimit;
+		
+		if (world.oysters >= 3 && world.rocks >= 3 && world.cordgrass >= 3)
+			gameOver = true;
+		
 		update();
 		if (gameOver) {
 			 view.displayEnd();

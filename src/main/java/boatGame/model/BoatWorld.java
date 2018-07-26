@@ -45,6 +45,7 @@ public class BoatWorld {
 	public ArrayList<Point> hits = new ArrayList<Point>();
 	public boolean canPickUp;
 	public int score;
+	public int oysters, rocks, cordgrass; //amount of each item collected
 	Random rand = new Random();
 	
 	public STATE state;
@@ -77,6 +78,9 @@ public class BoatWorld {
 		initializeDocks();
 		canPickUp = false;
 		score = 100;
+		oysters = 0;
+		rocks = 0;
+		cordgrass = 0;
 		setState(STATE.MOVE);
 		hasMoved = false;
 		hasPickedUp = false;
@@ -204,7 +208,19 @@ public class BoatWorld {
 				boat.holding = ITEM.NONE;
 				setState(STATE.OK);
 				removeClosestHits(boat.getXCoord(), boat.getYCoord());
+				
+				//Check for what item to increment the count
+				if (q.wanted == ITEM.ROCK) {
+					rocks++;
+				}
+				else if (q.wanted == ITEM.CORDGRASS) {
+					cordgrass++;
+				}
+				else if (q.wanted == ITEM.OYSTER) {
+					oysters++;
+				}
 			}
+			
 		}
 		for (Dock w : docks) {
 			if (Point2D.distance(boat.getXCoord(), boat.getYCoord(), w.pos.getX(), w.pos.getY()) <= dRadius
