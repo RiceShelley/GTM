@@ -18,8 +18,6 @@ public class CubeWorld {
 			new Point((w + 7 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2) };
 	public final Rectangle rollZone = new Rectangle(0, h / 3, w, 2 * h / 3);
 	public static final Random RAND = new Random();
-	public boolean hasRolled = false;
-	public boolean hasMoved = false;
 
 	/*
 	 * Initializes 5 dice in random positions and allows the user to roll
@@ -49,6 +47,7 @@ public class CubeWorld {
 					}
 				}
 			} 
+			d.noOverlaps(dice);
 			d.move();
 		}
 	}
@@ -80,7 +79,6 @@ public class CubeWorld {
 		for (Die d : dice) {
 			d.gameReset(diceLoc());
 		}
-		hasRolled = false;
 	}
 
 	/*

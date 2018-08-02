@@ -19,6 +19,7 @@ public class Die {
 	private double minDrag = .99;
 	private int dragVariable = 100;
 	private boolean placed;
+	private boolean firstResting;
 
 	
 	private int rollingImageIndex; // Random value corresponding to how the rolling dice looks
@@ -29,8 +30,6 @@ public class Die {
 		if (usedIndeces == null) usedIndeces = new HashSet<>();
 		gameReset(pos);
 	}
-	
-
 
 	public void gameReset(Point pos) {
 		bounds.x = pos.x;
@@ -39,6 +38,7 @@ public class Die {
 		xVel = 0;
 		yVel = 0;
 		rollingImageIndex = 0;
+		firstResting = true;
 		endImageIndex = getRandomImageIndex();
 	}
 
@@ -89,6 +89,7 @@ public class Die {
 	 * Reset images and velocities
 	 */
 	public void roll() {
+		firstResting = true;
 		endImageIndex = getRandomImageIndex();
 		xVel = CubeWorld.RAND.nextInt(INITSPEED * 2 - 1) - INITSPEED + 1;
 		yVel = CubeWorld.RAND.nextInt(INITSPEED * 2 - 1) - INITSPEED + 1;
@@ -111,7 +112,7 @@ public class Die {
 	/*
 	 * Checks if two resting dice are overlapping
 	 */
-	public boolean intersecting(Die other) {
+	private boolean intersecting(Die other) {
 		if (isRolling() || other.isRolling()) {
 			return false;
 		}
@@ -119,6 +120,22 @@ public class Die {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	/*
+	 * When the die first settles, make sure it doesn't overlap with any others
+	 */
+	public void noOverlaps(Die[] others) {
+		if (!isRolling() && firstResting) {
+			for (Die d : others) {
+				if (d != this) {
+					while (intersecting(d)) {
+						translate((bounds.x < MenuScreen.frameWidth / 2 ? 1 : -1), 0);
+					}
+				}
+			}
+			firstResting = false;
 		}
 	}
 	

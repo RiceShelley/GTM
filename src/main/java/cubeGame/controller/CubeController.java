@@ -20,7 +20,6 @@ public class CubeController extends MGController{
 	
 	public boolean recording = false;
 	
-	
 	public CubeController(){
 		view = new CubeGameScreen(this);
 		world = new CubeWorld();
