@@ -37,8 +37,7 @@ public class CubeGameScreen extends MGView {
 	Image[] rollPrompt;
 
 	JButton rollDiceButton;
-	private JButton startRecordingButton;
-	private JButton endRecordingButton;
+	private JButton submitButton;
 
 	public boolean showingEnd = false;
 
@@ -63,15 +62,13 @@ public class CubeGameScreen extends MGView {
 		rollPrompt = ImageManager.getScaled(IMAGES.CUBE_TUT_1, rpDimStart, rpDimEnd);
 
 		// Recording buttons
-		startRecordingButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.START_BUTTON, buttonScale)));
-		startRecordingButton.addActionListener(actionEvent -> startButtonPerformed(actionEvent));
-		ImageManager.tailorButton(startRecordingButton);
-		this.add(startRecordingButton);
-		endRecordingButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.STOP_BUTTON, buttonScale)));
-		endRecordingButton.addActionListener(actionEvent -> endButtonPerformed(actionEvent));
-		ImageManager.tailorButton(endRecordingButton);
-		this.add(endRecordingButton);
-		hideRecordingButtons();
+		// TODO: ADD BETTER IMAGE FOR SUBMIT BUTTON
+		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.START_BUTTON, buttonScale)));
+		submitButton.addActionListener(actionEvent -> control.submit());
+		submitButton.setVisible(false);
+		ImageManager.tailorButton(submitButton);
+		this.add(submitButton);
+		
 	}
 
 	@Override
@@ -104,35 +101,18 @@ public class CubeGameScreen extends MGView {
 		}
 	}
 
-	private void startButtonPerformed(ActionEvent e) {
-		control.recording = true;
-		control.record2();
+	public void showSubmitButton(boolean b) {
+		submitButton.setVisible(b);
 	}
-
-	protected void endButtonPerformed(ActionEvent arg0) {
-		control.recording = false;
-		control.stopRecorder();
+	
+	public void showSubmitButton() {
+		showSubmitButton(true);
 	}
-
-	public void showRecordingButtons() {
-		startRecordingButton.setVisible(true);
-		endRecordingButton.setVisible(true);
-	}
-
-	public void hideRecordingButtons() {
-		startRecordingButton.setVisible(false);
-		endRecordingButton.setVisible(false);
-	}
-
-	public void hideButtons() {
-		hideRecordingButtons();
-		rollDiceButton.setVisible(false);
-	}
-
 
 	public void reset() {
 		showingEnd = false;
 		rollDiceButton.setVisible(true);
+		submitButton.setVisible(false);
 	}
 
 }

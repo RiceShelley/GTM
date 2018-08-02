@@ -20,7 +20,6 @@ public class CubeWorld {
 	public static final Random RAND = new Random();
 	public boolean hasRolled = false;
 	public boolean hasMoved = false;
-	public boolean allPlaced = false;  // Stores whether all the dice have been placed
 
 	/*
 	 * Initializes 5 dice in random positions and allows the user to roll
@@ -44,12 +43,12 @@ public class CubeWorld {
 				} else {
 					if (intersection.width < Die.WIDTH) {
 						d.bounceX(Die.WIDTH - intersection.width);
-					} // if width
+					}
 					if (intersection.height < Die.HEIGHT) {
 						d.bounceY(Die.HEIGHT - intersection.height);
-					} // if height
-				} // if else
-			}
+					}
+				}
+			} 
 			d.move();
 		}
 	}
@@ -58,6 +57,7 @@ public class CubeWorld {
 	 * Rolls all dice within the boundary
 	 */
 	public void rollDice() {
+		Die.clearIndeces();
 		for (Die d : dice) {
 			if (d.bounds.intersects(rollZone))
 				d.roll();

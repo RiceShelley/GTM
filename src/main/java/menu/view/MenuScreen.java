@@ -323,7 +323,6 @@ public class MenuScreen extends JLayeredPane {
 			//System.out.println("crab controller");
 		} else if (prevController instanceof CubeController) {
 			CubeController temp = (CubeController) prevController;
-			temp.getTimer().start();
 			temp.getWorld().rollDice();
 		}
 

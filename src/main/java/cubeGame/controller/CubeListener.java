@@ -18,8 +18,6 @@ public class CubeListener implements MouseInputListener, ActionListener {
 	private int nextX;  // Updates mouse positions when dragging
 	private int nextY;
 	
-	private static boolean DEBUG = false;
-
 	
 	public CubeListener(CubeController control) {
 		this.control = control;
@@ -55,24 +53,14 @@ public class CubeListener implements MouseInputListener, ActionListener {
 		Rectangle markBounds = new Rectangle(0, 0, 0, 0);
 		for (int i = 0; i < control.getWorld().markers.length; i ++) {
 			markBounds.setBounds(control.getWorld().markers[i].x - Die.WIDTH, control.getWorld().markers[i].y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT);
-			if (DEBUG) System.out.println("released markBounds: " + markBounds);
 			if (sel >=0 && control.getWorld().dice[sel].bounds.intersects(markBounds)) {
-				
 				marker = i;
-				if (DEBUG) System.out.println("intersect die: " + sel + " marker: " + marker);
-				//break;
 			}
 		}
 		if (marker >= 0) { //die snaps to marker
-			if (DEBUG) System.out.println("snap to place die? " + sel + " marker: " + marker);
 			control.getWorld().dice[sel].translate(-1*control.getWorld().dice[sel].bounds.x, -1*control.getWorld().dice[sel].bounds.y);
 			control.getWorld().dice[sel].translate(control.getWorld().markers[marker].x-Die.WIDTH, control.getWorld().markers[marker].y-Die.HEIGHT);
 			control.getWorld().dice[sel].setPlaced(true); // Marks the die as PLACED
-		}
-		if (control.getWorld().checkBounds()) {
-			control.attemptRecording();
-		} else {
-			control.hideRecorder();
 		}
 	}
 
@@ -83,17 +71,6 @@ public class CubeListener implements MouseInputListener, ActionListener {
 		nextY = curPoint.y;
 		if (dragging) {
 			if (selectedImage >= 0) {
-				
-				//DEBUG LOOP
-				if (DEBUG){
-				for (int i = 0; i < control.getWorld().markers.length; i ++) {
-					Rectangle r = new Rectangle(control.getWorld().markers[i].x, control.getWorld().markers[i].y, Die.WIDTH, Die.HEIGHT);
-					if (DEBUG) System.out.print(" m" +i+": " + control.getWorld().markers[i].x + ", " + control.getWorld().markers[i].y + ", " +  Die.WIDTH + ", " +  Die.HEIGHT);
-					if (DEBUG) System.out.print(" int:" + control.getWorld().dice[selectedImage].bounds.intersects(r)); 
-					Rectangle d = control.getWorld().dice[selectedImage].bounds;
-					if (DEBUG) System.out.println(" die:" + d.x + ", " +  d.y  + ", " +  d.width + ", " +  d.height   ); 
-
-				}}
 				control.getWorld().dice[selectedImage].translate((nextX - curX), (nextY - curY));
 				control.getView().repaint();
 			}
@@ -107,7 +84,6 @@ public class CubeListener implements MouseInputListener, ActionListener {
 	 * An internal timer constantly updates the view 
 	 */
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println(dragging);
 		control.getView().repaint();
 		control.world.update();
 	}

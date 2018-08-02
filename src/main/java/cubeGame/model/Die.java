@@ -2,11 +2,10 @@ package main.java.cubeGame.model;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import main.java.cubeGame.view.CubeGameScreen;
-import main.java.menu.enums.IMAGES;
 import main.java.menu.view.MenuScreen;
 
 public class Die {
@@ -24,14 +23,14 @@ public class Die {
 	
 	private int rollingImageIndex; // Random value corresponding to how the rolling dice looks
 	private int endImageIndex; // Random value corresponding to the final image on the die
+	private static Set<Integer> usedIndeces; // Stores the index of each die's image to avoid overlap
 
 	public Die(Point pos) {
+		if (usedIndeces == null) usedIndeces = new HashSet<>();
 		gameReset(pos);
 	}
 	
-	public boolean isRolling() {
-		return xVel != 0 && yVel != 0;
-	}
+
 
 	public void gameReset(Point pos) {
 		bounds.x = pos.x;
@@ -47,7 +46,12 @@ public class Die {
 	 * Returns the index corresponding to the final image
 	 */
 	private int getRandomImageIndex() {
-		return CubeWorld.RAND.nextInt(NUMFACE);
+		int index = CubeWorld.RAND.nextInt(NUMFACE);
+		while (usedIndeces.contains(index)) {
+			index = CubeWorld.RAND.nextInt(NUMFACE);
+		}
+		usedIndeces.add(index);
+		return index;
 	}
 
 	/*
@@ -73,7 +77,17 @@ public class Die {
 	public void translate(int x, int y) {
 		bounds.translate(x, y);
 	}
+	
+	/*
+	 * Rolling variable stored in function to eliminate redundancy
+	 */
+	public boolean isRolling() {
+		return xVel != 0 && yVel != 0;
+	}
 
+	/*
+	 * Reset images and velocities
+	 */
 	public void roll() {
 		endImageIndex = getRandomImageIndex();
 		xVel = CubeWorld.RAND.nextInt(INITSPEED * 2 - 1) - INITSPEED + 1;
@@ -94,6 +108,20 @@ public class Die {
 		this.yVel = yVel * -1;
 	}
 	
+	/*
+	 * Checks if two resting dice are overlapping
+	 */
+	public boolean intersecting(Die other) {
+		if (isRolling() || other.isRolling()) {
+			return false;
+		}
+		if (bounds.intersects(other.bounds)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public int getRollingImageIndex() {
 		return rollingImageIndex;
 	}
@@ -102,11 +130,24 @@ public class Die {
 		return endImageIndex;
 	}
 	
+	/*
+	 * Triggered when the resting die is placed in a final slot
+	 */
 	public void setPlaced(boolean b) {
 		placed = b;
 	}
 	
+	/*
+	 * Is the die placed in a slot?
+	 */
 	public boolean getPlaced() {
 		return placed;
 	}
+	
+	public static void clearIndeces() {
+		if (usedIndeces != null) usedIndeces.clear();
+	}
+
+
+
 }
