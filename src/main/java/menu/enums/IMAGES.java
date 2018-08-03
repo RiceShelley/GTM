@@ -62,25 +62,19 @@ public enum IMAGES {
 	MENU_CUBE4("/main/resources/images/tutcube4.png"),
 	QUESTION_MARK("/main/resources/images/qmark.png"),
 	// The following are the new ending faces for the dice game
-	DICE_ALLIGATOR("/main/resources/images/alligatorCard.png"),
-	DICE_CATFISH("/main/resources/images/catfishCard.png"),
-	DICE_CLAM("/main/resources/images/clamCard.png"),
-	DICE_CORAL("/main/resources/images/coralCard.png"),
-	DICE_CORDGRASS("/main/resources/images/cordgrassCard.png"),
-	DICE_DOLPHIN("/main/resources/images/dolphinCard.png"),
-	DICE_DUCK("/main/resources/images/duckCard.png"),
-	DICE_BOAT("/main/resources/images/fishingBoatCard.png"),
-	DICE_FLOWER("/main/resources/images/flowerCard.png"),
-	DICE_HERON("/main/resources/images/heronCard.png"),
-	DICE_HIKERS("/main/resources/images/hikersCard.png"),
-	DICE_OTTER("/main/resources/images/otterCard.png"),
-	DICE_RABBIT("/main/resources/images/rabbitCard.png"),
-	DICE_RACCOON("/main/resources/images/raccoonCard.png"),
-	DICE_ROCK("/main/resources/images/rockCard.png"),
-	DICE_SEAWEED("/main/resources/images/seaweedCard.png"),
-	DICE_SNAPPER("/main/resources/images/snapperCard.png"),
-	DICE_WILDCARD("/main/resources/images/wildCard.png"),
-	DICE_MANGROVE("/main/resources/images/mangroveCard.png");
+	DICE_ALLIGATOR("/main/resources/images/alligatorDie.png"),
+	DICE_BOAT("/main/resources/images/boatDie.png"),
+	DICE_CATFISH("/main/resources/images/catfishDie.png"),
+	DICE_CLAM("/main/resources/images/clamDie.png"),
+	DICE_CORDGRASS("/main/resources/images/cordgrassDie.png"),
+	DICE_DOLPHIN("/main/resources/images/dolphinDie.png"),
+	DICE_DUCK("/main/resources/images/duckDie.png"),
+	DICE_HIKERS("/main/resources/images/hikersDie.png"),
+	DICE_OTTER("/main/resources/images/otterDie.png"),
+	DICE_RABBIT("/main/resources/images/rabbitDie.png"),
+	DICE_ROCKS("/main/resources/images/rocksDie.png"),
+	DICE_SEAWEED("/main/resources/images/seaweedDie.png"),
+	DICE_WILDCARD("/main/resources/images/wildCardDie.png");
 
 	
 	public final String path;

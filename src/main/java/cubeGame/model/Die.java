@@ -1,27 +1,30 @@
 package main.java.cubeGame.model;
 
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import main.java.cubeGame.view.CubeGameScreen;
+import main.java.menu.enums.IMAGES;
 import main.java.menu.view.MenuScreen;
 
 public class Die {
+	
 	public static final int WIDTH = MenuScreen.frameHeight*43/268;
 	public static final int HEIGHT = MenuScreen.frameHeight*43/268;
 	public static final int INITSPEED = 100;
-	public static final int NUMFACE = 19; // How many possible die faces
+	public static final int NUMFACE = countDiceImages(); // How many possible die faces
 	public final Rectangle bounds = new Rectangle(WIDTH, HEIGHT); // Physical area occupied
 	public int xVel;
 	public int yVel;
 	private double minDrag = .99;
 	private int dragVariable = 100;
 	private boolean placed;
-	private boolean firstResting;
+	private boolean firstResting; // True when rolling and before settled, to avoid overlap
 
-	
 	private int rollingImageIndex; // Random value corresponding to how the rolling dice looks
 	private int endImageIndex; // Random value corresponding to the final image on the die
 	private static Set<Integer> usedIndeces; // Stores the index of each die's image to avoid overlap
@@ -163,6 +166,12 @@ public class Die {
 	
 	public static void clearIndeces() {
 		if (usedIndeces != null) usedIndeces.clear();
+	}
+	
+	public static int countDiceImages() {
+		int sum = Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).mapToInt(image -> 1).sum();
+		System.out.println("NUMBER OF IMAGES = " + sum);
+		return sum;
 	}
 
 
