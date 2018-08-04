@@ -1,14 +1,15 @@
 package main.java.cubeGame.model;
 
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import main.java.cubeGame.view.CubeGameScreen;
 import main.java.menu.enums.IMAGES;
+import main.java.menu.view.ImageManager;
 import main.java.menu.view.MenuScreen;
 
 public class Die {
@@ -24,6 +25,7 @@ public class Die {
 	private int dragVariable = 100;
 	private boolean placed;
 	private boolean firstResting; // True when rolling and before settled, to avoid overlap
+	private String name;
 
 	private int rollingImageIndex; // Random value corresponding to how the rolling dice looks
 	private int endImageIndex; // Random value corresponding to the final image on the die
@@ -127,7 +129,7 @@ public class Die {
 	}
 	
 	/*
-	 * When the die first settles, make sure it doesn't overlap with any others
+	 * When the die first settles, make sure it doesn't overlap with any others already landed
 	 */
 	public void noOverlaps(Die[] others) {
 		if (!isRolling() && firstResting) {
@@ -159,19 +161,40 @@ public class Die {
 	
 	/*
 	 * Is the die placed in a slot?
+	 * @return true if placed, false otherwise
 	 */
-	public boolean getPlaced() {
+	public boolean isPlaced() {
 		return placed;
 	}
 	
+	/*
+	 * Resets the set containing the used indeces.  Called whenever the dice are rolled
+	 */
 	public static void clearIndeces() {
 		if (usedIndeces != null) usedIndeces.clear();
 	}
 	
+	/*
+	 * Returns the count of images to be used for die faces
+	 */
 	public static int countDiceImages() {
-		int sum = Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).mapToInt(image -> 1).sum();
-		System.out.println("NUMBER OF IMAGES = " + sum);
-		return sum;
+		return Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).mapToInt(image -> 1).sum();
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	/*
+	 * Gives the die a name corresponding to its current image 
+	 */
+	public void setName(BufferedImage bf) {
+		try {
+			IMAGES value = ImageManager.findImage(bf); // Find the corresponding IMAGES
+			name = value.toString().split("_")[1]; // Name should be only the identifying part of the string
+		} catch (Exception e) {
+			name = "Image not Found"; 
+		}
 	}
 
 

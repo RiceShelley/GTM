@@ -50,6 +50,7 @@ public class CubeGameScreen extends MGView {
 		endFaces = Arrays.stream(IMAGES.values()).filter(name -> String.valueOf(name).contains("DICE_"))
 				.map(ImageManager::get).collect(Collectors.toList());
 
+		// Button to roll dice
 		rollDiceButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.ROLL_BUTTON, buttonScale)));
 		rollDiceButton.addActionListener(actionEvent -> control.getWorld().rollDice());
 		ImageManager.tailorButton(rollDiceButton);
@@ -61,9 +62,8 @@ public class CubeGameScreen extends MGView {
 				(int) (rollDiceButton.getPreferredSize().getHeight() + rollExtend));
 		rollPrompt = ImageManager.getScaled(IMAGES.CUBE_TUT_1, rpDimStart, rpDimEnd);
 
-		// Recording buttons
 		// TODO: ADD BETTER IMAGE FOR SUBMIT BUTTON
-		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.START_BUTTON, buttonScale)));
+		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.7)));
 		submitButton.addActionListener(actionEvent -> control.submit());
 		submitButton.setVisible(false);
 		ImageManager.tailorButton(submitButton);
@@ -97,6 +97,7 @@ public class CubeGameScreen extends MGView {
 				g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
 			} else { // is this repainted every single screen?
 				g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
+				die.setName(endFaces.get(die.getEndImageIndex()));
 			}
 		}
 	}

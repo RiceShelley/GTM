@@ -1,5 +1,7 @@
 package main.java.menu.enums;
 
+import java.util.Arrays;
+
 public enum IMAGES {
 	CRAB_BUTTON("/main/resources/images/CrabButton.png"),
 	BOAT_BUTTON("/main/resources/images/BoatButton.png"),
@@ -42,6 +44,8 @@ public enum IMAGES {
 	X("/main/resources/images/erosion.png"),
 	BLUE_CRAB_INVINCIBLE("/main/resources/images/BlueCrabInvincible.png"),
 	HEART("/main/resources/images/fullHeart.png"),
+	TUTORIAL_BUTTON("/main/resources/images/tutorialButton.png"),
+	SUBMIT_BUTTON("/main/resources/images/submitButton.png"),
 	ROLL_BUTTON("/main/resources/images/rollButton.png"),
 	STOP_BUTTON("/main/resources/images/Stop.png"),
 	START_BUTTON("/main/resources/images/Record.png"),
@@ -60,7 +64,7 @@ public enum IMAGES {
 	MENU_CUBE2("/main/resources/images/tutcube2.png"),
 	MENU_CUBE3("/main/resources/images/tutcube3.png"),
 	MENU_CUBE4("/main/resources/images/tutcube4.png"),
-	QUESTION_MARK("/main/resources/images/qmark.png"),
+	QUESTION_MARK("/main/resources/images/QuestionMark.png"),
 	// The following are the new ending faces for the dice game
 	DICE_ALLIGATOR("/main/resources/images/alligatorDie.png"),
 	DICE_BOAT("/main/resources/images/boatDie.png"),
@@ -81,6 +85,10 @@ public enum IMAGES {
 
 	IMAGES(String path) {
 		this.path = path;
+	}
+	
+	public static IMAGES getImage(String path) throws Exception {
+		return Arrays.stream(values()).filter(image -> image.path.equals(path)).findAny().get();
 	}
 	
 		

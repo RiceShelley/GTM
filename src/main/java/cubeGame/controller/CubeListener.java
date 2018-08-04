@@ -62,6 +62,12 @@ public class CubeListener implements MouseInputListener, ActionListener {
 			control.getWorld().dice[sel].translate(control.getWorld().markers[marker].x-Die.WIDTH, control.getWorld().markers[marker].y-Die.HEIGHT);
 			control.getWorld().dice[sel].setPlaced(true); // Marks the die as PLACED
 		}
+		// If all dice are placed, show the submit button
+		if (control.getWorld().allDicePlaced()) {
+			control.getView().showSubmitButton();
+		} else {
+			control.getView().showSubmitButton(false);
+		}
 	}
 
 	@Override

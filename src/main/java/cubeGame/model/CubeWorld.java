@@ -2,6 +2,7 @@ package main.java.cubeGame.model;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Arrays;
 import java.util.Random;
 
 import main.java.menu.view.MenuScreen;
@@ -35,18 +36,13 @@ public class CubeWorld {
 		for (Die d : dice) {
 			Rectangle intersection = rollZone.intersection(d.bounds);
 			if (d.isRolling()) {
-				if (intersection.equals(null)) {
-					d.gameReset(diceLoc());
-					System.out.println("Something went wrong. Resetting.");
-				} else {
-					if (intersection.width < Die.WIDTH) {
-						d.bounceX(Die.WIDTH - intersection.width);
-					}
-					if (intersection.height < Die.HEIGHT) {
-						d.bounceY(Die.HEIGHT - intersection.height);
-					}
+				if (intersection.width < Die.WIDTH) {
+					d.bounceX(Die.WIDTH - intersection.width);
 				}
-			} 
+				if (intersection.height < Die.HEIGHT) {
+					d.bounceY(Die.HEIGHT - intersection.height);
+				}
+			}
 			d.noOverlaps(dice);
 			d.move();
 		}
@@ -93,6 +89,9 @@ public class CubeWorld {
 		return true;
 	}
 
+	public boolean allDicePlaced() {
+		return Arrays.stream(dice).allMatch(die -> die.isPlaced());
+	}
 	public Die[] getDice() {
 		return dice;
 	}

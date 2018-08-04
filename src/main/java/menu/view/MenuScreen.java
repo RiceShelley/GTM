@@ -157,13 +157,13 @@ public class MenuScreen extends JLayeredPane {
 		});
 		ImageManager.tailorButton(cubeButton);
 		
-		tutBoatButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.QUESTION_MARK, buttonScale)));
+		tutBoatButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
 		ImageManager.tailorButton(tutBoatButton);
 		
-		tutCrabButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.QUESTION_MARK, buttonScale)));
+		tutCrabButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
 		ImageManager.tailorButton(tutCrabButton);
 		
-		tutCubeButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.QUESTION_MARK, buttonScale)));
+		tutCubeButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
 		ImageManager.tailorButton(tutCubeButton);
 		
 		GridBagConstraints cons = new GridBagConstraints();

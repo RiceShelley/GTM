@@ -3,12 +3,11 @@ package main.java.menu.view;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -36,7 +35,7 @@ public class ImageManager {
 	/**
 	 * A HashMap of all images used in the games.
 	 */
-	private static HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
+	static HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
 
 	/**
 	 * creates all images in IMAGES enum all at once and stores in HashMap
@@ -47,6 +46,18 @@ public class ImageManager {
 			System.out.println(i.path);
 			createImage(i.path); 
 		}
+	}
+	
+	/*
+	 * Returns the IMAGE enum value corresponding to a bufferedimage input
+	 */
+	public static IMAGES findImage(BufferedImage bf) throws Exception {
+		for (Entry<String, BufferedImage> entry : images.entrySet()) {
+			if (entry.getValue().equals(bf)) {
+				return IMAGES.getImage(entry.getKey());
+			}
+		}
+		return null;
 	}
 
 	/**
