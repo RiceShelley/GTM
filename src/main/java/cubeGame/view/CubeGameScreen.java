@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +20,7 @@ import main.java.menu.enums.IMAGES;
 import main.java.menu.view.ImageManager;
 import main.java.menu.view.MenuScreen;
 import main.java.cubeGame.controller.CubeController;
+import main.java.cubeGame.controller.SheetManager;
 import main.java.cubeGame.model.Die;
 
 public class CubeGameScreen extends MGView {
@@ -64,7 +67,17 @@ public class CubeGameScreen extends MGView {
 
 		// TODO: ADD BETTER IMAGE FOR SUBMIT BUTTON
 		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.7)));
-		submitButton.addActionListener(actionEvent -> control.submit());
+		submitButton.addActionListener(actionEvent -> {
+			try {
+				SheetManager.writeDiceToSheet(control.getWorld().getDice());
+			} catch (GeneralSecurityException e) {
+				System.out.println("Not Authorized to Write to Sheet");
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("Couldn't Connect to Google Sheets");
+				e.printStackTrace();
+			}
+		});
 		submitButton.setVisible(false);
 		ImageManager.tailorButton(submitButton);
 		this.add(submitButton);
