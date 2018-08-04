@@ -38,7 +38,8 @@ public class Die {
 		if (usedIndeces == null)
 			usedIndeces = new HashSet<>();
 		gameReset(pos);
-
+		firstResting = true;
+		checkingBounds = true;
 	}
 
 	public void gameReset(Point pos) {
@@ -46,6 +47,7 @@ public class Die {
 		bounds.y = pos.y;
 		placed = false;
 		firstResting = true;
+		checkingBounds = true;
 	}
 
 	/*
@@ -165,11 +167,12 @@ public class Die {
 		Rectangle intersection = CubeWorld.rollZone.intersection(bounds);
 		if (intersection.width < Die.WIDTH) {
 			bounds.x = (bounds.x > CubeWorld.rollZone.width / 2 ? CubeWorld.rollZone.width - WIDTH : 0);
+			firstResting = true;
 		}
 		if (intersection.height < Die.HEIGHT) {
 			bounds.y = (bounds.y < CubeWorld.rollZone.height / 2 ? (MenuScreen.frameHeight - CubeWorld.rollZone.height) : MenuScreen.frameHeight - HEIGHT); 
+			firstResting = true;
 		}
-		firstResting = true;
 		noOverlaps();
 	}
 
@@ -243,6 +246,10 @@ public class Die {
 	
 	public int getEndImageIndex() {
 		return endImageIndex;
+	}
+	
+	public void setFirstResting() {
+		firstResting = true;
 	}
 
 }
