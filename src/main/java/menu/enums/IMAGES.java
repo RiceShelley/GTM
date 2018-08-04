@@ -78,7 +78,12 @@ public enum IMAGES {
 	DICE_RABBIT("/main/resources/images/rabbitDie.png"),
 	DICE_ROCKS("/main/resources/images/rocksDie.png"),
 	DICE_SEAWEED("/main/resources/images/seaweedDie.png"),
-	DICE_WILDCARD("/main/resources/images/wildCardDie.png");
+	DICE_WILDCARD("/main/resources/images/wildCardDie.png"),
+	DICE_GABION("/main/resources/images/gabionDie.png"),
+	DICE_SEAWALL("/main/resources/images/seawallDie.png"),
+	DICE_FISHING("/main/resources/images/fishingDie.png"),
+	DICE_OYSTER("/main/resources/images/oysterDie.png"),
+	DICE_TURTLE("/main/resources/images/turtleDie.png");
 
 	
 	public final String path;

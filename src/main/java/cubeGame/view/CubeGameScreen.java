@@ -69,7 +69,7 @@ public class CubeGameScreen extends MGView {
 		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.7)));
 		submitButton.addActionListener(actionEvent -> {
 			try {
-				SheetManager.writeDiceToSheet(control.getWorld().getDice());
+				SheetManager.writeDiceToSheet(control.getWorld().getPlacedDice());
 			} catch (GeneralSecurityException e) {
 				System.out.println("Not Authorized to Write to Sheet");
 				e.printStackTrace();
@@ -112,6 +112,8 @@ public class CubeGameScreen extends MGView {
 				g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
 				die.setName(endFaces.get(die.getEndImageIndex())); // Name the die based on its image
 			}
+			repaint();
+			revalidate();
 		}
 	}
 

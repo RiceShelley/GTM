@@ -2,7 +2,9 @@ package main.java.cubeGame.model;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import main.java.menu.view.MenuScreen;
@@ -12,11 +14,11 @@ public class CubeWorld {
 	private static int h = MenuScreen.frameHeight;
 	private static int w = MenuScreen.frameWidth;
 	// The five slots that accept dice
-	public final Point[] markers = { new Point((w - 5 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
-			new Point((w - 2 * Die.WIDTH) / 2, h / 3 - Die.WIDTH / 2),
-			new Point((w + Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
-			new Point((w + 4 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
-			new Point((w + 7 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2) };
+	public final DieHolder[] markers = { new DieHolder((w - 5 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
+			new DieHolder((w - 2 * Die.WIDTH) / 2, h / 3 - Die.WIDTH / 2),
+			new DieHolder((w + Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
+			new DieHolder((w + 4 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
+			new DieHolder((w + 7 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2) };
 	public static final Rectangle rollZone = new Rectangle(0, h / 3, w, 2 * h / 3);
 	public static final Random RAND = new Random();
 
@@ -72,9 +74,8 @@ public class CubeWorld {
 	 * Resets dice positions and returns the state to ROLL
 	 */
 	public void reset() {
-		for (Die d : dice) {
-			d.gameReset(diceLoc());
-		}
+		Arrays.stream(dice).forEach(die -> die.gameReset(diceLoc()));
+		Arrays.stream(markers).forEach(holder -> holder.removeDie());
 	}
 
 	/*
@@ -90,12 +91,31 @@ public class CubeWorld {
 	}
 
 	public boolean allDicePlaced() {
-		return Arrays.stream(dice).allMatch(die -> die.isPlaced());
+		return Arrays.stream(markers).allMatch(holder -> holder.containsDie());
 	}
+	
+	/*
+	 * Returns an unordered array of the dice in play
+	 */
 	public Die[] getDice() {
 		return dice;
 	}
-
+	
+	/*
+	 * Returns an ordered array of the dice in the holders.  Throws RuntimeException if any holders are unoccupied
+	 */
+	public Die[] getPlacedDice() {
+		List<Die> results = new ArrayList<>();
+		for (DieHolder holder : markers) {
+			if (!holder.containsDie()) {
+				throw new RuntimeException("No Die Placed");
+			} else {
+				results.add(holder.getDie());
+			}
+		}
+		return results.toArray(new Die[5]);
+	}
+	
 	public int getRollWidth() {
 		return rollZone.width;
 	}
@@ -103,5 +123,8 @@ public class CubeWorld {
 	public int getRollHeight() {
 		return rollZone.height;
 	}
+	
+	
+
 
 }

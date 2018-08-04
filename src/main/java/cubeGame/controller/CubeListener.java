@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;
 import main.java.cubeGame.model.Die;
+import main.java.cubeGame.model.DieHolder;
 
 public class CubeListener implements MouseInputListener, ActionListener {
 	CubeController control;
@@ -39,6 +40,12 @@ public class CubeListener implements MouseInputListener, ActionListener {
 		for (int i = 0; i < control.getWorld().dice.length; i ++) {
 			if (control.getWorld().dice[i].bounds.contains(p)) {
 				control.getWorld().dice[i].setPlaced(false); // While the die is selected, it can't be placed
+				for (DieHolder holder : control.getWorld().markers) { // Deselect the current Holder
+					if (holder.containsDie() && holder.getDie() == control.getWorld().dice[i]) {
+						holder.removeDie();
+						break;
+					}
+				}
 				return i;
 			}
 		}
@@ -55,6 +62,7 @@ public class CubeListener implements MouseInputListener, ActionListener {
 			markBounds.setBounds(control.getWorld().markers[i].x - Die.WIDTH, control.getWorld().markers[i].y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT);
 			if (sel >=0 && control.getWorld().dice[sel].bounds.intersects(markBounds)) {
 				marker = i;
+				control.getWorld().markers[marker].placeDie(control.getWorld().dice[sel]); // Place the die on the corresponding marker
 			}
 		}
 		if (marker >= 0) { //die snaps to marker

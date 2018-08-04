@@ -8,6 +8,8 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.PrintWriter;
 
 import javax.swing.ImageIcon;
@@ -61,7 +63,6 @@ public class MenuScreen extends JLayeredPane {
 		frame.add(this, BorderLayout.CENTER);
 		frame.setSize(new Dimension(frameWidth, frameHeight));
 		frame.setVisible(true);
-		
 
 		crabController = new CrabController();
 		boatController = new BoatController();
@@ -258,8 +259,7 @@ public class MenuScreen extends JLayeredPane {
 		cubeButton.setVisible(true);
 		tutBoatButton.setVisible(true);
 		tutCrabButton.setVisible(true);
-		tutCubeButton.setVisible(true);
-		
+		tutCubeButton.setVisible(true);		
 	}
 
 	protected void tutBoatButtonActionPerformed() {
@@ -323,6 +323,7 @@ public class MenuScreen extends JLayeredPane {
 			//System.out.println("crab controller");
 		} else if (prevController instanceof CubeController) {
 			CubeController temp = (CubeController) prevController;
+			temp.getTimer().start();
 			temp.getWorld().rollDice();
 		}
 
@@ -338,5 +339,6 @@ public class MenuScreen extends JLayeredPane {
 		menuButton.setVisible(true);
 		this.add(gameView, 3, 0);
 	}
+
 
 }

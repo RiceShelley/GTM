@@ -45,7 +45,6 @@ public class Die {
 		yVel = 0;
 		rollingImageIndex = 0;
 		firstResting = true;
-		endImageIndex = getRandomImageIndex();
 	}
 
 	/*
@@ -53,7 +52,7 @@ public class Die {
 	 */
 	private int getRandomImageIndex() {
 		int index = CubeWorld.RAND.nextInt(NUMFACE);
-		while (usedIndeces.contains(index)) {
+		while (usedIndeces.contains(index)) { // Repeat until finding a unique index
 			index = CubeWorld.RAND.nextInt(NUMFACE);
 		}
 		usedIndeces.add(index);
@@ -127,8 +126,6 @@ public class Die {
 
 	/*
 	 * When the die first settles, make sure it doesn't overlap with any others
-	 * TODO: Throws stack overflow error if moving the die causes a second overlap
-	 * If the die gets stuck between two already placed die or between a die and a wall, stack overflow
 	 * 
 	 */
 	public void noOverlaps(Die[] others) {
@@ -146,10 +143,10 @@ public class Die {
 					if (intersection.height < Die.HEIGHT) {
 						translate(0, -y);
 					}
-					noOverlaps(others);
+					noOverlaps(others); // Recursively call until cleared
 				}
 			}
-			firstResting = false;
+			firstResting = false; // Marks the die as placed
 		}
 	}
 
@@ -190,8 +187,7 @@ public class Die {
 	 * Returns the count of images to be used for die faces
 	 */
 	public static int countDiceImages() {
-		return Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).mapToInt(image -> 1)
-				.sum();
+		return (int) Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).count();
 	}
 
 	public String getName() {
