@@ -2,6 +2,8 @@ package main.java.cubeGame.model;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,6 +27,7 @@ public class Die {
 	private int dragVariable = 100;
 	private boolean placed;
 	private boolean firstResting; // True when rolling and before settled, to avoid overlap
+	private static boolean checkingBounds;
 	private String name;
 
 	private int rollingImageIndex; // Random value corresponding to how the rolling dice looks
@@ -35,28 +38,32 @@ public class Die {
 		if (usedIndeces == null)
 			usedIndeces = new HashSet<>();
 		gameReset(pos);
+
 	}
 
 	public void gameReset(Point pos) {
 		bounds.x = pos.x;
 		bounds.y = pos.y;
 		placed = false;
-		xVel = 0;
-		yVel = 0;
-		rollingImageIndex = 0;
 		firstResting = true;
 	}
 
 	/*
 	 * Returns the index corresponding to the final image
 	 */
-	private int getRandomImageIndex() {
-		int index = CubeWorld.RAND.nextInt(NUMFACE);
-		while (usedIndeces.contains(index)) { // Repeat until finding a unique index
-			index = CubeWorld.RAND.nextInt(NUMFACE);
+	private void setRandomImageIndex() {
+		endImageIndex = CubeWorld.RAND.nextInt(NUMFACE);
+		while (usedIndeces.contains(endImageIndex)) { // Repeat until finding a unique index
+			endImageIndex = CubeWorld.RAND.nextInt(NUMFACE);
 		}
-		usedIndeces.add(index);
-		return index;
+		addIndexToSet();
+	}
+
+	/*
+	 * Adds the die's image index to the static set
+	 */
+	public void addIndexToSet() {
+		usedIndeces.add(endImageIndex);
 	}
 
 	/*
@@ -95,7 +102,7 @@ public class Die {
 	 */
 	public void roll() {
 		firstResting = true;
-		endImageIndex = getRandomImageIndex();
+		setRandomImageIndex();
 		xVel = CubeWorld.RAND.nextInt(INITSPEED * 2 - 1) - INITSPEED + 1;
 		yVel = CubeWorld.RAND.nextInt(INITSPEED * 2 - 1) - INITSPEED + 1;
 	}
@@ -128,9 +135,9 @@ public class Die {
 	 * When the die first settles, make sure it doesn't overlap with any others
 	 * 
 	 */
-	public void noOverlaps(Die[] others) {
-		if (!isRolling() && firstResting) {
-			for (Die d : others) {
+	public void noOverlaps() {
+		if (!isRolling() && checkingBounds && firstResting) {
+			for (Die d : CubeWorld.dice) {
 				if (d != this && intersecting(d)) {
 					int x = (bounds.x > d.bounds.x ? 1 : -1);
 					int y = (bounds.y > d.bounds.y ? 2 : -1);
@@ -143,20 +150,29 @@ public class Die {
 					if (intersection.height < Die.HEIGHT) {
 						translate(0, -y);
 					}
-					noOverlaps(others); // Recursively call until cleared
+					noOverlaps(); // Recursively call until cleared
 				}
 			}
 			firstResting = false; // Marks the die as placed
 		}
 	}
-
-	public int getRollingImageIndex() {
-		return rollingImageIndex;
+	
+	/*
+	 * Triggered the mouse is released.  If the die is off the screen, moves it back on
+	 */
+	public void ensureBounds() {
+		if (!checkingBounds || placed) return;
+		Rectangle intersection = CubeWorld.rollZone.intersection(bounds);
+		if (intersection.width < Die.WIDTH) {
+			bounds.x = (bounds.x > CubeWorld.rollZone.width / 2 ? CubeWorld.rollZone.width - WIDTH : 0);
+		}
+		if (intersection.height < Die.HEIGHT) {
+			bounds.y = (bounds.y < CubeWorld.rollZone.height / 2 ? (MenuScreen.frameHeight - CubeWorld.rollZone.height) : MenuScreen.frameHeight - HEIGHT); 
+		}
+		firstResting = true;
+		noOverlaps();
 	}
 
-	public int getEndImageIndex() {
-		return endImageIndex;
-	}
 
 	/*
 	 * Triggered when the resting die is placed in a final slot
@@ -184,14 +200,10 @@ public class Die {
 	}
 
 	/*
-	 * Returns the count of images to be used for die faces
+	 * Returns the number of images to be used for die faces
 	 */
 	public static int countDiceImages() {
 		return (int) Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).count();
-	}
-
-	public String getName() {
-		return (name == null ? "" : name);
 	}
 
 	/*
@@ -204,6 +216,33 @@ public class Die {
 		} catch (Exception e) {
 			name = "Image not Found";
 		}
+	}
+
+	/*
+	 * Called when the mouse is not pressed.  Triggers functions that regulate position
+	 */
+	public static void doCheckBounds() {
+		checkingBounds = true;
+	}
+	
+	/*
+	 * Called when the mouse is pressed. Prevents position-controlling logic from firing
+	 */
+	public static void dontCheckBounds() {
+		checkingBounds = false;
+	}
+	
+	public String getName() {
+		return (name == null ? "" : name);
+	}
+	
+	public int getRollingImageIndex() {
+		return rollingImageIndex;
+	}
+
+	
+	public int getEndImageIndex() {
+		return endImageIndex;
 	}
 
 }

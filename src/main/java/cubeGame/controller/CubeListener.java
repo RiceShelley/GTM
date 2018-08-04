@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;
+
+import main.java.cubeGame.model.CubeWorld;
 import main.java.cubeGame.model.Die;
 import main.java.cubeGame.model.DieHolder;
 
@@ -26,6 +28,7 @@ public class CubeListener implements MouseInputListener, ActionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		Die.dontCheckBounds();
 		Point point = e.getPoint();
 		selectedImage = getSelected(point);
 		curX = point.x;
@@ -37,11 +40,15 @@ public class CubeListener implements MouseInputListener, ActionListener {
 	 * Returns the index of the die currently selected by the mouse
 	 */
 	private int getSelected(Point p) { 
-		for (int i = 0; i < control.getWorld().dice.length; i ++) {
-			if (control.getWorld().dice[i].bounds.contains(p)) {
-				control.getWorld().dice[i].setPlaced(false); // While the die is selected, it can't be placed
+		control.getWorld();
+		for (int i = 0; i < CubeWorld.dice.length; i ++) {
+			control.getWorld();
+			if (CubeWorld.dice[i].bounds.contains(p)) {
+				control.getWorld();
+				CubeWorld.dice[i].setPlaced(false); // While the die is selected, it can't be placed
 				for (DieHolder holder : control.getWorld().markers) { // Deselect the current Holder
-					if (holder.containsDie() && holder.getDie() == control.getWorld().dice[i]) {
+					control.getWorld();
+					if (holder.containsDie() && holder.getDie() == CubeWorld.dice[i]) {
 						holder.removeDie();
 						break;
 					}
@@ -54,21 +61,21 @@ public class CubeListener implements MouseInputListener, ActionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int sel = getSelected(e.getPoint());
-		int marker = -1;
+		int sel = getSelected(e.getPoint()); // Index of the die selected
 		dragging = false;
 		Rectangle markBounds = new Rectangle(0, 0, 0, 0);
+		DieHolder selectedHolder = null;
 		for (int i = 0; i < control.getWorld().markers.length; i ++) {
 			markBounds.setBounds(control.getWorld().markers[i].x - Die.WIDTH, control.getWorld().markers[i].y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT);
-			if (sel >=0 && control.getWorld().dice[sel].bounds.intersects(markBounds)) {
-				marker = i;
-				control.getWorld().markers[marker].placeDie(control.getWorld().dice[sel]); // Place the die on the corresponding marker
+			if (sel >=0 && CubeWorld.dice[sel].bounds.intersects(markBounds)) {
+				selectedHolder = control.getWorld().markers[i];
 			}
 		}
-		if (marker >= 0) { //die snaps to marker
-			control.getWorld().dice[sel].translate(-1*control.getWorld().dice[sel].bounds.x, -1*control.getWorld().dice[sel].bounds.y);
-			control.getWorld().dice[sel].translate(control.getWorld().markers[marker].x-Die.WIDTH, control.getWorld().markers[marker].y-Die.HEIGHT);
-			control.getWorld().dice[sel].setPlaced(true); // Marks the die as PLACED
+		if (selectedHolder != null && !selectedHolder.containsDie()) { //die snaps to marker
+			selectedHolder.placeDie(CubeWorld.dice[sel]); // Place the die on the corresponding marker
+			CubeWorld.dice[sel].translate(-1*CubeWorld.dice[sel].bounds.x, -1*CubeWorld.dice[sel].bounds.y);
+			CubeWorld.dice[sel].translate(selectedHolder.x-Die.WIDTH, selectedHolder.y-Die.HEIGHT);
+			CubeWorld.dice[sel].setPlaced(true); // Marks the die as PLACED
 		}
 		// If all dice are placed, show the submit button
 		if (control.getWorld().allDicePlaced()) {
@@ -76,6 +83,7 @@ public class CubeListener implements MouseInputListener, ActionListener {
 		} else {
 			control.getView().hideSubmitButton();
 		}
+		Die.doCheckBounds();
 	}
 
 	@Override
@@ -85,7 +93,8 @@ public class CubeListener implements MouseInputListener, ActionListener {
 		nextY = curPoint.y;
 		if (dragging) {
 			if (selectedImage >= 0) {
-				control.getWorld().dice[selectedImage].translate((nextX - curX), (nextY - curY));
+				control.getWorld();
+				CubeWorld.dice[selectedImage].translate((nextX - curX), (nextY - curY));
 				control.getView().repaint();
 			}
 			curX = nextX;

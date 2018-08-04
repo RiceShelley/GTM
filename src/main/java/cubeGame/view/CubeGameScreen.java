@@ -21,6 +21,7 @@ import main.java.menu.view.ImageManager;
 import main.java.menu.view.MenuScreen;
 import main.java.cubeGame.controller.CubeController;
 import main.java.cubeGame.controller.SheetManager;
+import main.java.cubeGame.model.CubeWorld;
 import main.java.cubeGame.model.Die;
 
 public class CubeGameScreen extends MGView {
@@ -66,7 +67,7 @@ public class CubeGameScreen extends MGView {
 		rollPrompt = ImageManager.getScaled(IMAGES.CUBE_TUT_1, rpDimStart, rpDimEnd);
 
 		// TODO: ADD BETTER IMAGE FOR SUBMIT BUTTON
-		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.7)));
+		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.6)));
 		submitButton.addActionListener(actionEvent -> {
 			try {
 				SheetManager.writeDiceToSheet(control.getWorld().getPlacedDice());
@@ -81,7 +82,6 @@ public class CubeGameScreen extends MGView {
 		submitButton.setVisible(false);
 		ImageManager.tailorButton(submitButton);
 		this.add(submitButton);
-		
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class CubeGameScreen extends MGView {
 		}
 		
 		// Draws an image of a rolling or resting die for each die
-		for (Die die : control.getWorld().dice) {
+		for (Die die : CubeWorld.dice) {
 			if (die.isRolling()) {
 				g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
 			} else { // is this repainted every single screen?

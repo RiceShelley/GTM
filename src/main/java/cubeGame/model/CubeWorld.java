@@ -10,7 +10,7 @@ import java.util.Random;
 import main.java.menu.view.MenuScreen;
 
 public class CubeWorld {
-	public final Die[] dice = new Die[5];
+	public static final Die[] dice = new Die[5];
 	private static int h = MenuScreen.frameHeight;
 	private static int w = MenuScreen.frameWidth;
 	// The five slots that accept dice
@@ -44,17 +44,25 @@ public class CubeWorld {
 				if (intersection.height < Die.HEIGHT) {
 					d.bounceY(Die.HEIGHT - intersection.height);
 				}
+			} else {
+				d.ensureBounds(); // Make sure the die is in the rollzone
+				d.noOverlaps(); // Make sure 2 dice don't overlap
 			}
-			d.noOverlaps(dice);
 			d.move();
 		}
 	}
+	
 
 	/*
 	 * Rolls all dice within the boundary
 	 */
 	public void rollDice() {
 		Die.clearIndeces();
+		for (Die d : dice) {
+			if (d.isPlaced()) {
+				d.addIndexToSet();
+			}
+		}
 		for (Die d : dice) {
 			if (d.bounds.intersects(rollZone))
 				d.roll();
