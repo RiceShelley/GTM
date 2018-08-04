@@ -66,7 +66,7 @@ public class CubeListener implements MouseInputListener, ActionListener {
 		if (control.getWorld().allDicePlaced()) {
 			control.getView().showSubmitButton();
 		} else {
-			control.getView().showSubmitButton(false);
+			control.getView().hideSubmitButton();
 		}
 	}
 

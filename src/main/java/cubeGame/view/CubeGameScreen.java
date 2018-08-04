@@ -110,17 +110,17 @@ public class CubeGameScreen extends MGView {
 				g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
 			} else { // is this repainted every single screen?
 				g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
-				die.setName(endFaces.get(die.getEndImageIndex()));
+				die.setName(endFaces.get(die.getEndImageIndex())); // Name the die based on its image
 			}
 		}
 	}
 
-	public void showSubmitButton(boolean b) {
-		submitButton.setVisible(b);
+	public void showSubmitButton() {
+		submitButton.setVisible(true);
 	}
 	
-	public void showSubmitButton() {
-		showSubmitButton(true);
+	public void hideSubmitButton() {
+		submitButton.setVisible(false);
 	}
 
 	public void reset() {

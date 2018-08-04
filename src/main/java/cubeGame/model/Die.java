@@ -13,9 +13,9 @@ import main.java.menu.view.ImageManager;
 import main.java.menu.view.MenuScreen;
 
 public class Die {
-	
-	public static final int WIDTH = MenuScreen.frameHeight*43/268;
-	public static final int HEIGHT = MenuScreen.frameHeight*43/268;
+
+	public static final int WIDTH = MenuScreen.frameHeight * 43 / 268;
+	public static final int HEIGHT = MenuScreen.frameHeight * 43 / 268;
 	public static final int INITSPEED = 100;
 	public static final int NUMFACE = countDiceImages(); // How many possible die faces
 	public final Rectangle bounds = new Rectangle(WIDTH, HEIGHT); // Physical area occupied
@@ -32,7 +32,8 @@ public class Die {
 	private static Set<Integer> usedIndeces; // Stores the index of each die's image to avoid overlap
 
 	public Die(Point pos) {
-		if (usedIndeces == null) usedIndeces = new HashSet<>();
+		if (usedIndeces == null)
+			usedIndeces = new HashSet<>();
 		gameReset(pos);
 	}
 
@@ -66,11 +67,11 @@ public class Die {
 		if (isRolling()) {
 			if (xVel != 0) {
 				bounds.x += xVel;
-				xVel *= minDrag + CubeWorld.RAND.nextInt(dragVariable)/dragVariable;
+				xVel *= minDrag + CubeWorld.RAND.nextInt(dragVariable) / dragVariable;
 			}
 			if (yVel != 0) {
 				bounds.y += yVel;
-				yVel *= minDrag + CubeWorld.RAND.nextInt(dragVariable)/dragVariable;
+				yVel *= minDrag + CubeWorld.RAND.nextInt(dragVariable) / dragVariable;
 			}
 			rollingImageIndex = (rollingImageIndex + 1) % CubeGameScreen.diceFrames;
 		}
@@ -82,7 +83,7 @@ public class Die {
 	public void translate(int x, int y) {
 		bounds.translate(x, y);
 	}
-	
+
 	/*
 	 * Rolling variable stored in function to eliminate redundancy
 	 */
@@ -102,48 +103,56 @@ public class Die {
 
 	public void bounceX(int move) {
 		if (Math.abs(xVel) < move) {
-			xVel += (xVel > 0 ? move : - move);
+			xVel += (xVel > 0 ? move : -move);
 		}
 		this.xVel = xVel * -1;
 	}
 
 	public void bounceY(int move) {
 		if (Math.abs(yVel) < move) {
-			yVel += (yVel > 0 ? move : - move);
+			yVel += (yVel > 0 ? move : -move);
 		}
 		this.yVel = yVel * -1;
 	}
-	
+
 	/*
 	 * Checks if two resting dice are overlapping
 	 */
 	private boolean intersecting(Die other) {
-		if (isRolling() || other.isRolling()) {
-			return false;
-		}
-		if (bounds.intersects(other.bounds)) {
+		if ((!isRolling() && !other.isRolling()) && bounds.intersects(other.bounds)) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
-	
+
 	/*
-	 * When the die first settles, make sure it doesn't overlap with any others already landed
+	 * When the die first settles, make sure it doesn't overlap with any others
+	 * TODO: Throws stack overflow error if moving the die causes a second overlap
+	 * If the die gets stuck between two already placed die or between a die and a wall, stack overflow
+	 * 
 	 */
 	public void noOverlaps(Die[] others) {
 		if (!isRolling() && firstResting) {
 			for (Die d : others) {
-				if (d != this) {
-					while (intersecting(d)) {
-						translate((bounds.x < MenuScreen.frameWidth / 2 ? 1 : -1), 0);
+				if (d != this && intersecting(d)) {
+					int x = (bounds.x > d.bounds.x ? 1 : -1);
+					int y = (bounds.y > d.bounds.y ? 2 : -1);
+					translate(x, y); // Move the die to the nearest edge
+					// If moving the die gets pushed off the edge, move it back
+					Rectangle intersection = CubeWorld.rollZone.intersection(d.bounds);
+					if (intersection.width < Die.WIDTH) {
+						translate(-x, 0);
 					}
+					if (intersection.height < Die.HEIGHT) {
+						translate(0, -y);
+					}
+					noOverlaps(others);
 				}
 			}
 			firstResting = false;
 		}
 	}
-	
+
 	public int getRollingImageIndex() {
 		return rollingImageIndex;
 	}
@@ -151,52 +160,54 @@ public class Die {
 	public int getEndImageIndex() {
 		return endImageIndex;
 	}
-	
+
 	/*
 	 * Triggered when the resting die is placed in a final slot
 	 */
 	public void setPlaced(boolean b) {
 		placed = b;
 	}
-	
+
 	/*
 	 * Is the die placed in a slot?
+	 * 
 	 * @return true if placed, false otherwise
 	 */
 	public boolean isPlaced() {
 		return placed;
 	}
-	
+
 	/*
-	 * Resets the set containing the used indeces.  Called whenever the dice are rolled
+	 * Resets the set containing the used indeces. Called whenever the dice are
+	 * rolled
 	 */
 	public static void clearIndeces() {
-		if (usedIndeces != null) usedIndeces.clear();
+		if (usedIndeces != null)
+			usedIndeces.clear();
 	}
-	
+
 	/*
 	 * Returns the count of images to be used for die faces
 	 */
 	public static int countDiceImages() {
-		return Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).mapToInt(image -> 1).sum();
+		return Arrays.stream(IMAGES.values()).filter(image -> image.toString().contains("DICE_")).mapToInt(image -> 1)
+				.sum();
 	}
-	
+
 	public String getName() {
-		return name;
+		return (name == null ? "" : name);
 	}
 
 	/*
-	 * Gives the die a name corresponding to its current image 
+	 * Gives the die a name corresponding to its current image
 	 */
 	public void setName(BufferedImage bf) {
 		try {
 			IMAGES value = ImageManager.findImage(bf); // Find the corresponding IMAGES
 			name = value.toString().split("_")[1]; // Name should be only the identifying part of the string
 		} catch (Exception e) {
-			name = "Image not Found"; 
+			name = "Image not Found";
 		}
 	}
-
-
 
 }

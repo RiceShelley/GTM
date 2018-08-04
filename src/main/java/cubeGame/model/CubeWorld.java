@@ -9,15 +9,15 @@ import main.java.menu.view.MenuScreen;
 
 public class CubeWorld {
 	public final Die[] dice = new Die[5];
-	private int h = MenuScreen.frameHeight;
-	private int w = MenuScreen.frameWidth;
+	private static int h = MenuScreen.frameHeight;
+	private static int w = MenuScreen.frameWidth;
 	// The five slots that accept dice
 	public final Point[] markers = { new Point((w - 5 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
 			new Point((w - 2 * Die.WIDTH) / 2, h / 3 - Die.WIDTH / 2),
 			new Point((w + Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
 			new Point((w + 4 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2),
 			new Point((w + 7 * Die.WIDTH) / 2, h / 3 - Die.HEIGHT / 2) };
-	public final Rectangle rollZone = new Rectangle(0, h / 3, w, 2 * h / 3);
+	public static final Rectangle rollZone = new Rectangle(0, h / 3, w, 2 * h / 3);
 	public static final Random RAND = new Random();
 
 	/*
