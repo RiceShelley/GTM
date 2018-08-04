@@ -34,7 +34,8 @@ public class CubeGameScreen extends MGView {
 
 	CubeController control;
 
-	BufferedImage bg = ImageManager.get(IMAGES.CUBE_BG);
+	BufferedImage table = ImageManager.get(IMAGES.CUBE_TABLE);
+	BufferedImage backdrop = ImageManager.get(IMAGES.CUBE_BACKGROUND);
 	BufferedImage[] diceImage = ImageManager.arrayPopulator(IMAGES.CUBE_ROLL, diceFrames);
 	BufferedImage[] movePrompt = ImageManager.arrayPopulator(IMAGES.UP_ARROW, MPF);
 	List<BufferedImage> endFaces; // List full of ending images for dice
@@ -45,7 +46,6 @@ public class CubeGameScreen extends MGView {
 
 	public boolean showingEnd = false;
 
-	
 	public CubeGameScreen(CubeController control) {
 		this.control = control;
 		this.setBounds(0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight);
@@ -59,7 +59,7 @@ public class CubeGameScreen extends MGView {
 		rollDiceButton.addActionListener(actionEvent -> control.getWorld().rollDice());
 		ImageManager.tailorButton(rollDiceButton);
 		this.add(rollDiceButton);
-		
+
 		Dimension rpDimStart = new Dimension(rollDiceButton.getPreferredSize().width / 3,
 				rollDiceButton.getPreferredSize().height / 3);
 		Dimension rpDimEnd = new Dimension((int) (rollDiceButton.getPreferredSize().getWidth() + rollExtend),
@@ -68,48 +68,63 @@ public class CubeGameScreen extends MGView {
 
 		// TODO: ADD BETTER IMAGE FOR SUBMIT BUTTON
 		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.6)));
-		submitButton.addActionListener(actionEvent -> {
-			try {
-				SheetManager.writeDiceToSheet(control.getWorld().getPlacedDice());
-			} catch (GeneralSecurityException e) {
-				System.out.println("Not Authorized to Write to Sheet");
-				e.printStackTrace();
-			} catch (IOException e) {
-				System.out.println("Couldn't Connect to Google Sheets");
-				e.printStackTrace();
-			}
+		submitButton.addActionListener(actionEvent -> { // Show ending screen and export results to google sheet
+
+			showingEnd = true;
+			new Thread() { // Send data to sheet in a separate thread to avoid lag
+				@Override
+				public void run() {
+					try {
+						SheetManager.writeDiceToSheet(control.getWorld().getPlacedDice());
+					} catch (GeneralSecurityException e) {
+						System.out.println("Not Authorized to Write to Sheet");
+						e.printStackTrace();
+					} catch (IOException e) {
+						System.out.println("Couldn't Connect to Google Sheets");
+						e.printStackTrace();
+					}
+				}
+			}.start();
 		});
+		
 		submitButton.setVisible(false);
 		ImageManager.tailorButton(submitButton);
 		this.add(submitButton);
+
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-		if (showingEnd) {
+
+		if (showingEnd) { // Ends the game
+			rollDiceButton.setVisible(false);
+			submitButton.setVisible(false);
 			g.drawImage(ImageManager.get(IMAGES.CUBE_END), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			repaint();
+			revalidate();
 			return;
-		} 
-		
-		Rectangle clips = g.getClipBounds();
-		g.drawImage(bg, 0, 0, clips.width, clips.height, null);
-		int width = control.getWorld().getRollWidth();
-		int height = MenuScreen.frameHeight - control.getWorld().getRollHeight();
+		}
+
+		int width = CubeWorld.rollZone.width;
+		int height = MenuScreen.frameHeight - CubeWorld.rollZone.height;
+
+		g.drawImage(backdrop, 0, 0, width, height, null); // Draws the entire background
 		g.drawRect(0, 0, width, height);
-		g.drawImage(bg, 0, 0, width, height, null);
-		for (Point p : control.getWorld().markers) {
+		g.drawImage(table, 0, height, width, MenuScreen.frameHeight - height, null); // Draws the rollZone image
+		for (Point p : control.getWorld().markers) { // Draws slots for each marker
 			g.drawImage(ImageManager.get(IMAGES.DIE_SIL), p.x - Die.WIDTH, p.y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT,
 					null);
 		}
-		
+
 		// Draws an image of a rolling or resting die for each die
 		for (Die die : CubeWorld.dice) {
 			if (die.isRolling()) {
-				g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
+				g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT,
+						null);
 			} else { // is this repainted every single screen?
-				g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT, null);
+				g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT,
+						null);
 				die.setName(endFaces.get(die.getEndImageIndex())); // Name the die based on its image
 			}
 			repaint();
@@ -119,10 +134,12 @@ public class CubeGameScreen extends MGView {
 
 	public void showSubmitButton() {
 		submitButton.setVisible(true);
+		rollDiceButton.setVisible(false);
 	}
-	
+
 	public void hideSubmitButton() {
 		submitButton.setVisible(false);
+		rollDiceButton.setVisible(true);
 	}
 
 	public void reset() {

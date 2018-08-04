@@ -12,7 +12,8 @@ public enum IMAGES {
 	CUBE_FACE("/main/resources/images/genericdie.png"),
 	CRAB_BG("/main/resources/images/Game1BG.png"),
 	BOATS_BG("/main/resources/images/Game2BGfront.png"),
-	CUBE_BG("/main/resources/images/Game3 BG.png"),
+	CUBE_TABLE("/main/resources/images/woodBackground.jpg"),
+	CUBE_BACKGROUND("/main/resources/images/estuaryBackground.jpg"),
 	WATER("/main/resources/images/Game2BGrear.png"),
 	BOAT_N("/main/resources/images/boatEmpty.png"),
 	BOAT_O("/main/resources/images/boatOyster.png"),
@@ -83,7 +84,8 @@ public enum IMAGES {
 	DICE_SEAWALL("/main/resources/images/seawallDie.png"),
 	DICE_FISHING("/main/resources/images/fishingDie.png"),
 	DICE_OYSTER("/main/resources/images/oysterDie.png"),
-	DICE_TURTLE("/main/resources/images/turtleDie.png");
+	DICE_TURTLE("/main/resources/images/turtleDie.png"),
+	DICE_PLASTIC("/main/resources/images/plasticDie.png");
 
 	
 	public final String path;
