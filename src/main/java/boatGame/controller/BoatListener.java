@@ -31,10 +31,16 @@ public class BoatListener implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		controller.world.prevMouse = controller.world.mouse;
-		Point mouse = arg0.getLocationOnScreen();
-		controller.world.mouse = new Point((int)(mouse.x/BoatWorld.widthRatio), (int)(mouse.y/BoatWorld.heightRatio));
-		//controller.world.mouse = mouse;
+		if (BoatController.paused == false) {
+			controller.world.prevMouse = controller.world.mouse;
+			Point mouse = arg0.getLocationOnScreen();
+			controller.world.mouse = new Point((int) (mouse.x / BoatWorld.widthRatio),
+					(int) (mouse.y / BoatWorld.heightRatio));
+			// controller.world.mouse = mouse;
+		}
+		else {
+			BoatController.paused = false;
+		}
 	}
 
 
