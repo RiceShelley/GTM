@@ -143,9 +143,12 @@ public class BoatGameScreen extends MGView {
 
 		if (BoatController.paused) {
 			g.drawImage(tut, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			boatLabel.setVisible(false);
 		}
 		else if (BoatController.paused != true){
 			g.drawImage(sea, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			
+			boatLabel.setVisible(true);
 			
 			int size = controller.world.hits.size();
 			if (size < erosionIncr) {
@@ -333,6 +336,8 @@ public class BoatGameScreen extends MGView {
 		dDisplay = false;
 		qDisplay = false;
 		sDisplay = false;
+		
+		BoatController.paused = true;
 	}
 
 	/**
