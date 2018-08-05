@@ -30,7 +30,7 @@ public class BoatWorld {
 	private final Point boatStart = new Point(bg.getWidth() / 2, bg.getHeight() / 2);
 	private final int shoreSpace = 700;
 	public int shoreSize;
-	public final static int qRadius = 50;
+	public final static int qRadius = 65; //Hit box size for quest items
 	public final static int dRadius = 100;
 	private final int questFreq = 75; // used in rand.nextInt(questFreq)
 	private final double dmgMulti = .5;

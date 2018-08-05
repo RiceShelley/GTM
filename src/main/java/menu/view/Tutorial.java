@@ -13,9 +13,6 @@ public class Tutorial extends JPanel {
 	private static final long serialVersionUID = -1371224316837671466L;   //added in 
 	
 	BufferedImage upLeft = MenuScreen.IMAGE.get(IMAGES.MENU_BOAT1);
-	BufferedImage upRight = MenuScreen.IMAGE.get(IMAGES.MENU_BOAT2);
-	BufferedImage downLeft = MenuScreen.IMAGE.get(IMAGES.MENU_BOAT3);
-	BufferedImage downRight = MenuScreen.IMAGE.get(IMAGES.MENU_BOAT4);
 	BufferedImage sil = MenuScreen.IMAGE.get(IMAGES.DIE_SIL);
 	private int smaller, gw, gh, bX, bY, bHeight, bWidth;
 	private int edgeBuffer = MenuScreen.frameHeight*200/1340;
@@ -35,12 +32,7 @@ public class Tutorial extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(upLeft, edgeBuffer, edgeBuffer, smaller, smaller, this);
-		g.drawImage(upRight, MenuScreen.frameWidth - smaller - edgeBuffer, edgeBuffer, smaller, smaller, this);
-		g.drawImage(downLeft, edgeBuffer, MenuScreen.frameHeight - smaller - edgeBuffer, smaller, smaller, null);
-		g.drawImage(downRight, MenuScreen.frameWidth - smaller - edgeBuffer,
-				MenuScreen.frameHeight - smaller - edgeBuffer, smaller, smaller, this);
-		//g.drawImage(sil, bX, bY, bWidth, bHeight, this);
+		g.drawImage(upLeft, 500, 200, upLeft.getWidth(), upLeft.getHeight(), this);
 
 	}
 	

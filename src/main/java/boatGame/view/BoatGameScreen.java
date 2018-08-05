@@ -44,7 +44,7 @@ public class BoatGameScreen extends MGView {
 	
 	//Location of each HUD item
 	Rectangle scoreLoc = new Rectangle(10, 100, 250, 50);
-	Rectangle timeLoc = new Rectangle(10, 450, 250, 500);
+	Rectangle timeLoc = new Rectangle(10, 450, 350, 500);
 	Rectangle oysterLoc = new Rectangle(120, 220, 250, 50);
 	Rectangle rockLoc = new Rectangle(120, 370, 250, 50);
 	Rectangle cordgrassLoc = new Rectangle(120, 555, 250, 50);

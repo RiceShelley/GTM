@@ -79,7 +79,7 @@ public class MenuScreen extends JLayeredPane {
 		this.add(menu, 2, 0);
 		tutorialBoat = new Tutorial((frameWidth - boatButton.getWidth()) / 2, (frameHeight - boatButton.getHeight()) / 2,
 				boatButton.getX(), boatButton.getY(), boatButton.getWidth(), boatButton.getHeight());
-		this.add(tutorialBoat, 1, 0);
+		this.add(tutorialBoat, 2, 0); //setting the second value to 1 will display the boat button
 		tutorialBoat.repaint();
 		tutorialBoat.setVisible(false);
 		
