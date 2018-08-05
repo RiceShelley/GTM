@@ -1,8 +1,12 @@
 package main.java.menu.view;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+
+import main.java.boatGame.controller.BoatController;
 import main.java.menu.enums.IMAGES;
 
 public class Tutorial extends JPanel {
@@ -28,7 +32,6 @@ public class Tutorial extends JPanel {
 		this.bHeight = bHeight;
 		this.bWidth = bWidth;
 		this.setSize(MenuScreen.frameWidth, MenuScreen.frameHeight);
-
 	}
 
 	@Override
@@ -44,5 +47,7 @@ public class Tutorial extends JPanel {
 		this.bHeight = bHeight;
 		this.bWidth = bWidth;
 	}
+
+
 
 }

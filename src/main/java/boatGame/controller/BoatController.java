@@ -31,6 +31,7 @@ public class BoatController extends MGController implements ActionListener {
 	private static long dct = 0;
 	private static long qct = 0;
 	private static long sct = 0;
+	public static boolean paused = false;
 	
 
 	public BoatController() {
@@ -38,13 +39,16 @@ public class BoatController extends MGController implements ActionListener {
 		view = new BoatGameScreen(this);
 		view.addMouseListener(new BoatListener(this));
 		timer = new Timer(frameWait, this);
+		paused = true;
 	}
 
 	@Override
 	public void update() {
-		world.update();
-		view.updateLabels();
-		view.repaint();
+		if (!paused) {
+			world.update();
+			view.updateLabels();
+			view.repaint();
+		}
 	}
 
 	@Override
@@ -61,6 +65,7 @@ public class BoatController extends MGController implements ActionListener {
 		mct = 0;
 		dct = 0;
 		qct = 0;
+		paused = true;
 	}
 
 	@Override

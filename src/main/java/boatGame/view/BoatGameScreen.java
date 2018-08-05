@@ -51,6 +51,7 @@ public class BoatGameScreen extends MGView {
 	Rectangle endScoreLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 500, MenuScreen.frameHeight - 500);
 
 	BufferedImage sea = MenuScreen.IMAGE.get(IMAGES.WATER);
+	BufferedImage tut = MenuScreen.IMAGE.get(IMAGES.MENU_BOAT1);
 	BufferedImage dock = MenuScreen.IMAGE.get(IMAGES.DOCK);
 	BufferedImage land = MenuScreen.IMAGE.get(IMAGES.BOATS_BG);
 	BufferedImage[] questAction = ImageManager.arrayPopulator(IMAGES.QUEST_ACTION, NQF);
@@ -100,32 +101,32 @@ public class BoatGameScreen extends MGView {
 		boatLabel = new JLabel(boatIcon);
 		updateBoatBounds();
 		this.add(boatLabel);
-
-		score = new JLabel("Score: " + controller.world.score + "");
+		
+		score = new JLabel();
 		score.setBounds(scoreLoc);
 		score.setForeground(Color.white);
 		scaleFont(score, scoreLoc);
 		this.add(score);
 		
-		oysterHUD = new JLabel(controller.world.oysters + " / " + " 3");
+		oysterHUD = new JLabel();
 		oysterHUD.setBounds(oysterLoc);
 		oysterHUD.setForeground(Color.white);
 		scaleFont(oysterHUD, oysterLoc);
 		this.add(oysterHUD);
 		
-		rockHUD = new JLabel(controller.world.rocks + " / " + " 3");
+		rockHUD = new JLabel();
 		rockHUD.setBounds(rockLoc);
 		rockHUD.setForeground(Color.white);
 		scaleFont(rockHUD, rockLoc);
 		this.add(rockHUD);
 		
-		cordgrassHUD = new JLabel(controller.world.cordgrass + " / " + " 3");
+		cordgrassHUD = new JLabel();
 		cordgrassHUD.setBounds(cordgrassLoc);
 		cordgrassHUD.setForeground(Color.white);
 		scaleFont(cordgrassHUD, cordgrassLoc);
 		this.add(cordgrassHUD);
 
-		time = new JLabel("Time left: " + getTimeLeft());
+		time = new JLabel();
 		time.setBounds(timeLoc);
 		time.setForeground(Color.white);
 		scaleFont(time, timeLoc);
@@ -140,46 +141,53 @@ public class BoatGameScreen extends MGView {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		g.drawImage(sea, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
-		int size = controller.world.hits.size();
-		if (size < erosionIncr) {
-			g.drawImage(land, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
-		} else if (size < erosionIncr*2) {
-			g.drawImage(MenuScreen.IMAGE.get(IMAGES.ERO1), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
-		}  else if (size < erosionIncr*3) {
-			g.drawImage(MenuScreen.IMAGE.get(IMAGES.ERO2), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
-		} else {
-			g.drawImage(MenuScreen.IMAGE.get(IMAGES.ERO3), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+		if (BoatController.paused) {
+			g.drawImage(tut, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
 		}
-		//g.drawImage(land, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
-		
-		/*for (Point p : controller.world.hits) {
-			g.drawImage(x, (int) ((p.x - x.getWidth() / 2) * BoatWorld.widthRatio),
-					(int) ((p.y - x.getHeight() / 2) * BoatWorld.heightRatio), null);
-		}*/
-		for (Dock w : controller.world.docks) {
-			g.drawImage(dock, (int) ((w.pos.x - Dock.WIDTH / 2) * BoatWorld.widthRatio),
-					(int) ((w.pos.y - Dock.HEIGHT / 2) * BoatWorld.heightRatio), Dock.WIDTH, Dock.HEIGHT, null);
-
-			g.drawImage(MenuScreen.IMAGE.get(w.stored.img),
-					(int) ((w.pos.x - ITEM.WIDTH / 2) * BoatWorld.widthRatio),
-					(int) ((w.pos.y - ITEM.HEIGHT / 2) * BoatWorld.heightRatio), ITEM.WIDTH, ITEM.HEIGHT, null);
-		}
-		for (Quest q : controller.world.quests) {
-			if (!q.active) {
-				g.drawImage(questAction[q.curFrame], (int) ((q.pos.x - Quest.WIDTH / 2) * BoatWorld.widthRatio),
-						(int) ((q.pos.y - Quest.HEIGHT / 2) * BoatWorld.heightRatio), Quest.WIDTH, Quest.HEIGHT, null);
+		else if (BoatController.paused != true){
+			g.drawImage(sea, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			
+			int size = controller.world.hits.size();
+			if (size < erosionIncr) {
+				g.drawImage(land, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			} else if (size < erosionIncr*2) {
+				g.drawImage(MenuScreen.IMAGE.get(IMAGES.ERO1), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			}  else if (size < erosionIncr*3) {
+				g.drawImage(MenuScreen.IMAGE.get(IMAGES.ERO2), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			} else {
+				g.drawImage(MenuScreen.IMAGE.get(IMAGES.ERO3), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
 			}
+			//g.drawImage(land, 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			
+			/*for (Point p : controller.world.hits) {
+				g.drawImage(x, (int) ((p.x - x.getWidth() / 2) * BoatWorld.widthRatio),
+						(int) ((p.y - x.getHeight() / 2) * BoatWorld.heightRatio), null);
+			}*/
+			for (Dock w : controller.world.docks) {
+				g.drawImage(dock, (int) ((w.pos.x - Dock.WIDTH / 2) * BoatWorld.widthRatio),
+						(int) ((w.pos.y - Dock.HEIGHT / 2) * BoatWorld.heightRatio), Dock.WIDTH, Dock.HEIGHT, null);
 
-			g.drawImage(MenuScreen.IMAGE.get(q.wanted.img),
-					(int) ((q.pos.x - ITEM.WIDTH / 2) * BoatWorld.widthRatio),
-					(int) ((q.pos.y - ITEM.HEIGHT / 2) * BoatWorld.heightRatio), ITEM.WIDTH, ITEM.HEIGHT, null);
-			q.updateCur(NQF);
+				g.drawImage(MenuScreen.IMAGE.get(w.stored.img),
+						(int) ((w.pos.x - ITEM.WIDTH / 2) * BoatWorld.widthRatio),
+						(int) ((w.pos.y - ITEM.HEIGHT / 2) * BoatWorld.heightRatio), ITEM.WIDTH, ITEM.HEIGHT, null);
+			}
+			for (Quest q : controller.world.quests) {
+				if (!q.active) {
+					g.drawImage(questAction[q.curFrame], (int) ((q.pos.x - Quest.WIDTH / 2) * BoatWorld.widthRatio),
+							(int) ((q.pos.y - Quest.HEIGHT / 2) * BoatWorld.heightRatio), Quest.WIDTH, Quest.HEIGHT, null);
+				}
+
+				g.drawImage(MenuScreen.IMAGE.get(q.wanted.img),
+						(int) ((q.pos.x - ITEM.WIDTH / 2) * BoatWorld.widthRatio),
+						(int) ((q.pos.y - ITEM.HEIGHT / 2) * BoatWorld.heightRatio), ITEM.WIDTH, ITEM.HEIGHT, null);
+				q.updateCur(NQF);
+			}
+			
+			g.drawImage(MenuScreen.IMAGE.get(IMAGES.OYSTER), 10, 200, 97, 97, null);
+			g.drawImage(MenuScreen.IMAGE.get(IMAGES.ROCK), 10, 350, 97, 97, null);
+			g.drawImage(MenuScreen.IMAGE.get(IMAGES.CORDGRASS), 10, 525, 97, 97, null);
 		}
 		
-		g.drawImage(MenuScreen.IMAGE.get(IMAGES.OYSTER), 10, 200, 97, 97, null);
-		g.drawImage(MenuScreen.IMAGE.get(IMAGES.ROCK), 10, 350, 97, 97, null);
-		g.drawImage(MenuScreen.IMAGE.get(IMAGES.CORDGRASS), 10, 525, 97, 97, null);
 		
 		drawTutorial(g);
 		
@@ -343,17 +351,19 @@ public class BoatGameScreen extends MGView {
 	 * updates the score and time labels with their current game values
 	 */
 	public void updateLabels() {
-		scaleFont(time, timeLoc);
-		score.setText("Score: " + controller.world.score + "");
-		oysterHUD.setText(controller.world.oysters + " / " + " 3");
-		rockHUD.setText(controller.world.rocks + " / " + " 3");
-		cordgrassHUD.setText(controller.world.cordgrass + " / " + " 3");
-		
-		time.setText("Time Left: " + getTimeLeft());
-		boatIcon.setAngle(controller.world.boat.angle);
-		boatIcon.setIcon(MenuScreen.IMAGE.get(controller.world.boat.holding.boatImg), Boaty.WIDTH, Boaty.HEIGHT);
-		updateBoatBounds();
-		addWakes();
+		if (BoatController.paused == false) {
+			scaleFont(time, timeLoc);
+			score.setText("Score: " + controller.world.score + "");
+			oysterHUD.setText(controller.world.oysters + " / " + " 3");
+			rockHUD.setText(controller.world.rocks + " / " + " 3");
+			cordgrassHUD.setText(controller.world.cordgrass + " / " + " 3");
+			
+			time.setText("Time Left: " + getTimeLeft());
+			boatIcon.setAngle(controller.world.boat.angle);
+			boatIcon.setIcon(MenuScreen.IMAGE.get(controller.world.boat.holding.boatImg), Boaty.WIDTH, Boaty.HEIGHT);
+			updateBoatBounds();
+			addWakes();
+		}
 	}
 
 	public void addWakes() {
