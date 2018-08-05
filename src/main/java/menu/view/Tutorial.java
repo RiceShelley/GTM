@@ -12,8 +12,16 @@ public class Tutorial extends JPanel {
 	 */
 	private static final long serialVersionUID = -1371224316837671466L;   //added in 
 	
+<<<<<<< HEAD
 	BufferedImage upLeft = MenuScreen.IMAGE.get(IMAGES.MENU_BOAT1);
 	BufferedImage sil = MenuScreen.IMAGE.get(IMAGES.DIE_SIL);
+=======
+	BufferedImage upLeft = ImageManager.get(IMAGES.MENU_BOAT1);
+	BufferedImage upRight = ImageManager.get(IMAGES.MENU_BOAT2);
+	BufferedImage downLeft = ImageManager.get(IMAGES.MENU_BOAT3);
+	BufferedImage downRight = ImageManager.get(IMAGES.MENU_BOAT4);
+	BufferedImage sil = ImageManager.get(IMAGES.DIE_SIL);
+>>>>>>> refs/heads/changingDiceFaces
 	private int smaller, gw, gh, bX, bY, bHeight, bWidth;
 	private int edgeBuffer = MenuScreen.frameHeight*200/1340;
 

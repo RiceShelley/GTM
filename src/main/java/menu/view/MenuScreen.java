@@ -4,12 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.PrintWriter;
 
 import javax.swing.ImageIcon;
@@ -18,17 +18,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import main.java.boatGame.controller.BoatController;
 import main.java.boatGame.view.BoatGameScreen;
-//import main.java.crabGame.controller.CrabController;
 import main.java.crabGame.CrabController;
 import main.java.crabGame.CrabGamePanel;
+import main.java.cubeGame.controller.CubeController;
 import main.java.menu.controller.MGController;
 import main.java.menu.enums.IMAGES;
-import main.java.cubeGame.controller.CubeController;
-import main.java.cubeGame.enums.STATE;
 
 public class MenuScreen extends JLayeredPane {
 	/**
@@ -66,7 +63,6 @@ public class MenuScreen extends JLayeredPane {
 		frame.add(this, BorderLayout.CENTER);
 		frame.setSize(new Dimension(frameWidth, frameHeight));
 		frame.setVisible(true);
-		
 
 		crabController = new CrabController();
 		boatController = new BoatController();
@@ -116,7 +112,7 @@ public class MenuScreen extends JLayeredPane {
 		menu.setBounds(0, 0, frameWidth, frameHeight);
 		menu.setOpaque(false);
 		
-		crabButton = new JButton(new ImageIcon(IMAGE.scaleButton(IMAGES.CRAB_BUTTON, buttonScale)));
+		crabButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.CRAB_BUTTON, buttonScale)));
 		crabButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -130,9 +126,9 @@ public class MenuScreen extends JLayeredPane {
 				switchGame(crabController);
 			}
 		});
-		IMAGE.tailorButton(crabButton);
+		ImageManager.tailorButton(crabButton);
 		
-		boatButton = new JButton(new ImageIcon(IMAGE.scaleButton(IMAGES.BOAT_BUTTON, buttonScale)));
+		boatButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.BOAT_BUTTON, buttonScale)));
 		boatButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -145,9 +141,9 @@ public class MenuScreen extends JLayeredPane {
 				switchGame(boatController);
 			}
 		});
-		IMAGE.tailorButton(boatButton);
+		ImageManager.tailorButton(boatButton);
 		
-		cubeButton = new JButton(new ImageIcon(IMAGE.scaleButton(IMAGES.CUBE_BUTTON, buttonScale)));
+		cubeButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.CUBE_BUTTON, buttonScale)));
 		cubeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -160,16 +156,16 @@ public class MenuScreen extends JLayeredPane {
 				switchGame(cubeController);
 			}
 		});
-		IMAGE.tailorButton(cubeButton);
+		ImageManager.tailorButton(cubeButton);
 		
-		tutBoatButton = new JButton(new ImageIcon(IMAGE.scaleButton(IMAGES.QUESTION_MARK, buttonScale)));
-		IMAGE.tailorButton(tutBoatButton);
+		tutBoatButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
+		ImageManager.tailorButton(tutBoatButton);
 		
-		tutCrabButton = new JButton(new ImageIcon(IMAGE.scaleButton(IMAGES.QUESTION_MARK, buttonScale)));
-		IMAGE.tailorButton(tutCrabButton);
+		tutCrabButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
+		ImageManager.tailorButton(tutCrabButton);
 		
-		tutCubeButton = new JButton(new ImageIcon(IMAGE.scaleButton(IMAGES.QUESTION_MARK, buttonScale)));
-		IMAGE.tailorButton(tutCubeButton);
+		tutCubeButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
+		ImageManager.tailorButton(tutCubeButton);
 		
 		GridBagConstraints cons = new GridBagConstraints();
 		cons.gridy = 0;
@@ -263,8 +259,7 @@ public class MenuScreen extends JLayeredPane {
 		cubeButton.setVisible(true);
 		tutBoatButton.setVisible(true);
 		tutCrabButton.setVisible(true);
-		tutCubeButton.setVisible(true);
-		
+		tutCubeButton.setVisible(true);		
 	}
 
 	protected void tutBoatButtonActionPerformed() {
@@ -330,7 +325,6 @@ public class MenuScreen extends JLayeredPane {
 			CubeController temp = (CubeController) prevController;
 			temp.getTimer().start();
 			temp.getWorld().rollDice();
-			temp.getWorld().setState(STATE.ROLL);
 		}
 
 		gameView = prevController.getView();
@@ -345,5 +339,6 @@ public class MenuScreen extends JLayeredPane {
 		menuButton.setVisible(true);
 		this.add(gameView, 3, 0);
 	}
+
 
 }

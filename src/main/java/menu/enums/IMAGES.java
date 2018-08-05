@@ -1,5 +1,7 @@
 package main.java.menu.enums;
 
+import java.util.Arrays;
+
 public enum IMAGES {
 	CRAB_BUTTON("/main/resources/images/CrabButton.png"),
 	BOAT_BUTTON("/main/resources/images/BoatButton.png"),
@@ -10,7 +12,8 @@ public enum IMAGES {
 	CUBE_FACE("/main/resources/images/genericdie.png"),
 	CRAB_BG("/main/resources/images/Game1BG.png"),
 	BOATS_BG("/main/resources/images/Game2BGfront.png"),
-	CUBE_BG("/main/resources/images/Game3 BG.png"),
+	CUBE_TABLE("/main/resources/images/woodBackground.jpg"),
+	CUBE_BACKGROUND("/main/resources/images/estuaryBackground.jpg"),
 	WATER("/main/resources/images/Game2BGrear.png"),
 	BOAT_N("/main/resources/images/boatEmpty.png"),
 	BOAT_O("/main/resources/images/boatOyster.png"),
@@ -42,6 +45,8 @@ public enum IMAGES {
 	X("/main/resources/images/erosion.png"),
 	BLUE_CRAB_INVINCIBLE("/main/resources/images/BlueCrabInvincible.png"),
 	HEART("/main/resources/images/fullHeart.png"),
+	TUTORIAL_BUTTON("/main/resources/images/tutorialButton.png"),
+	SUBMIT_BUTTON("/main/resources/images/submitButton.png"),
 	ROLL_BUTTON("/main/resources/images/rollButton.png"),
 	STOP_BUTTON("/main/resources/images/Stop.png"),
 	START_BUTTON("/main/resources/images/Record.png"),
@@ -60,13 +65,43 @@ public enum IMAGES {
 	MENU_CUBE2("/main/resources/images/tutcube2.png"),
 	MENU_CUBE3("/main/resources/images/tutcube3.png"),
 	MENU_CUBE4("/main/resources/images/tutcube4.png"),
+<<<<<<< HEAD
 	QUESTION_MARK("/main/resources/images/qmark.png"),
 	TURTLE("/main/resources/images/turtle.png");
+=======
+	QUESTION_MARK("/main/resources/images/QuestionMark.png"),
+	// The following are the new ending faces for the dice game
+	DICE_ALLIGATOR("/main/resources/images/alligatorDie.png"),
+	DICE_BOAT("/main/resources/images/boatDie.png"),
+	DICE_CATFISH("/main/resources/images/catfishDie.png"),
+	DICE_CLAM("/main/resources/images/clamDie.png"),
+	DICE_CORDGRASS("/main/resources/images/cordgrassDie.png"),
+	DICE_DOLPHIN("/main/resources/images/dolphinDie.png"),
+	DICE_DUCK("/main/resources/images/duckDie.png"),
+	DICE_HIKERS("/main/resources/images/hikersDie.png"),
+	DICE_OTTER("/main/resources/images/otterDie.png"),
+	DICE_RABBIT("/main/resources/images/rabbitDie.png"),
+	DICE_ROCKS("/main/resources/images/rocksDie.png"),
+	DICE_SEAWEED("/main/resources/images/seaweedDie.png"),
+	DICE_WILDCARD("/main/resources/images/wildCardDie.png"),
+	DICE_GABION("/main/resources/images/gabionDie.png"),
+	DICE_SEAWALL("/main/resources/images/seawallDie.png"),
+	DICE_FISHING("/main/resources/images/fishingDie.png"),
+	DICE_OYSTER("/main/resources/images/oysterDie.png"),
+	DICE_TURTLE("/main/resources/images/turtleDie.png"),
+	DICE_PLASTIC("/main/resources/images/plasticDie.png");
+>>>>>>> refs/heads/changingDiceFaces
 
-
+	
 	public final String path;
 
 	IMAGES(String path) {
 		this.path = path;
 	}
+	
+	public static IMAGES getImage(String path) throws Exception {
+		return Arrays.stream(values()).filter(image -> image.path.equals(path)).findAny().get();
+	}
+	
+		
 }
