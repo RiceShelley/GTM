@@ -41,6 +41,7 @@ public enum IMAGES {
 	BOAT_TUT_4("/main/resources/images/tut4.png"),
 	BOAT_TUT_5("/main/resources/images/tut7.png"),
 	CUBE_TUT_1("/main/resources/images/tut6.png"),
+	CUBE_TUTORIAL("/main/resources/images/cubeTutorial.png"),
 	UP_ARROW("/main/resources/images/tut5.png"),
 	X("/main/resources/images/erosion.png"),
 	BLUE_CRAB_INVINCIBLE("/main/resources/images/BlueCrabInvincible.png"),

@@ -34,6 +34,7 @@ public class CubeController extends MGController {
 		world.reset();
 		view.setVisible(false);
 		view.reset();
+		view.showTutorialScreen(); // Resets settings so tutorial screen showsfor next player
 	}
 
 	public CubeWorld getWorld() {

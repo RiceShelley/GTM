@@ -215,7 +215,6 @@ public class MenuScreen extends JLayeredPane {
 		} else if (prevController instanceof CubeController) {
 			CubeController temp = (CubeController) prevController;
 			temp.getTimer().start();
-			temp.getWorld().rollDice();
 		}
 
 		gameView = prevController.getView();

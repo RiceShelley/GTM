@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -45,6 +47,7 @@ public class CubeGameScreen extends MGView {
 	private JButton submitButton;
 
 	public boolean showingEnd = false;
+	private boolean showingTutorial = true;
 
 	public CubeGameScreen(CubeController control) {
 		this.control = control;
@@ -86,11 +89,36 @@ public class CubeGameScreen extends MGView {
 				}
 			}.start();
 		});
-		
+
 		submitButton.setVisible(false);
 		ImageManager.tailorButton(submitButton);
 		this.add(submitButton);
 
+		this.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				showingTutorial = false;
+				control.getWorld().rollDice();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
 	}
 
 	@Override
@@ -104,31 +132,38 @@ public class CubeGameScreen extends MGView {
 			repaint();
 			revalidate();
 			return;
-		}
-
-		int width = CubeWorld.rollZone.width;
-		int height = MenuScreen.frameHeight - CubeWorld.rollZone.height;
-
-		g.drawImage(backdrop, 0, 0, width, height, null); // Draws the entire background
-		g.drawRect(0, 0, width, height);
-		g.drawImage(table, 0, height, width, MenuScreen.frameHeight - height, null); // Draws the rollZone image
-		for (Point p : control.getWorld().markers) { // Draws slots for each marker
-			g.drawImage(ImageManager.get(IMAGES.DIE_SIL), p.x - Die.WIDTH, p.y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT,
+		} else if (showingTutorial) {
+			g.drawImage(ImageManager.get(IMAGES.CUBE_TUTORIAL), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight,
 					null);
-		}
-
-		// Draws an image of a rolling or resting die for each die
-		for (Die die : CubeWorld.dice) {
-			if (die.isRolling()) {
-				g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT,
-						null);
-			} else { // is this repainted every single screen?
-				g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT,
-						null);
-				die.setName(endFaces.get(die.getEndImageIndex())); // Name the die based on its image
-			}
+			rollDiceButton.setVisible(false);
+			submitButton.setVisible(false);
 			repaint();
 			revalidate();
+		} else {
+			int width = CubeWorld.rollZone.width;
+			int height = MenuScreen.frameHeight - CubeWorld.rollZone.height;
+
+			g.drawImage(backdrop, 0, 0, width, height, null); // Draws the entire background
+			g.drawRect(0, 0, width, height);
+			g.drawImage(table, 0, height, width, MenuScreen.frameHeight - height, null); // Draws the rollZone image
+			for (Point p : control.getWorld().markers) { // Draws slots for each marker
+				g.drawImage(ImageManager.get(IMAGES.DIE_SIL), p.x - Die.WIDTH, p.y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT,
+						null);
+			}
+
+			// Draws an image of a rolling or resting die for each die
+			for (Die die : CubeWorld.dice) {
+				if (die.isRolling()) {
+					g.drawImage(diceImage[die.getRollingImageIndex()], die.bounds.x, die.bounds.y, Die.WIDTH,
+							Die.HEIGHT, null);
+				} else { // is this repainted every single screen?
+					g.drawImage(endFaces.get(die.getEndImageIndex()), die.bounds.x, die.bounds.y, Die.WIDTH, Die.HEIGHT,
+							null);
+					die.setName(endFaces.get(die.getEndImageIndex())); // Name the die based on its image
+				}
+				repaint();
+				revalidate();
+			}
 		}
 	}
 
@@ -146,6 +181,10 @@ public class CubeGameScreen extends MGView {
 		showingEnd = false;
 		rollDiceButton.setVisible(true);
 		submitButton.setVisible(false);
+	}
+
+	public void showTutorialScreen() {
+		showingTutorial = true;
 	}
 
 }
