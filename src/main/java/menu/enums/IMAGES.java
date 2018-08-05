@@ -65,10 +65,7 @@ public enum IMAGES {
 	MENU_CUBE2("/main/resources/images/tutcube2.png"),
 	MENU_CUBE3("/main/resources/images/tutcube3.png"),
 	MENU_CUBE4("/main/resources/images/tutcube4.png"),
-<<<<<<< HEAD
-	QUESTION_MARK("/main/resources/images/qmark.png"),
-	TURTLE("/main/resources/images/turtle.png");
-=======
+	TURTLE("/main/resources/images/turtle.png"),
 	QUESTION_MARK("/main/resources/images/QuestionMark.png"),
 	// The following are the new ending faces for the dice game
 	DICE_ALLIGATOR("/main/resources/images/alligatorDie.png"),
@@ -90,7 +87,6 @@ public enum IMAGES {
 	DICE_OYSTER("/main/resources/images/oysterDie.png"),
 	DICE_TURTLE("/main/resources/images/turtleDie.png"),
 	DICE_PLASTIC("/main/resources/images/plasticDie.png");
->>>>>>> refs/heads/changingDiceFaces
 
 	
 	public final String path;
