@@ -9,11 +9,9 @@ public class Friend extends Mover {
 	static final int FRIEND_WIDTH = 150;
 	public static int friendCounter = 0;
 	public static int textSize;
-	public static String[] facts = { "Welcome to Crab Run! Press SPACE to Jump.",
-			"The goal of this game is to fill up the distanceSoFar bar above.",
-			"You fill up the bar by staying within the scent trail leading you home.",
-			"Avoid fish at all costs or you'll be forced to answer a question.",
-			"Watch out for storms and droughts that make it more difficult to return home. Good Luck!" };
+	public static final String[] facts = { "Welcome to Crab Run! Tap the screen to move.",
+			"Fill up the green bar above by staying within the scent trail.",
+			"Avoid the fish or you'll be forced to answer a question." };
 	private static int picNum = 0;
 	private int pFriendCounter;
 
@@ -28,11 +26,9 @@ public class Friend extends Mover {
 		// Friends start down in the bottom moveRight corner and move across, carrying a
 		// fun fact along with them
 
-		//Friend.friendCounter = 0;
 		pFriendCounter = friendCounter;
-		super.setyPos(y - (pFriendCounter * 150));
-		if (friendCounter < facts.length - 1)
-			friendCounter++;
+		super.setyPos(y - (pFriendCounter * 50));
+		friendCounter++;
 	}
 
 	public static void load() {
@@ -45,10 +41,6 @@ public class Friend extends Mover {
 	@Override
 	void update(long deltaTime) {
 		super.update(deltaTime);
-		System.out.println(super.getyVel());
-		//if (super.getyVel() < -.3) {
-			//super.setyVel(-.2);
-		//}
 		picNum = ++picNum % 3;
 	}
 

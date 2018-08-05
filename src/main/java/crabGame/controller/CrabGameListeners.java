@@ -4,9 +4,14 @@ import main.java.crabGame.CrabController;
 import main.java.crabGame.model.CrabGameWorld;
 import main.java.crabGame.model.Crabby;
 import main.java.crabGame.model.Friend;
+import main.java.crabGame.model.Question;
+import main.java.menu.view.MenuScreen;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.*;
+import java.util.Collections;
 
 import static main.java.crabGame.CrabController.paused;
 
@@ -84,11 +89,32 @@ public class CrabGameListeners implements KeyListener, MouseListener, MouseMotio
 				CrabGameWorld.moveCrabbyLeft();
 			}
 			CrabGameWorld.moveCrabbyUp();
-		}
-		else if (CrabController.game.checkGameStateContinue())
+		} else if (CrabController.game.checkGameStateContinue())
 			CrabController.reset();
 		else if (CrabController.game.checkGameStateWin())
 			CrabController.reset();
+		// see if player clicked right answer
+		if (CrabController.paused) {
+			Point p = e.getPoint();
+			int offset = 50;
+			int ans = 0;
+			for (int i = 0; i < 3; i++) {
+				int start = (MenuScreen.frameHeight / 2 + offset) - 18;
+				int end = start + 25;
+				if (p.getY() > start && p.getY() < end) {
+					ans = i;
+					break;
+				}
+				offset += 50;
+			}
+			String str = Question.questions.get(0).getAnswers().get(ans);
+			if (Question.questions.get(0).isRightAnswer(str)) {
+				Question.qaState = 1;
+			} else {
+				Question.qaState = -1;
+			}
+
+		}
 	}
 
 	@Override

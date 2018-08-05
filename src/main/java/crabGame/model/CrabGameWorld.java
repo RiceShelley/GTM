@@ -62,7 +62,6 @@ public class CrabGameWorld {
 		crabbyScoring = false;
 
 		setGameStateToReady();
-		// setGameState(State.WIN);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package main.java.crabGame;
 import main.java.crabGame.controller.CrabGameListeners;
 import main.java.crabGame.model.CrabGameWorld;
 import main.java.crabGame.model.Friend;
+import main.java.crabGame.model.Question;
 import main.java.crabGame.model.Utilities;
 import main.java.menu.controller.MGController;
 import main.java.menu.controller.MGView;
@@ -40,9 +41,10 @@ public class CrabController extends MGController {
 	public CrabController() {
 		gamePanel = new CrabGamePanel();
 		game = new CrabGameWorld();
+		Question.load();
 
 		final int GAME_TIMER_DELAY_ = 17;
-		final int SALT_CLOUD_MOVEMENT_TIMER_DELAY_ = 500;
+		final int SALT_CLOUD_MOVEMENT_TIMER_DELAY_ = 10000;
 
 		gameTimer = new Timer(GAME_TIMER_DELAY_, new ActionListener() {
 			@Override
@@ -53,7 +55,9 @@ public class CrabController extends MGController {
 		saltCloudMovementTimer = new Timer(SALT_CLOUD_MOVEMENT_TIMER_DELAY_, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CrabGameWorld.moveSaltClouds();
+				if (!paused) {
+					CrabGameWorld.moveSaltClouds();
+				}
 			}
 		});
 
@@ -61,20 +65,24 @@ public class CrabController extends MGController {
 		enemySpawnTimer = new Timer(ENEMY_SPAWN_TIMER_DELAY, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CrabGameWorld.spawnEnemy();
-				System.out.println("Spawned enemy");
+				if (!paused) {
+					CrabGameWorld.spawnEnemy();
+					System.out.println("Spawned enemy");
+				}
 			}
 		});
 
-		int TUTORIAL_TIMER_DELAY = 4000;
+		int TUTORIAL_TIMER_DELAY = 7000;
 		tutorialTimer = new Timer(TUTORIAL_TIMER_DELAY, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (Friend.friendCounter < Friend.facts.length - 1)
+				if (Friend.friendCounter < Friend.facts.length) {
 					CrabGameWorld.friends.add(new Friend(CrabGameWorld.WORLD_WIDTH, CrabGameWorld.WORLD_HEIGHT - 300));
-				else
+					System.out.println("ran");
+				} else {
 					endPlayEntry();
-				System.out.println("tutorial ended");
+					System.out.println("tutorial ended");
+				}
 			}
 		});
 
@@ -93,9 +101,12 @@ public class CrabController extends MGController {
 	public static void startGame() {
 		game.restartWorld();
 
+		Friend.friendCounter = 0;
+		enemySpawnTimer.stop();
 		gameTimer.restart();
 		saltCloudMovementTimer.restart();
 		tutorialTimer.restart();
+		tutorialTimer.setRepeats(true);
 
 		lastTime = 0;
 		currentTime = 0;
@@ -115,7 +126,10 @@ public class CrabController extends MGController {
 			if (deltaTime > minUpdateTime) {
 				// If at least a certain amount of time has passed
 				lastTime = currentTime; // Update the time since the last update
-				game.update(deltaTime); // Update the world
+
+				if (!paused) {
+					game.update(deltaTime); // Update the world
+				}
 			}
 		}
 
@@ -163,6 +177,7 @@ public class CrabController extends MGController {
 		tutorialTimer.setRepeats(false);
 		game.setGameStateToPlay();
 		enemySpawnTimer.restart();
+		enemySpawnTimer.start();
 	}
 
 }
