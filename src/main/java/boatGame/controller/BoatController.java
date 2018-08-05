@@ -74,22 +74,23 @@ public class BoatController extends MGController implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) { //tick method	
-		ct++;
-		count();
-		millisPassed += frameWait;
-		gameOver = millisPassed >= milliTimeLimit;
-		
-		if (world.oysters >= 3 && world.rocks >= 3 && world.cordgrass >= 3)
-			gameOver = true;
-		
-		update();
-		if (gameOver) {
-			 view.displayEnd();
-			 timer.stop();
+	public void actionPerformed(ActionEvent arg0) { // tick method
+		if (!paused) {
+			ct++;
+			count();
+			millisPassed += frameWait;
+			gameOver = millisPassed >= milliTimeLimit;
+
+			if (world.oysters >= 3 && world.rocks >= 3 && world.cordgrass >= 3)
+				gameOver = true;
+
+			update();
+			if (gameOver) {
+				view.displayEnd();
+				timer.stop();
+			}
 		}
 	}
-
 	public int getMillisPassed() {
 		return millisPassed;
 	}

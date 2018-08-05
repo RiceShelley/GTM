@@ -317,6 +317,9 @@ public class BoatGameScreen extends MGView {
 	}
 
 	public void reset() {
+		
+		BoatController.paused = true;
+		
 		score.setBounds(scoreLoc);
 		oysterHUD.setBounds(oysterLoc);
 		rockHUD.setBounds(rockLoc);
@@ -337,7 +340,6 @@ public class BoatGameScreen extends MGView {
 		qDisplay = false;
 		sDisplay = false;
 		
-		BoatController.paused = true;
 	}
 
 	/**
