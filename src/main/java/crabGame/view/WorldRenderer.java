@@ -72,15 +72,6 @@ public class WorldRenderer {
 		} else {
 			drawImageBounds(crabby.getBounds(), g, crab[crabby.getFrame()]);
 		}
-
-		// draw a velocity vector on top of crab
-		g.setColor(Color.red);
-		Point cCenter = new Point();
-		cCenter.x = (int) (crabby.getxPos() + crabby.getBounds().getWidth() / 2);
-		cCenter.y = (int) (crabby.getyPos() + crabby.getBounds().getHeight() / 2);
-		g.drawLine(cCenter.x, cCenter.y, (int) (cCenter.x + crabby.getxVel() * 400.0),
-				(int) (cCenter.y + crabby.getyVel() * 400.0));
-
 	}
 
 	static void fillBounds(Rectangle bounds, Graphics g) {

@@ -57,10 +57,7 @@ public enum IMAGES {
 	MENU_BOAT2("/main/resources/images/tut9.png"),
 	MENU_BOAT3("/main/resources/images/tut10.png"),
 	MENU_BOAT4("/main/resources/images/tut11.png"),
-	MENU_CRAB1("/main/resources/images/tutcrab1.png"),
-	MENU_CRAB2("/main/resources/images/tutcrab2.png"),
-	MENU_CRAB3("/main/resources/images/tutcrab3.png"),
-	MENU_CRAB4("/main/resources/images/tutcrab4.png"),
+	TUT_CRAB("/main/resources/images/crabTutorialBackground.png"),
 	MENU_CUBE1("/main/resources/images/tutcube1.png"),
 	MENU_CUBE2("/main/resources/images/tutcube2.png"),
 	MENU_CUBE3("/main/resources/images/tutcube3.png"),
@@ -88,7 +85,6 @@ public enum IMAGES {
 	DICE_TURTLE("/main/resources/images/turtleDie.png"),
 	DICE_PLASTIC("/main/resources/images/plasticDie.png");
 
-	
 	public final String path;
 
 	IMAGES(String path) {
@@ -98,6 +94,5 @@ public enum IMAGES {
 	public static IMAGES getImage(String path) throws Exception {
 		return Arrays.stream(values()).filter(image -> image.path.equals(path)).findAny().get();
 	}
-	
 		
 }

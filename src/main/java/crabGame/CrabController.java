@@ -78,7 +78,6 @@ public class CrabController extends MGController {
 			public void actionPerformed(ActionEvent e) {
 				if (Friend.friendCounter < Friend.facts.length) {
 					CrabGameWorld.friends.add(new Friend(CrabGameWorld.WORLD_WIDTH, CrabGameWorld.WORLD_HEIGHT - 300));
-					System.out.println("ran");
 				} else {
 					endPlayEntry();
 					System.out.println("tutorial ended");

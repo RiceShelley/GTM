@@ -1,6 +1,7 @@
 package main.java.crabGame.view;
 
 import main.java.crabGame.model.Utilities;
+import main.java.menu.enums.IMAGES;
 import main.java.menu.view.MenuScreen;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class ReadyScreen {
 
 		int startScreenLength;
 		
-		final int TITLE_FONT_SIZE = 218;
+		final int TITLE_FONT_SIZE = 100;
 		int titleLength;
 
 		g.setColor(OPAQUE_WHITE);
@@ -37,6 +38,8 @@ public class ReadyScreen {
 
 		ge.registerFont(Utilities.titleFont);
 
+		g.drawImage(MenuScreen.IMAGE.get(IMAGES.TUT_CRAB), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+		
 		g.setColor(Color.BLACK);
 
 		int START_FONT_SIZE = 34;

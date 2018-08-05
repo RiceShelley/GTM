@@ -288,7 +288,6 @@ public class CrabGameWorld {
 
 	public boolean checkGameStatePlayEntry() {
 		return getGameState() == State.PLAY_ENTRY;
-
 	}
 
 	public void setGameStateToPlayEntry() {

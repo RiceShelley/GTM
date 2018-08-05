@@ -50,10 +50,7 @@ public class MenuScreen extends JLayeredPane {
 	JPanel scoreboard;
 	JButton menuButton;
 	Rectangle menuLoc = new Rectangle(10, 10, 125, 30);
-	TutorialCrab tutorialCrab;
-	TutorialCube tutorialCube;
-	Tutorial tutorialBoat;
-	JButton crabButton, boatButton, cubeButton, tutCrabButton, tutBoatButton, tutCubeButton;
+	JButton crabButton, boatButton, cubeButton;
 	JLabel blankL = new JLabel("");
 	JLabel blankR = new JLabel("");
 
@@ -73,23 +70,6 @@ public class MenuScreen extends JLayeredPane {
 		buildMenu();
 		this.add(wave,4,0);
 		this.add(menu, 2, 0);
-		tutorialBoat = new Tutorial((frameWidth - boatButton.getWidth()) / 2, (frameHeight - boatButton.getHeight()) / 2,
-				boatButton.getX(), boatButton.getY(), boatButton.getWidth(), boatButton.getHeight());
-		this.add(tutorialBoat, 2, 0); //setting the second value to 1 will display the boat button
-		tutorialBoat.repaint();
-		tutorialBoat.setVisible(false);
-		
-		tutorialCrab = new TutorialCrab((frameWidth - crabButton.getWidth()) / 2, (frameHeight - crabButton.getHeight()) / 2,
-				crabButton.getX(), crabButton.getY(), crabButton.getWidth(), crabButton.getHeight());
-		this.add(tutorialCrab, 1, 0);
-		tutorialCrab.repaint();
-		tutorialCrab.setVisible(false);
-		
-		tutorialCube = new TutorialCube((frameWidth - cubeButton.getWidth()) / 2, (frameHeight - cubeButton.getHeight()) / 2,
-				cubeButton.getX(), cubeButton.getY(), cubeButton.getWidth(), cubeButton.getHeight());
-		this.add(tutorialCube, 1, 0);
-		tutorialCube.repaint();
-		tutorialCube.setVisible(false);
 	}
 
 	private void printCountFile(int[] counters) throws Exception{
@@ -116,7 +96,6 @@ public class MenuScreen extends JLayeredPane {
 		crabButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crab button pushed");
 				counters[0]++;
 				try {
 					printCountFile(counters);
@@ -158,15 +137,6 @@ public class MenuScreen extends JLayeredPane {
 		});
 		ImageManager.tailorButton(cubeButton);
 		
-		tutBoatButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
-		ImageManager.tailorButton(tutBoatButton);
-		
-		tutCrabButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
-		ImageManager.tailorButton(tutCrabButton);
-		
-		tutCubeButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.TUTORIAL_BUTTON, buttonScale)));
-		ImageManager.tailorButton(tutCubeButton);
-		
 		GridBagConstraints cons = new GridBagConstraints();
 		cons.gridy = 0;
 		cons.weighty = .5;
@@ -187,8 +157,6 @@ public class MenuScreen extends JLayeredPane {
 		cons.weighty = .5;
 		cons.anchor = GridBagConstraints.NORTH;
 		cons.gridx = 1;
-
-		menu.add(tutBoatButton, cons);
 		
 		cons.gridy = 1;
 		cons.weighty = .5;
@@ -196,15 +164,11 @@ public class MenuScreen extends JLayeredPane {
 		//cons.anchor = GridBagConstraints.NORTH;
 		cons.gridx = 0;
 		
-		menu.add(tutCrabButton, cons);
-		
 		cons.gridy = 1;
 		cons.weighty = .5;
 		cons.anchor = GridBagConstraints.NORTHWEST;
 		//cons.anchor = GridBagConstraints.NORTH;
 		cons.gridx = 2;
-		
-		menu.add(tutCubeButton, cons);
 		
 		
 		cons.gridx = 2;
@@ -224,87 +188,15 @@ public class MenuScreen extends JLayeredPane {
 		menuButton.setBounds(menuLoc);
 		this.add(menuButton, 4, 0);
 		menuButton.setVisible(false);
-		
-		tutBoatButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tutBoatButtonActionPerformed();
-			}
-		});
-		
-		tutCrabButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tutCrabButtonActionPerformed();
-			}
-		});
-		
-		tutCubeButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tutCubeButtonActionPerformed();
-			}
-		});
 	}
 
 	protected void menuButtonActionPerformed() {
 		// TODO Auto-generated method stub
 		if (prevController != null) prevController.dispose();
 		menuButton.setVisible(false);
-		tutorialBoat.setVisible(false);
-		tutorialCrab.setVisible(false);
-		tutorialCube.setVisible(false);
 		crabButton.setVisible(true);
 		boatButton.setVisible(true);
 		cubeButton.setVisible(true);
-		tutBoatButton.setVisible(true);
-		tutCrabButton.setVisible(true);
-		tutCubeButton.setVisible(true);		
-	}
-
-	protected void tutBoatButtonActionPerformed() {
-		// TODO Auto-generated method stub
-		menuButton.setVisible(true);
-		crabButton.setVisible(false);
-		cubeButton.setVisible(false);
-		boatButton.setVisible(true);
-		tutBoatButton.setVisible(false);
-		tutCrabButton.setVisible(false);
-		tutCubeButton.setVisible(false);
-		//tutorial.setButton(boatButton.getX(), boatButton.getY(), boatButton.getWidth(), boatButton.getHeight());
-		tutorialBoat.setVisible(true);
-		tutorialCrab.setVisible(false);
-		tutorialCube.setVisible(false);
-	}
-	
-	protected void tutCrabButtonActionPerformed() {
-		// TODO Auto-generated method stub
-		menuButton.setVisible(true);
-		crabButton.setVisible(true);
-		cubeButton.setVisible(false);
-		boatButton.setVisible(false);
-		tutBoatButton.setVisible(false);
-		tutCrabButton.setVisible(false);
-		tutCubeButton.setVisible(false);
-		//tutorial.setButton(boatButton.getX(), boatButton.getY(), boatButton.getWidth(), boatButton.getHeight());
-		tutorialBoat.setVisible(false);
-		tutorialCrab.setVisible(true);
-		tutorialCube.setVisible(false);
-	}
-	
-	protected void tutCubeButtonActionPerformed() {
-		// TODO Auto-generated method stub
-		menuButton.setVisible(true);
-		crabButton.setVisible(false);
-		cubeButton.setVisible(true);
-		boatButton.setVisible(false);
-		tutBoatButton.setVisible(false);
-		tutCrabButton.setVisible(false);
-		tutCubeButton.setVisible(false);
-		//tutorial.setButton(boatButton.getX(), boatButton.getY(), boatButton.getWidth(), boatButton.getHeight());
-		tutorialBoat.setVisible(false);
-		tutorialCrab.setVisible(false);
-		tutorialCube.setVisible(true);
 	}
 
 	private void switchGame(MGController controller) {
@@ -316,7 +208,6 @@ public class MenuScreen extends JLayeredPane {
 		prevController = controller;
 
 		if (prevController instanceof BoatController) {
-			//System.out.println("boat controller");
 			BoatController temp = (BoatController) prevController;
 			temp.timer.start();
 		} else if (prevController instanceof CrabController) {

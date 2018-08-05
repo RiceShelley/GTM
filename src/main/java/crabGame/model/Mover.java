@@ -20,8 +20,6 @@ public abstract class Mover extends GameObject {
 
 		movementVelocity = .1;
 		stateTime = 0;
-		// System.out.println("Mover Created, " + this.getClass() + ": " + state + ",
-		// Bounds: " + this.getBounds());
 	}
 
 	public double getxVel() {
@@ -107,38 +105,6 @@ public abstract class Mover extends GameObject {
 		}
 
 	}
-
-//	void moveToGoal() {
-//		double xMovement;
-//		double yMovement;
-//		double xMovementSquared;
-//		double yMovementSquared;
-//		double xyMovementSquared;
-//		double xyMovementSquareRoot;
-//
-//		xMovement = xGoal - this.getxPos();
-//		yMovement = yGoal - this.getyPos();
-//
-//		xMovementSquared = xMovement * xMovement;
-//		yMovementSquared = yMovement * yMovement;
-//
-//		xyMovementSquared = xMovementSquared + yMovementSquared;
-//
-//		xyMovementSquareRoot = sqrt(xyMovementSquared);
-//
-//		if (xyMovementSquareRoot > 1) {
-//			xMovement = xMovement / xyMovementSquareRoot;
-//			yMovement = yMovement / xyMovementSquareRoot;
-//		}
-//
-//		if (xyMovementSquareRoot > 1f) {
-//			xVel = xMovement;
-//			yVel = yMovement;
-//		} else {
-//			xVel = 0;
-//			yVel = 0;
-//		}
-//	}
 
 	public void moveUp() {
 		setyVel(-movementVelocity);
