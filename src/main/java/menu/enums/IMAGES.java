@@ -60,7 +60,8 @@ public enum IMAGES {
 	MENU_CUBE2("/main/resources/images/tutcube2.png"),
 	MENU_CUBE3("/main/resources/images/tutcube3.png"),
 	MENU_CUBE4("/main/resources/images/tutcube4.png"),
-	QUESTION_MARK("/main/resources/images/qmark.png");
+	QUESTION_MARK("/main/resources/images/qmark.png"),
+	TURTLE("/main/resources/images/turtle.png");
 
 
 	public final String path;

@@ -11,6 +11,7 @@ public class Question {
 	private String prompt;
 	private String correctAnswer;
 	private ArrayList<String> answers;
+	public static int qaState = 0;
 
 	/**
 	 * Creates instance of Question

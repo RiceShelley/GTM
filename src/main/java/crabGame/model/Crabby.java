@@ -1,5 +1,9 @@
 package main.java.crabGame.model;
 
+import java.util.Collections;
+
+import main.java.crabGame.CrabController;
+
 /**
  * This class constitutes the main playable character in the game
  */
@@ -36,12 +40,15 @@ public class Crabby extends Mover {
 		setxVel(0);
 		setyVel(0);
 		setState(State.SAFE);
+		if (CrabGameWorld.lives > 0) {
+			CrabController.paused = true;
+		}
 		System.out.println("Hit enemy");
 	}
-	
-	public int getFrame(){
-		//frame = (frame+1) % 3;
-		frame = (frame+1) % 3;
+
+	public int getFrame() {
+		// frame = (frame+1) % 3;
+		frame = (frame + 1) % 3;
 		return frame;
 	}
 
