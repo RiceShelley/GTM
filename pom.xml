@@ -34,7 +34,7 @@
             </descriptorRefs>
             <archive>
                 <manifest>
-                    <mainClass>main.java.menu.view.MenuController</mainClass>
+                    <mainClass>main.java.menu.controller.MenuController</mainClass>
                 </manifest>
             </archive>
         </configuration>
