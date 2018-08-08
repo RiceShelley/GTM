@@ -33,7 +33,7 @@ public enum IMAGES {
 	ERO2("/main/resources/images/Game2Erosion2.png"),
 	ERO3("/main/resources/images/Game2Erosion3.png"),
 	BOAT_END("/main/resources/images/boatEnd.png"),
-	CUBE_END("/main/resources/images/Blackbird_Eric_Crossan_Web.png"),
+	CUBE_END("/main/resources/images/cubeEndingScreen.png"),
 	TRAIL("/main/resources/images/trail.png"),
 	BOAT_TUT_1("/main/resources/images/tut1.png"),
 	BOAT_TUT_2("/main/resources/images/tut2.png"),

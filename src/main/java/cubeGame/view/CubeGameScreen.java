@@ -42,14 +42,16 @@ public class CubeGameScreen extends MGView {
 	BufferedImage[] movePrompt = ImageManager.arrayPopulator(IMAGES.UP_ARROW, MPF);
 	List<BufferedImage> endFaces; // List full of ending images for dice
 	Image[] rollPrompt;
-
+	MenuScreen menu;
+	
 	JButton rollDiceButton;
 	private JButton submitButton;
 
 	public boolean showingEnd = false;
 	private boolean showingTutorial = true;
 
-	public CubeGameScreen(CubeController control) {
+	public CubeGameScreen(CubeController control, MenuScreen menu) {
+		this.menu = menu;
 		this.control = control;
 		this.setBounds(0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight);
 
@@ -98,8 +100,16 @@ public class CubeGameScreen extends MGView {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				showingTutorial = false;
-				control.getWorld().rollDice();
+				if (showingTutorial) {
+					showingTutorial = false;
+					control.getWorld().rollDice();
+				} else if (showingEnd) {
+					menu.switchGame(control);
+					showingEnd = false;
+					showingTutorial = false;
+					control.getWorld().rollDice();
+				}
+				
 			}
 
 			@Override

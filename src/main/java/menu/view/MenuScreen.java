@@ -63,7 +63,7 @@ public class MenuScreen extends JLayeredPane {
 
 		crabController = new CrabController();
 		boatController = new BoatController();
-		cubeController = new CubeController();
+		cubeController = new CubeController(this);
 
 
 		wave = new Wave();
@@ -199,7 +199,7 @@ public class MenuScreen extends JLayeredPane {
 		cubeButton.setVisible(true);
 	}
 
-	private void switchGame(MGController controller) {
+	public void switchGame(MGController controller) {
 		//TODO wave.run
 		if (prevController != null) {
 			prevController.dispose();

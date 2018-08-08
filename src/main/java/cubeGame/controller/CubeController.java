@@ -5,6 +5,7 @@ import javax.swing.Timer;
 import main.java.cubeGame.model.CubeWorld;
 import main.java.cubeGame.view.CubeGameScreen;
 import main.java.menu.controller.MGController;
+import main.java.menu.view.MenuScreen;
 
 /**
  * * @author Cathrine and Collin Controls the Cube game. Detects screen size and
@@ -19,14 +20,15 @@ public class CubeController extends MGController {
 
 	public boolean recording = false;
 
-	public CubeController() {
-		view = new CubeGameScreen(this);
+	public CubeController(MenuScreen menu) {
+		view = new CubeGameScreen(this, menu);
 		world = new CubeWorld();
 		listener = new CubeListener(this);
 		timer = new Timer(timerTick, listener); // The timer triggers an actionevent in cubeListener every frame
 		view.addMouseListener(listener);
 		view.addMouseMotionListener(listener);
 	}
+
 
 	@Override
 	public void dispose() {
