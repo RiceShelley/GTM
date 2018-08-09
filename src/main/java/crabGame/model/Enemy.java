@@ -1,11 +1,13 @@
 package main.java.crabGame.model;
 
+import main.java.menu.view.MenuScreen;
+
 /**
  * Fish (or other animals) that obstruct the crabbies
  */
 public class Enemy extends Mover {
-	public static final int ENEMY_WIDTH = 125;
-	public static final int ENEMY_HEIGHT = 66;
+	public static final int ENEMY_WIDTH = MenuScreen.frameWidth / 13;
+	public static final int ENEMY_HEIGHT = MenuScreen.frameHeight / 9;
 	private int frame = 0;
 	public final double ENEMY_VELOCITY = super.movementVelocity;
 

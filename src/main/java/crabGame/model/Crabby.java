@@ -3,13 +3,14 @@ package main.java.crabGame.model;
 import java.util.Collections;
 
 import main.java.crabGame.CrabController;
+import main.java.menu.view.MenuScreen;
 
 /**
  * This class constitutes the main playable character in the game
  */
 public class Crabby extends Mover {
-	static final int CRAB_WIDTH_ = 100;
-	static final int CRAB_HEIGHT_ = 50;
+	static final int CRAB_WIDTH_ = MenuScreen.frameWidth / 10;
+	static final int CRAB_HEIGHT_ = MenuScreen.frameHeight / 12;
 	static final int CRAB_LIFE_BASE = 3;
 	private int frame = 0;
 

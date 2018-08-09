@@ -1,12 +1,14 @@
 package main.java.crabGame.model;
 
+import main.java.menu.view.MenuScreen;
+
 /**
  * Turtles (or other animals) that move across the bottom of the screen with
  * useful hints for the crabbies
  */
 public class Friend extends Mover {
-	static final int FRIEND_HEIGHT = 130;
-	static final int FRIEND_WIDTH = 150;
+	static final int FRIEND_HEIGHT = MenuScreen.frameHeight / 7;
+	static final int FRIEND_WIDTH = MenuScreen.frameWidth / 10;
 	public static int friendCounter = 0;
 	public static int textSize;
 	public static final String[] facts = { "Welcome to Crab Run! Tap the screen to move.",
@@ -22,7 +24,6 @@ public class Friend extends Mover {
 	 */
 	public Friend(int x, int y) {
 		super(x, y, FRIEND_WIDTH, FRIEND_HEIGHT);
-		super.setxVel(-6);
 		// Friends start down in the bottom moveRight corner and move across, carrying a
 		// fun fact along with them
 
@@ -41,6 +42,7 @@ public class Friend extends Mover {
 	@Override
 	void update(long deltaTime) {
 		super.update(deltaTime);
+		super.moveLeft();
 		picNum = ++picNum % 3;
 	}
 

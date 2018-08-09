@@ -1,11 +1,13 @@
 package main.java.crabGame.model;
 
+import main.java.menu.view.MenuScreen;
+
 /**
  * Created by Alina on 2017-07-13.
  */
 public class SaltCloud extends Mover {
-	static final int SALT_CLOUD_WIDTH = 100;
-	static final int SALT_CLOUD_HEIGHT = 200;
+	static final int SALT_CLOUD_WIDTH = MenuScreen.frameWidth / 8;
+	static final int SALT_CLOUD_HEIGHT = MenuScreen.frameHeight / 4;
 	final double SALT_CLOUD_VELOCITY = super.movementVelocity;
 	static boolean waveGoingDown = false; // Whether or not the waves as a set are appearing lower and lower on the screen or higher and higher on the screen
 	private static TrailState trailState = TrailState.NORMAL_ENTRY;

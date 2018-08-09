@@ -13,6 +13,7 @@ import main.java.crabGame.model.CrabGameWorld;
 import main.java.crabGame.model.Question;
 import main.java.crabGame.view.*;
 import main.java.menu.controller.MGView;
+import main.java.menu.enums.IMAGES;
 import main.java.menu.view.MenuScreen;
 
 /**
@@ -24,6 +25,8 @@ public class CrabGamePanel extends MGView {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public static int qNum = 0;
 
 	/**
 	 * Initializes the GamePanel
@@ -52,24 +55,26 @@ public class CrabGamePanel extends MGView {
 		}
 		// draw question
 		if (CrabController.paused) {
-			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 20));
-			Question q = Question.questions.get(0);
+			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 30));
+			Question q = Question.questions.get(qNum);
 			String q_str = q.getPrompt();
 			int titleLength = g.getFontMetrics().stringWidth(q_str);
 			int yBoxW = titleLength + 100;
 			int yBoxX = (MenuScreen.frameWidth - titleLength) / 2 - 50;
-			g.setColor(Color.YELLOW);
-			g.fillRect(yBoxX, MenuScreen.frameHeight / 2 - 50, yBoxW, 300);
+			
+			// draw bg
+			g.drawImage(MenuScreen.IMAGE.get(IMAGES.TUT_BG), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			
 			g.setColor(Color.BLACK);
 			g.drawString(q_str, (MenuScreen.frameWidth - titleLength) / 2, MenuScreen.frameHeight / 2);
 			// draw possible answers
-			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 20));
+			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 30));
 			ArrayList<String> ans = q.getAnswers();
 			int offset = 50;
 			for (String s : ans) {
 				titleLength = g.getFontMetrics().stringWidth(s);
-				g.setColor(Color.CYAN);
-				g.fillRect(yBoxX, (MenuScreen.frameHeight / 2 + offset) - 18, yBoxW, 25);
+				//g.setColor(Color.CYAN);
+				//g.fillRect(yBoxX, (MenuScreen.frameHeight / 2 + offset) - 18, yBoxW, 25);
 				g.setColor(Color.BLACK);
 				g.drawString(s, (MenuScreen.frameWidth - titleLength) / 2, MenuScreen.frameHeight / 2 + offset);
 				offset += 50;
@@ -79,21 +84,23 @@ public class CrabGamePanel extends MGView {
 				g.setColor(Color.BLACK);
 				g.drawString("Wrong answer. Try again", (MenuScreen.frameWidth - titleLength) / 2,
 						MenuScreen.frameHeight / 2 + 200);
-			} else if (Question.qaState == 1) {
+			} else if (Question.qaState > 0) {
 				g.drawString("Correct!", (MenuScreen.frameWidth - titleLength) / 2, MenuScreen.frameHeight / 2 + 200);
-				Timer unPause = null;
-				unPause = new Timer(700, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						CrabController.paused = false;
-						Collections.shuffle(Question.questions);	
-						Question.qaState = 0;
-					}
-				});
-				unPause.start();
-				unPause.setRepeats(false);
+				if (Question.qaState == 1) {
+					Timer unPause = null;
+					unPause = new Timer(700, new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							CrabController.paused = false;
+							qNum++;
+							Question.qaState = 0;
+						}
+					});
+					Question.qaState = 2;
+					unPause.start();
+					unPause.setRepeats(false);
+				}
 			}
-
 		}
 	}
 

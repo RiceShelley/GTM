@@ -65,6 +65,7 @@ public enum IMAGES {
 	MENU_CUBE4("/main/resources/images/tutcube4.png"),
 	TURTLE("/main/resources/images/turtle.png"),
 	QUESTION_MARK("/main/resources/images/QuestionMark.png"),
+	TUT_BG("/main/resources/images/tutorialBackground.png"),
 	// The following are the new ending faces for the dice game
 	DICE_ALLIGATOR("/main/resources/images/alligatorDie.png"),
 	DICE_BOAT("/main/resources/images/boatDie.png"),

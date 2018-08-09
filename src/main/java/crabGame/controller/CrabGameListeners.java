@@ -1,6 +1,7 @@
 package main.java.crabGame.controller;
 
 import main.java.crabGame.CrabController;
+import main.java.crabGame.CrabGamePanel;
 import main.java.crabGame.model.CrabGameWorld;
 import main.java.crabGame.model.Crabby;
 import main.java.crabGame.model.Friend;
@@ -107,8 +108,8 @@ public class CrabGameListeners implements KeyListener, MouseListener, MouseMotio
 				}
 				offset += 50;
 			}
-			String str = Question.questions.get(0).getAnswers().get(ans);
-			if (Question.questions.get(0).isRightAnswer(str)) {
+			String str = Question.questions.get(CrabGamePanel.qNum).getAnswers().get(ans);
+			if (Question.questions.get(CrabGamePanel.qNum).isRightAnswer(str)) {
 				Question.qaState = 1;
 			} else {
 				Question.qaState = -1;
