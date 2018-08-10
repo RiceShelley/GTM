@@ -104,7 +104,7 @@ public class CubeGameScreen extends MGView {
 					showingTutorial = false;
 					control.getWorld().rollDice();
 				} else if (showingEnd) {
-					menu.switchGame(control);
+					menu.replayCubeGame();
 					showingEnd = false;
 					showingTutorial = false;
 					control.getWorld().rollDice();
