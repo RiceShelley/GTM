@@ -202,5 +202,9 @@ public class MenuScreen extends JLayeredPane {
 	public void replayCubeGame() {
 		switchGame(cubeController);
 	}
+	
+	public void hideMenuButton() {
+		menuButton.setVisible(false);
+	}
 
 }

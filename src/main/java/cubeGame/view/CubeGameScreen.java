@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
@@ -40,6 +42,7 @@ public class CubeGameScreen extends MGView {
 	BufferedImage backdrop = ImageManager.get(IMAGES.CUBE_BACKGROUND);
 	BufferedImage[] diceImage = ImageManager.arrayPopulator(IMAGES.CUBE_ROLL, diceFrames);
 	BufferedImage[] movePrompt = ImageManager.arrayPopulator(IMAGES.UP_ARROW, MPF);
+	Timer endingTimer = new Timer();
 	List<BufferedImage> endFaces; // List full of ending images for dice
 	Image[] rollPrompt;
 	MenuScreen menu;
@@ -74,7 +77,13 @@ public class CubeGameScreen extends MGView {
 		// TODO: ADD BETTER IMAGE FOR SUBMIT BUTTON
 		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.6)));
 		submitButton.addActionListener(actionEvent -> { // Show ending screen and export results to google sheet
-
+			// Add a timer that closes the screen in 10 seconds
+			endingTimer.schedule(new TimerTask() {
+				@Override 
+				public void run() {
+					control.dispose();
+				}
+			}, 10000);
 			showingEnd = true;
 			new Thread() { // Send data to sheet in a separate thread to avoid lag
 				@Override
@@ -105,6 +114,11 @@ public class CubeGameScreen extends MGView {
 					control.getWorld().rollDice();
 				} else if (showingEnd) {
 					menu.replayCubeGame();
+					try {
+						endingTimer.cancel();
+					} catch (IllegalStateException e) {
+						// Do nothing
+					}
 					showingEnd = false;
 					showingTutorial = false;
 					control.getWorld().rollDice();
