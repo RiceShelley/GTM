@@ -98,6 +98,9 @@ public class SheetManager {
 	
 	private enum gameType {CRAB, BOAT, CUBE};
 	
+	/*
+	 * Called whenever a game is played.  Reads numbers from the google sheet and increments the proper counter
+	 */
 	private static void incrementGameCount(gameType game) throws IOException, GeneralSecurityException {
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 		final String secondColumn = "'" + TOTALS_ID + "'!B2:B4";
@@ -109,6 +112,7 @@ public class SheetManager {
 			System.out.println("No data found.");
 			return;
 		}
+		
 		int row = 0;
 		switch (game) {
 		case CRAB:
@@ -123,7 +127,6 @@ public class SheetManager {
 		}
 		// increment the relevant value based on game clicked
 		values.get(row).set(0, Integer.valueOf((String) values.get(row).get(0)) + 1);
-		System.out.println(game.toString());
 		// Set the new data and execute the command
 		ValueRange body = new ValueRange().setValues(values);
 		UpdateValuesResponse result =

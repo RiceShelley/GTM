@@ -8,10 +8,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
 
 import javax.swing.ImageIcon;
@@ -164,19 +161,13 @@ public class MenuScreen extends JLayeredPane {
 			BoatController temp = (BoatController) prevController;
 			temp.timer.start();
 		} else if (prevController instanceof CrabController) {
-			// System.out.println("crab controller");
+			// Do Nothing
 		} else if (prevController instanceof CubeController) {
 			CubeController temp = (CubeController) prevController;
 			temp.getTimer().start();
 		}
 
 		gameView = prevController.getView();
-
-		if (gameView instanceof BoatGameScreen) {
-			// System.out.println("boat crabGamePanel");
-		} else if (gameView instanceof CrabGamePanel) {
-			// System.out.println("crab panel");
-		}
 
 		gameView.setVisible(true);
 		menuButton.setVisible(true);
