@@ -131,14 +131,17 @@ public class CrabGameWorld {
 			final int littleBitOfSpace = 5;
 
 			// If it's ok to spawn the next saltCloud
-			boolean spawnNextSaltCloud = !saltCloudIterator.hasNext()
+			/*boolean spawnNextSaltCloud = !saltCloudIterator.hasNext()
 					&& saltCloud.getxPos() < WORLD_RIGHT_BOUND + littleBitOfSpace
-					&& saltCloud.getxPos() > WORLD_RIGHT_BOUND - littleBitOfSpace;
+					&& saltCloud.getxPos() > WORLD_RIGHT_BOUND - littleBitOfSpace;*/
+					
+			boolean spawnNextSaltCloud = !saltCloudIterator.hasNext()
+							&& saltCloud.getxPos() < WORLD_RIGHT_BOUND + littleBitOfSpace;
 
 			int saltCloudStateCountMax = 4;
 			if (saltCloudCount >= saltCloudStateCountMax)
 				tryToChangeTrailState();
-
+			
 			if (spawnNextSaltCloud)
 				newSaltCloud = saltCloud.generateNextSaltCloud(saltCloud); // If this particular saltCloud's position is
 																			// its width of the way through the screen

@@ -1,5 +1,7 @@
 package main.java.crabGame.model;
 
+import main.java.menu.view.MenuScreen;
+
 /**
  * Abstract class that outlines behaviour of movable figures in the game
  * (Friend, Enemy, Crabby)
@@ -18,7 +20,11 @@ public abstract class Mover extends GameObject {
 	Mover(int x, int y, int width, int height) {
 		super(x, y, width, height);
 
-		movementVelocity = .1;
+		if (MenuScreen.frameHeight > 1200 && MenuScreen.frameWidth > 2000) {
+			movementVelocity = .5;
+		} else {
+			movementVelocity = .3;
+		}
 		stateTime = 0;
 	}
 
@@ -52,8 +58,12 @@ public abstract class Mover extends GameObject {
 		int leftBound = CrabGameWorld.WORLD_LEFT_BOUND;
 		int bottomBound = CrabGameWorld.WORLD_BOTTOM_BOUND - getBounds().height;
 		int topBound = CrabGameWorld.WORLD_TOP_BOUND;
-
-		final double GRAVITY_CONSTANT = .005;
+		double GRAVITY_CONSTANT = 0;
+		if (MenuScreen.frameHeight > 1200 && MenuScreen.frameWidth > 2000) {
+			GRAVITY_CONSTANT = .02;
+		} else {
+			GRAVITY_CONSTANT = .01;
+		}
 		final double FLOOR_DAMPENER = .1;
 
 		setxPos((int) (getxPos() + getxVel() * deltaTime)); // Update x position with velocity and time

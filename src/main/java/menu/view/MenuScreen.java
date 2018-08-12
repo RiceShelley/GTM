@@ -35,7 +35,7 @@ public class MenuScreen extends JLayeredPane {
 	 */
 	private static final long serialVersionUID = 6097571045147215752L; // added in PCM
 	public static final ImageManager IMAGE = new ImageManager();
-	// private static final Dimension size = new Dimension(1920, 1080);
+	//private static final Dimension size = new Dimension(1920, 1080);
 	private static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public static final int frameWidth = size.width;

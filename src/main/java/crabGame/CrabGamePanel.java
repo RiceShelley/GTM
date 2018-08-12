@@ -10,6 +10,7 @@ import java.util.Collections;
 import javax.swing.Timer;
 
 import main.java.crabGame.model.CrabGameWorld;
+import main.java.crabGame.model.Mover;
 import main.java.crabGame.model.Question;
 import main.java.crabGame.view.*;
 import main.java.menu.controller.MGView;
@@ -51,11 +52,12 @@ public class CrabGamePanel extends MGView {
 		} else if (CrabController.game.checkGameStateContinue()) {
 			ContinueScreen.drawContinueScreen(g);
 		} else if (CrabController.game.checkGameStateWin()) {
+			CrabGameWorld.crabbies.get(0).setState(Mover.State.SAFE);
 			WinScreen.drawWin(g);
 		}
 		// draw question
 		if (CrabController.paused) {
-			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 30));
+			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 40));
 			Question q = Question.questions.get(qNum);
 			String q_str = q.getPrompt();
 			int titleLength = g.getFontMetrics().stringWidth(q_str);
@@ -68,7 +70,7 @@ public class CrabGamePanel extends MGView {
 			g.setColor(Color.BLACK);
 			g.drawString(q_str, (MenuScreen.frameWidth - titleLength) / 2, MenuScreen.frameHeight / 2);
 			// draw possible answers
-			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 30));
+			g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 40));
 			ArrayList<String> ans = q.getAnswers();
 			int offset = 50;
 			for (String s : ans) {
@@ -83,9 +85,9 @@ public class CrabGamePanel extends MGView {
 			if (Question.qaState == -1) {
 				g.setColor(Color.BLACK);
 				g.drawString("Wrong answer. Try again", (MenuScreen.frameWidth - titleLength) / 2,
-						MenuScreen.frameHeight / 2 + 200);
+						MenuScreen.frameHeight / 2 + 250);
 			} else if (Question.qaState > 0) {
-				g.drawString("Correct!", (MenuScreen.frameWidth - titleLength) / 2, MenuScreen.frameHeight / 2 + 200);
+				g.drawString("Correct!", (MenuScreen.frameWidth - titleLength) / 2, MenuScreen.frameHeight / 2 + 250);
 				if (Question.qaState == 1) {
 					Timer unPause = null;
 					unPause = new Timer(700, new ActionListener() {

@@ -67,7 +67,6 @@ public class CrabController extends MGController {
 			public void actionPerformed(ActionEvent e) {
 				if (!paused) {
 					CrabGameWorld.spawnEnemy();
-					System.out.println("Spawned enemy");
 				}
 			}
 		});
@@ -137,6 +136,7 @@ public class CrabController extends MGController {
 
 	@Override
 	public void dispose() {
+		enemySpawnTimer.stop();
 		reset();
 	}
 
