@@ -154,6 +154,7 @@ public class CubeGameScreen extends MGView {
 
 			}
 
+			// Unimplemented mouse methods
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 			}
@@ -175,7 +176,6 @@ public class CubeGameScreen extends MGView {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		if (showingEnd) { // Ends the game
 			rollDiceButton.setVisible(false);
 			submitButton.setVisible(false);
@@ -201,7 +201,6 @@ public class CubeGameScreen extends MGView {
 				g.drawImage(ImageManager.get(IMAGES.DIE_SIL), p.x - Die.WIDTH, p.y - Die.HEIGHT, Die.WIDTH, Die.HEIGHT,
 						null);
 			}
-
 			// Draws an image of a rolling or resting die for each die
 			for (Die die : CubeWorld.dice) {
 				if (die.isRolling()) {
