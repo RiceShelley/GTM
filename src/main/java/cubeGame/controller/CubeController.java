@@ -29,6 +29,7 @@ public class CubeController extends MGController {
 		timer = new Timer(timerTick, listener); // The timer triggers an actionevent in cubeListener every frame
 		view.addMouseListener(listener);
 		view.addMouseMotionListener(listener);
+
 	}
 
 

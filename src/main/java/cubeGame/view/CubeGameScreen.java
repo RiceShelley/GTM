@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -19,14 +17,15 @@ import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import main.java.menu.controller.MGView;
-import main.java.menu.enums.IMAGES;
-import main.java.menu.view.ImageManager;
-import main.java.menu.view.MenuScreen;
+
 import main.java.cubeGame.controller.CubeController;
 import main.java.cubeGame.controller.SheetManager;
 import main.java.cubeGame.model.CubeWorld;
 import main.java.cubeGame.model.Die;
+import main.java.menu.controller.MGView;
+import main.java.menu.enums.IMAGES;
+import main.java.menu.view.ImageManager;
+import main.java.menu.view.MenuScreen;
 
 public class CubeGameScreen extends MGView {
 
@@ -42,11 +41,11 @@ public class CubeGameScreen extends MGView {
 	BufferedImage backdrop = ImageManager.get(IMAGES.CUBE_BACKGROUND);
 	BufferedImage[] diceImage = ImageManager.arrayPopulator(IMAGES.CUBE_ROLL, diceFrames);
 	BufferedImage[] movePrompt = ImageManager.arrayPopulator(IMAGES.UP_ARROW, MPF);
-	Timer endingTimer = new Timer();
+	Timer endingTimer; // Timer that ends the game after 20 seconds of inactivity
 	List<BufferedImage> endFaces; // List full of ending images for dice
 	Image[] rollPrompt;
 	MenuScreen menu;
-	
+
 	JButton rollDiceButton;
 	private JButton submitButton;
 
@@ -74,16 +73,23 @@ public class CubeGameScreen extends MGView {
 				(int) (rollDiceButton.getPreferredSize().getHeight() + rollExtend));
 		rollPrompt = ImageManager.getScaled(IMAGES.CUBE_TUT_1, rpDimStart, rpDimEnd);
 
-		// TODO: ADD BETTER IMAGE FOR SUBMIT BUTTON
+		// LOGIC FOR SUBMIT BUTTON BEGINS
 		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.6)));
 		submitButton.addActionListener(actionEvent -> { // Show ending screen and export results to google sheet
-			// Add a timer that closes the screen in 10 seconds
-			endingTimer.schedule(new TimerTask() {
-				@Override 
-				public void run() {
-					control.dispose();
-				}
-			}, 10000);
+			try {
+				endingTimer.cancel(); // set the countdown for 10 seconds rather than 20
+				endingTimer = new Timer();
+			} catch (IllegalStateException e) {
+				// Timer not running
+			} finally {
+				endingTimer.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						control.dispose();
+					}
+				}, 10000);
+			}
+			
 			showingEnd = true;
 			new Thread() { // Send data to sheet in a separate thread to avoid lag
 				@Override
@@ -99,8 +105,17 @@ public class CubeGameScreen extends MGView {
 					}
 				}
 			}.start();
+			// LOGIC FOR SUBMIT BUTTON ENDS
 		});
-
+		// Begin the timer
+		endingTimer = new Timer();
+		endingTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				control.dispose();
+			}
+		}, 20000);
+		
 		submitButton.setVisible(false);
 		ImageManager.tailorButton(submitButton);
 		this.add(submitButton);
@@ -109,6 +124,19 @@ public class CubeGameScreen extends MGView {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				try {
+					endingTimer.cancel(); // Reset the timer after each click
+					endingTimer = new Timer();
+				} catch (IllegalStateException e) {
+					// No timer was in place
+				} finally {
+					endingTimer.schedule(new TimerTask() {
+						@Override
+						public void run() {
+							control.dispose();
+						}
+					}, 20000);
+				}
 				if (showingTutorial) {
 					showingTutorial = false;
 					control.getWorld().rollDice();
@@ -123,7 +151,7 @@ public class CubeGameScreen extends MGView {
 					showingTutorial = false;
 					control.getWorld().rollDice();
 				}
-				
+
 			}
 
 			@Override
@@ -141,7 +169,6 @@ public class CubeGameScreen extends MGView {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 			}
-
 		});
 	}
 
