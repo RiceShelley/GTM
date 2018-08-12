@@ -46,7 +46,6 @@ public enum IMAGES {
 	X("/main/resources/images/erosion.png"),
 	BLUE_CRAB_INVINCIBLE("/main/resources/images/BlueCrabInvincible.png"),
 	HEART("/main/resources/images/fullHeart.png"),
-	TUTORIAL_BUTTON("/main/resources/images/tutorialButton.png"),
 	SUBMIT_BUTTON("/main/resources/images/submitButton.png"),
 	ROLL_BUTTON("/main/resources/images/rollButton.png"),
 	STOP_BUTTON("/main/resources/images/Stop.png"),

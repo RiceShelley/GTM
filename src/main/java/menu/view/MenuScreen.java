@@ -2,6 +2,7 @@ package main.java.menu.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Rectangle;
@@ -11,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -72,21 +74,42 @@ public class MenuScreen extends JLayeredPane {
 	}
 
 	private void buildMenu() {
+
 		menu = new JPanel(new GridBagLayout());
 		menu.setBounds(0, 0, frameWidth, frameHeight);
 		menu.setOpaque(false);
-
+		
+		final int nameFontSize = MenuScreen.frameHeight / 20;
+		
+		JPanel crabPanel = new JPanel();
+		crabPanel.setLayout(new BoxLayout(crabPanel, BoxLayout.Y_AXIS));
 		crabButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.CRAB_BUTTON, buttonScale)));
 		crabButton.addActionListener(actionEvent -> switchGame(crabController));
 		ImageManager.tailorButton(crabButton);
-
+		crabPanel.add(crabButton);
+		JLabel crabName = new JLabel("Crab Run");
+		crabName.setFont(new Font("Sans_Serif", Font.PLAIN, nameFontSize));
+		crabPanel.add(crabName);
+		
+		JPanel boatPanel = new JPanel();
+		boatPanel.setLayout(new BoxLayout(boatPanel, BoxLayout.Y_AXIS));
 		boatButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.BOAT_BUTTON, buttonScale)));
 		boatButton.addActionListener(actionEvent -> switchGame(boatController));
 		ImageManager.tailorButton(boatButton);
+		boatPanel.add(boatButton);
+		JLabel boatName = new JLabel("Erosion Boat");
+		boatName.setFont(new Font("Sans_Serif", Font.PLAIN, nameFontSize));
+		boatPanel.add(boatName);
 
+		JPanel cubePanel = new JPanel();
+		cubePanel.setLayout(new BoxLayout(cubePanel, BoxLayout.Y_AXIS));
 		cubeButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.CUBE_BUTTON, buttonScale)));
 		cubeButton.addActionListener(actionEvent -> switchGame(cubeController));
 		ImageManager.tailorButton(cubeButton);
+		cubePanel.add(cubeButton);
+		JLabel cubeName = new JLabel("Story Dice");
+		cubeName.setFont(new Font("Sans_Serif", Font.PLAIN, nameFontSize));
+		cubePanel.add(cubeName);
 
 		GridBagConstraints cons = new GridBagConstraints();
 		cons.gridy = 0;
@@ -94,15 +117,15 @@ public class MenuScreen extends JLayeredPane {
 		cons.weightx = .1;
 		cons.anchor = GridBagConstraints.SOUTHEAST;
 		cons.gridx = 0;
-		menu.add(crabButton, cons);
+		menu.add(crabPanel, cons);
 
 		cons.gridx = 1;
 		cons.anchor = GridBagConstraints.SOUTH;
-		menu.add(boatButton, cons);
+		menu.add(boatPanel, cons);
 
 		cons.gridx = 2;
 		cons.anchor = GridBagConstraints.SOUTHWEST;
-		menu.add(cubeButton, cons);
+		menu.add(cubePanel, cons);
 
 		cons.gridy = 1;
 		cons.weighty = .5;
