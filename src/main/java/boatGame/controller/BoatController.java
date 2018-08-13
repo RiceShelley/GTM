@@ -10,6 +10,7 @@ import main.java.boatGame.view.BoatGameScreen;
 import main.java.menu.controller.MGController;
 import main.java.menu.controller.MGView;
 
+
 public class BoatController extends MGController implements ActionListener {
 	public BoatWorld world;
 	public BoatGameScreen view;
@@ -17,7 +18,7 @@ public class BoatController extends MGController implements ActionListener {
 	int frameWait = 17;
 	private int millisPassed = 0;
 	public final int milliTimeLimit = 60000; // 2 mins = 120,000 milliseconds
-	public boolean gameOver = false;
+	public static boolean gameOver = false;
 	private final static int mt = 15;
 	private final static int dt = 15;
 	private final static int qt = 100; //frameWait *qt = num of milliseconds before prompting
@@ -33,7 +34,6 @@ public class BoatController extends MGController implements ActionListener {
 	private static long sct = 0;
 	public static boolean paused = false;
 	
-
 	public BoatController() {
 		world = new BoatWorld();
 		view = new BoatGameScreen(this);
@@ -44,9 +44,10 @@ public class BoatController extends MGController implements ActionListener {
 
 	@Override
 	public void update() {
+		view.updateLabels();
+		
 		if (!paused) {
 			world.update();
-			view.updateLabels();
 			view.repaint();
 		}
 	}
@@ -56,7 +57,6 @@ public class BoatController extends MGController implements ActionListener {
 		timer.stop();
 		millisPassed = 0;
 		world.reset();
-		view.setVisible(false);
 		view.reset();
 		MCount = false;
 		DCount = false;
@@ -66,6 +66,8 @@ public class BoatController extends MGController implements ActionListener {
 		dct = 0;
 		qct = 0;
 		paused = true;
+		view.setVisible(false);
+		gameOver = false;
 	}
 
 	@Override
@@ -77,13 +79,16 @@ public class BoatController extends MGController implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) { //tick method	
 		ct++;
 		count();
-		millisPassed += frameWait;
-		gameOver = millisPassed >= milliTimeLimit;
+		update();
+		
+		if (!paused) {
+			millisPassed += frameWait;
+			gameOver = millisPassed >= milliTimeLimit;
+		}
 		
 		if (world.oysters >= 3 && world.rocks >= 3 && world.cordgrass >= 3)
 			gameOver = true;
 		
-		update();
 		if (gameOver) {
 			 view.displayEnd();
 			 timer.stop();

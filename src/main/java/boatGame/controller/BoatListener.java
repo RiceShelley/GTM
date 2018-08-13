@@ -27,7 +27,11 @@ public class BoatListener implements MouseListener{
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {
+		if (BoatController.gameOver == true) {
+			controller.dispose();
+		}
+	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {

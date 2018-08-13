@@ -125,9 +125,14 @@ public class BoatWorld {
 	public void update() {
 		moveBoat();
 		moveWake();
+		
+		if (score < -99)
+			score = -99;
+		
 		if (spaces.size() < shoreSize && rand.nextInt(questFreq) == 0) {
 			addQuest();
 		}
+		
 		updateQuests();
 		firstC = null;
 		firstO = null;
@@ -148,6 +153,7 @@ public class BoatWorld {
 				break;
 			}
 		}
+		
 	} // update
 
 	private void updateQuests() {

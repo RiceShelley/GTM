@@ -192,7 +192,7 @@ public final class Boundaries {
 			next.setLocation(start);
 		} else {
 			next = potential.get(0);
-		} // if else
-	} // backTrack(Point)
+		} 
+	} 
 
 }

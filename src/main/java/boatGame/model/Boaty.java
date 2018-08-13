@@ -78,5 +78,9 @@ public class Boaty {
 		canDropOff = false;
 		holding = ITEM.NONE;
 	}
+	
+	public void moveAway(Point loc) {
+		pos.move(loc.x, loc.y);
+	}
 
 }

@@ -21,7 +21,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import main.java.boatGame.controller.BoatController;
-import main.java.boatGame.view.BoatGameScreen;
 import main.java.crabGame.CrabController;
 import main.java.crabGame.CrabGamePanel;
 import main.java.cubeGame.controller.CubeController;
@@ -35,7 +34,7 @@ public class MenuScreen extends JLayeredPane {
 	 */
 	private static final long serialVersionUID = 6097571045147215752L; // added in PCM
 	public static final ImageManager IMAGE = new ImageManager();
-	//private static final Dimension size = new Dimension(1920, 1080);
+	// private static final Dimension size = new Dimension(1920, 1080);
 	private static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public static final int frameWidth = size.width;
@@ -78,9 +77,9 @@ public class MenuScreen extends JLayeredPane {
 		menu = new JPanel(new GridBagLayout());
 		menu.setBounds(0, 0, frameWidth, frameHeight);
 		menu.setOpaque(false);
-		
+
 		final int nameFontSize = MenuScreen.frameHeight / 20;
-		
+
 		JPanel crabPanel = new JPanel();
 		crabPanel.setLayout(new BoxLayout(crabPanel, BoxLayout.Y_AXIS));
 		crabButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.CRAB_BUTTON, buttonScale)));
@@ -90,7 +89,7 @@ public class MenuScreen extends JLayeredPane {
 		JLabel crabName = new JLabel("Crab Run");
 		crabName.setFont(new Font("Sans_Serif", Font.PLAIN, nameFontSize));
 		crabPanel.add(crabName);
-		
+
 		JPanel boatPanel = new JPanel();
 		boatPanel.setLayout(new BoxLayout(boatPanel, BoxLayout.Y_AXIS));
 		boatButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.BOAT_BUTTON, buttonScale)));
@@ -167,7 +166,7 @@ public class MenuScreen extends JLayeredPane {
 		// TODO Auto-generated method stub
 		if (prevController != null)
 			prevController.dispose();
-		menuButton.setVisible(false);
+		menuButton.setVisible(true);
 		crabButton.setVisible(true);
 		boatButton.setVisible(true);
 		cubeButton.setVisible(true);
@@ -216,9 +215,9 @@ public class MenuScreen extends JLayeredPane {
 	public void replayCubeGame() {
 		switchGame(cubeController);
 	}
-	
+
 	public void hideMenuButton() {
 		menuButton.setVisible(false);
 	}
-
+	
 }
