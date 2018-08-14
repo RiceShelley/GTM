@@ -150,12 +150,7 @@ public class MenuScreen extends JLayeredPane {
 		menu.add(blankL, cons);
 
 		menuButton = new JButton("Menu");
-		menuButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				menuButtonActionPerformed();
-			}
-		});
+		menuButton.addActionListener(actionEvent -> menuButtonActionPerformed());
 
 		menuButton.setBounds(menuLoc);
 		this.add(menuButton, 4, 0);
@@ -166,7 +161,7 @@ public class MenuScreen extends JLayeredPane {
 		// TODO Auto-generated method stub
 		if (prevController != null)
 			prevController.dispose();
-		menuButton.setVisible(true);
+		menuButton.setVisible(false);
 		crabButton.setVisible(true);
 		boatButton.setVisible(true);
 		cubeButton.setVisible(true);
