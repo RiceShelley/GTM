@@ -151,7 +151,6 @@ public class CrabGameWorld {
 			if (newSaltCloud != null) {
 				saltCloudIterator.add(newSaltCloud); // Add the next one if it exists
 				saltCloudCount++;
-				// System.out.println("salt cloud count: " + saltCloudCount + " Trail State: " +
 				// SaltCloud.getTrailState());
 			}
 
@@ -194,7 +193,6 @@ public class CrabGameWorld {
 
 		SaltCloud.setTrailState(newTrailState);
 		saltCloudCount = 0;
-		System.out.println("Tried to change Trail State to: " + newTrailState);
 	}
 
 	// Collision Checks //
