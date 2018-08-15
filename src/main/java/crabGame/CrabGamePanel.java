@@ -15,6 +15,7 @@ import main.java.crabGame.model.Question;
 import main.java.crabGame.view.*;
 import main.java.menu.controller.MGView;
 import main.java.menu.enums.IMAGES;
+import main.java.menu.view.ImageManager;
 import main.java.menu.view.MenuScreen;
 
 /**
@@ -48,7 +49,7 @@ public class CrabGamePanel extends MGView {
 		if (CrabController.game.checkGameStatePlay() || CrabController.game.checkGameStatePlayEntry()) {
 			PlayScreen.drawPlay(g);
 		} else if (CrabController.game.checkGameStateReady()) {
-			ReadyScreen.drawReady(g);
+			g.drawImage(ImageManager.get(IMAGES.CRAB_TUTORIAL), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
 		} else if (CrabController.game.checkGameStateContinue()) {
 			ContinueScreen.drawContinueScreen(g);
 		} else if (CrabController.game.checkGameStateWin()) {
@@ -65,7 +66,7 @@ public class CrabGamePanel extends MGView {
 			int yBoxX = (MenuScreen.frameWidth - titleLength) / 2 - 50;
 			
 			// draw bg
-			g.drawImage(MenuScreen.IMAGE.get(IMAGES.TUT_BG), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+			g.drawImage(ImageManager.get(IMAGES.TUT_BG), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
 			
 			g.setColor(Color.BLACK);
 			g.drawString(q_str, (MenuScreen.frameWidth - titleLength) / 2, MenuScreen.frameHeight / 2);

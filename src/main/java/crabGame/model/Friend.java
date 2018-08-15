@@ -12,7 +12,7 @@ public class Friend extends Mover {
 	public static int friendCounter = 0;
 	public static int textSize;
 	public static final String[] facts = { "Welcome to Crab Run! Tap the screen to move.",
-			"Fill up the green bar above by staying within the current.",
+			"Fill up the green bar above by staying within the scent trail.",
 			"Avoid the fish or you'll have to answer a question to continue." };
 	private static int picNum = 0;
 	private int pFriendCounter;

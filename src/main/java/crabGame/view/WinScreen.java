@@ -17,7 +17,7 @@ public class WinScreen {
 		final String winMessage = "YOU WIN!";
 		final int winMessageFontSize = 218; // Font size
 
-		g.setColor(ReadyScreen.OPAQUE_WHITE);
+		g.setColor(new Color(255, 255, 255, 127));
 		g.fillRect(
 				CrabGameWorld.WORLD_ORIGIN_X,
 				CrabGameWorld.WORLD_ORIGIN_Y,

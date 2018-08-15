@@ -6,7 +6,8 @@ import java.awt.event.MouseListener;
 
 import main.java.boatGame.model.BoatWorld;
 
-public class BoatListener implements MouseListener{
+public class BoatListener implements MouseListener {
+	
 	BoatController controller;
 	
 	public BoatListener(BoatController controller){
@@ -28,14 +29,14 @@ public class BoatListener implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		if (BoatController.gameOver == true) {
+		if (BoatController.gameOver) {
 			controller.dispose();
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		if (BoatController.paused == false) {
+		if (!BoatController.paused) {
 			controller.world.prevMouse = controller.world.mouse;
 			Point mouse = arg0.getLocationOnScreen();
 			controller.world.mouse = new Point((int) (mouse.x / BoatWorld.widthRatio),

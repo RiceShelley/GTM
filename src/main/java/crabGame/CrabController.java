@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 public class CrabController extends MGController {
 
 	public static final int MAX_SCORE = 3500;
+	MenuScreen menu;
 	public static CrabGamePanel gamePanel;
 	public static CrabGameWorld game; // Create the world
 
@@ -38,7 +39,8 @@ public class CrabController extends MGController {
 	public static int score;
 	public static int difficultyLevel = 1;
 
-	public CrabController() {
+	public CrabController(MenuScreen menu) {
+		this.menu = menu;
 		gamePanel = new CrabGamePanel();
 		game = new CrabGameWorld();
 		Question.load();
@@ -79,7 +81,6 @@ public class CrabController extends MGController {
 					CrabGameWorld.friends.add(new Friend(CrabGameWorld.WORLD_WIDTH, CrabGameWorld.WORLD_HEIGHT - 300));
 				} else {
 					endPlayEntry();
-					System.out.println("tutorial ended");
 				}
 			}
 		});
@@ -136,7 +137,9 @@ public class CrabController extends MGController {
 
 	@Override
 	public void dispose() {
+		System.out.println("Dispose Called");
 		enemySpawnTimer.stop();
+		menu.hideMenuButton();
 		reset();
 	}
 

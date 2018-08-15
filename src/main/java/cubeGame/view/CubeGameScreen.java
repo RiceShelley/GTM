@@ -76,20 +76,7 @@ public class CubeGameScreen extends MGView {
 		// LOGIC FOR SUBMIT BUTTON BEGINS
 		submitButton = new JButton(new ImageIcon(ImageManager.scaleButton(IMAGES.SUBMIT_BUTTON, buttonScale * 0.6)));
 		submitButton.addActionListener(actionEvent -> { // Show ending screen and export results to google sheet
-			try {
-				endingTimer.cancel(); // set the countdown for 10 seconds rather than 20
-				endingTimer = new Timer();
-			} catch (IllegalStateException e) {
-				// Timer not running
-			} finally {
-				endingTimer.schedule(new TimerTask() {
-					@Override
-					public void run() {
-						control.dispose();
-					}
-				}, 10000);
-			}
-			
+			scheduleEndingTimer(10);
 			showingEnd = true;
 			new Thread() { // Send data to sheet in a separate thread to avoid lag
 				@Override
@@ -107,14 +94,7 @@ public class CubeGameScreen extends MGView {
 			}.start();
 			// LOGIC FOR SUBMIT BUTTON ENDS
 		});
-		// Begin the timer
-		endingTimer = new Timer();
-		endingTimer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				control.dispose();
-			}
-		}, 20000);
+		// Begin the timer for 60 secs for tutorial screen
 		
 		submitButton.setVisible(false);
 		ImageManager.tailorButton(submitButton);
@@ -124,19 +104,8 @@ public class CubeGameScreen extends MGView {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				try {
-					endingTimer.cancel(); // Reset the timer after each click
-					endingTimer = new Timer();
-				} catch (IllegalStateException e) {
-					// No timer was in place
-				} finally {
-					endingTimer.schedule(new TimerTask() {
-						@Override
-						public void run() {
-							control.dispose();
-						}
-					}, 20000);
-				}
+				
+				scheduleEndingTimer(60);
 				if (showingTutorial) {
 					showingTutorial = false;
 					control.getWorld().rollDice();
@@ -236,5 +205,23 @@ public class CubeGameScreen extends MGView {
 	public void showTutorialScreen() {
 		showingTutorial = true;
 	}
+	
+	public void scheduleEndingTimer(int secs) {
+		try {
+			endingTimer.cancel();
+			endingTimer.purge();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} finally {
+			endingTimer = new Timer();
+			endingTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					control.dispose();	
+				}
+			}, secs * 1000);
+		}
+	}
+	
 
 }

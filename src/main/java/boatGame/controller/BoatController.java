@@ -9,10 +9,12 @@ import main.java.boatGame.model.BoatWorld;
 import main.java.boatGame.view.BoatGameScreen;
 import main.java.menu.controller.MGController;
 import main.java.menu.controller.MGView;
+import main.java.menu.view.MenuScreen;
 
 
 public class BoatController extends MGController implements ActionListener {
 	public BoatWorld world;
+	MenuScreen menu;
 	public BoatGameScreen view;
 	public Timer timer;
 	int frameWait = 17;
@@ -34,7 +36,8 @@ public class BoatController extends MGController implements ActionListener {
 	private static long sct = 0;
 	public static boolean paused = false;
 	
-	public BoatController() {
+	public BoatController(MenuScreen menu) {
+		this.menu = menu;
 		world = new BoatWorld();
 		view = new BoatGameScreen(this);
 		view.addMouseListener(new BoatListener(this));
@@ -55,6 +58,7 @@ public class BoatController extends MGController implements ActionListener {
 	@Override
 	public void dispose() {
 		timer.stop();
+		menu.hideMenuButton();
 		millisPassed = 0;
 		world.reset();
 		view.reset();

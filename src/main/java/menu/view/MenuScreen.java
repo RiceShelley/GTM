@@ -62,8 +62,8 @@ public class MenuScreen extends JLayeredPane {
 		frame.setSize(new Dimension(frameWidth, frameHeight));
 		frame.setVisible(true);
 
-		crabController = new CrabController();
-		boatController = new BoatController();
+		crabController = new CrabController(this);
+		boatController = new BoatController(this);		
 		cubeController = new CubeController(this);
 
 		wave = new Wave();
@@ -78,7 +78,7 @@ public class MenuScreen extends JLayeredPane {
 		menu.setBounds(0, 0, frameWidth, frameHeight);
 		menu.setOpaque(false);
 
-		final int nameFontSize = MenuScreen.frameHeight / 20;
+		final int nameFontSize = MenuScreen.frameHeight / 30;
 
 		JPanel crabPanel = new JPanel();
 		crabPanel.setLayout(new BoxLayout(crabPanel, BoxLayout.Y_AXIS));
@@ -86,7 +86,7 @@ public class MenuScreen extends JLayeredPane {
 		crabButton.addActionListener(actionEvent -> switchGame(crabController));
 		ImageManager.tailorButton(crabButton);
 		crabPanel.add(crabButton);
-		JLabel crabName = new JLabel("Crab Run");
+		JLabel crabName = new JLabel("Blue Crab Run");
 		crabName.setFont(new Font("Sans_Serif", Font.PLAIN, nameFontSize));
 		crabPanel.add(crabName);
 
@@ -96,7 +96,7 @@ public class MenuScreen extends JLayeredPane {
 		boatButton.addActionListener(actionEvent -> switchGame(boatController));
 		ImageManager.tailorButton(boatButton);
 		boatPanel.add(boatButton);
-		JLabel boatName = new JLabel("Erosion Boat");
+		JLabel boatName = new JLabel("Shoreline Restoration Race");
 		boatName.setFont(new Font("Sans_Serif", Font.PLAIN, nameFontSize));
 		boatPanel.add(boatName);
 
@@ -106,7 +106,7 @@ public class MenuScreen extends JLayeredPane {
 		cubeButton.addActionListener(actionEvent -> switchGame(cubeController));
 		ImageManager.tailorButton(cubeButton);
 		cubePanel.add(cubeButton);
-		JLabel cubeName = new JLabel("Story Dice");
+		JLabel cubeName = new JLabel("Estuary Stories");
 		cubeName.setFont(new Font("Sans_Serif", Font.PLAIN, nameFontSize));
 		cubePanel.add(cubeName);
 
@@ -150,14 +150,15 @@ public class MenuScreen extends JLayeredPane {
 		menu.add(blankL, cons);
 
 		menuButton = new JButton("Menu");
+		menuButton.setVisible(false);
 		menuButton.addActionListener(actionEvent -> menuButtonActionPerformed());
 
 		menuButton.setBounds(menuLoc);
 		this.add(menuButton, 4, 0);
-		menuButton.setVisible(false);
 	}
 
 	protected void menuButtonActionPerformed() {
+		System.out.println("menu action performed");
 		// TODO Auto-generated method stub
 		if (prevController != null)
 			prevController.dispose();
@@ -182,6 +183,7 @@ public class MenuScreen extends JLayeredPane {
 		} else if (prevController instanceof CubeController) {
 			CubeController temp = (CubeController) prevController;
 			temp.getTimer().start();
+			temp.getView().scheduleEndingTimer(60);
 		}
 
 		gameView = prevController.getView();

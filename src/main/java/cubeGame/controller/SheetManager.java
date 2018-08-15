@@ -35,7 +35,7 @@ public class SheetManager {
 	// A bunch of constants 
 	private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-	private static final String TOKENS_DIRECTORY_PATH = "tokens"; // Folder where tokens are kept
+	private static final String TOKENS_DIRECTORY_PATH = "/tokens"; // Folder where tokens are kept
 	private static final String SPREADSHEET_ID = "1WGQgmEM0d8eYutIDekvzvsNEpAWS50jq0auys3wC9MY"; 
 	// If the sheet names are changed in Google, make sure to update these constants as well
 	private static final String DICESHEET_ID = "Story Game Records"; 

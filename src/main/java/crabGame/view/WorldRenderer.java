@@ -49,7 +49,7 @@ public class WorldRenderer {
 	 */
 	static void drawBackground(Graphics g) {
 
-		g.drawImage(MenuScreen.IMAGE.get(IMAGES.CRAB_BG), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
+		g.drawImage(ImageManager.get(IMAGES.CRAB_BG), 0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight, null);
 
 	}
 
