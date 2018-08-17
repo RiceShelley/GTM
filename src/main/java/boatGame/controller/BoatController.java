@@ -73,7 +73,11 @@ public class BoatController extends MGController implements ActionListener {
 		view.setVisible(false);
 		gameOver = false;
 	}
-
+	
+	public void replay() {
+		menu.replayBoatGame();
+	}
+	
 	@Override
 	public MGView getView() {
 		return view;
