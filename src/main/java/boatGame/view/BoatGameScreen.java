@@ -32,7 +32,6 @@ public class BoatGameScreen extends MGView {
 	private final int NWF = 3; // number of wake frames
 	private final int NQF = 5; // number of non-active quest frames
 	public final int NFF = 21; // number of fade frames (arrow and moveTut)
-	private final int gsScale = 5; // grow shrink scale
 	private final int erosionIncr = 10;
 	BoatController controller;
 	Font defaultFont;
@@ -48,7 +47,8 @@ public class BoatGameScreen extends MGView {
 	Rectangle oysterLoc = new Rectangle(120, 220, 250, 50);
 	Rectangle rockLoc = new Rectangle(120, 370, 250, 50);
 	Rectangle cordgrassLoc = new Rectangle(120, 555, 250, 50);
-	Rectangle endScoreLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 500, MenuScreen.frameHeight - 500);
+	Rectangle endScoreLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 100, MenuScreen.frameHeight - 1500);
+	Rectangle endTimeLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 500, MenuScreen.frameHeight - 300);
 
 	BufferedImage sea = ImageManager.get(IMAGES.WATER);
 	BufferedImage tut = ImageManager.get(IMAGES.BOAT_TUTORIAL);
@@ -70,12 +70,6 @@ public class BoatGameScreen extends MGView {
 	BufferedImage[] moveTut = ImageManager.arrayPopulator(IMAGES.BOAT_TUT_1, NFF);
 	BufferedImage[] arrow = ImageManager.arrayPopulator(IMAGES.BOAT_TUT_2, NFF);
 	BufferedImage[] shore = ImageManager.arrayPopulator(IMAGES.BOAT_TUT_5, NFF);
-	Image[] cgAlert = ImageManager.getScaled(IMAGES.CORDGRASS, new Dimension(ITEM.WIDTH, ITEM.HEIGHT),
-			new Dimension(ITEM.WIDTH * gsScale, ITEM.HEIGHT * gsScale));
-	Image[] rAlert = ImageManager.getScaled(IMAGES.ROCK, new Dimension(ITEM.WIDTH, ITEM.HEIGHT),
-			new Dimension(ITEM.WIDTH * gsScale, ITEM.HEIGHT * gsScale));
-	Image[] oAlert = ImageManager.getScaled(IMAGES.OYSTER, new Dimension(ITEM.WIDTH, ITEM.HEIGHT),
-			new Dimension(ITEM.WIDTH * gsScale, ITEM.HEIGHT * gsScale));
 	int mCur = 0;
 	int dCur = 0;
 	int qCur = 0;
@@ -215,64 +209,8 @@ public class BoatGameScreen extends MGView {
 						(int) (controller.world.docks.get(0).pos.x * BoatWorld.widthRatio + Dock.WIDTH),
 						(int) (controller.world.docks.get(0).pos.y * BoatWorld.heightRatio),
 						Dock.HEIGHT * (arrow[dCur].getWidth() / arrow[dCur].getHeight()), Dock.HEIGHT, null);
-			} else if (qDisplay) {
-				switch (controller.world.boat.holding) {
-				case CORDGRASS:
-					qCur = (qCur + 1) % cgAlert.length;
-					if (controller.world.firstC != null) {
-						g.drawImage(cgAlert[qCur],
-								(int) (controller.world.firstC.pos.x * BoatWorld.widthRatio
-										- cgAlert[qCur].getWidth(this) / 2),
-								(int) (controller.world.firstC.pos.y * BoatWorld.heightRatio
-										- cgAlert[qCur].getHeight(this) / 2),
-								null);
-						g.drawImage(cgAlert[qCur],
-								(int) (controller.world.boat.getXCoord() * BoatWorld.widthRatio
-										- cgAlert[qCur].getWidth(this) / 2),
-								(int) (controller.world.boat.getYCoord() * BoatWorld.heightRatio
-										- cgAlert[qCur].getHeight(this) / 2),
-								null);
-					}
-					break;
-				case OYSTER:
-					qCur = (qCur + 1) % oAlert.length;
-					if (controller.world.firstO != null) {
-						g.drawImage(oAlert[qCur],
-								(int) (controller.world.firstO.pos.x * BoatWorld.widthRatio
-										- cgAlert[qCur].getWidth(this) / 2),
-								(int) (controller.world.firstO.pos.y * BoatWorld.heightRatio
-										- cgAlert[qCur].getHeight(this) / 2),
-								null);
-						g.drawImage(oAlert[qCur],
-								(int) (controller.world.boat.getXCoord() * BoatWorld.widthRatio
-										- oAlert[qCur].getWidth(this) / 2),
-								(int) (controller.world.boat.getYCoord() * BoatWorld.heightRatio
-										- oAlert[qCur].getHeight(this) / 2),
-								null);
-					}
-					break;
-				case ROCK:
-					qCur = (qCur + 1) % rAlert.length;
-					if (controller.world.firstR != null) {
-						g.drawImage(rAlert[qCur],
-								(int) (controller.world.firstR.pos.x * BoatWorld.widthRatio
-										- cgAlert[qCur].getWidth(this) / 2),
-								(int) (controller.world.firstR.pos.y * BoatWorld.heightRatio
-										- cgAlert[qCur].getHeight(this) / 2),
-								null);
-						g.drawImage(rAlert[qCur],
-								(int) (controller.world.boat.getXCoord() * BoatWorld.widthRatio
-										- rAlert[qCur].getWidth(this) / 2),
-								(int) (controller.world.boat.getYCoord() * BoatWorld.heightRatio
-										- rAlert[qCur].getHeight(this) / 2),
-								null);
-					}
-					break;
-				default:
-					break;
-				} // switch
-			} // else if
-			if (sDisplay) {
+
+			} else if (sDisplay) {
 				sCur = (sCur + 1) % shore.length;
 				g.drawImage(shore[sCur],
 						(int) (controller.world.boat.getXCoord() * BoatWorld.widthRatio) - Boaty.WIDTH / 2
@@ -290,12 +228,14 @@ public class BoatGameScreen extends MGView {
 	public void displayEnd() {
 		defaultFont = score.getFont();
 		youWin.setVisible(true);
-		time.setVisible(false);
+		// time.setVisible(false);
 		oysterHUD.setVisible(false);
 		rockHUD.setVisible(false);
 		cordgrassHUD.setVisible(false);
 		scaleFont(score, endScoreLoc);
+		scaleFont(time, endTimeLoc);
 		boatLabel.setVisible(false);
+		time.setText("Time: " + getTimeLeft());
 	}
 
 	private void scaleFont(JLabel label, Rectangle scaleLoc) {
@@ -352,6 +292,11 @@ public class BoatGameScreen extends MGView {
 	 */
 	private String getTimeLeft() {
 		int time = controller.milliTimeLimit - controller.getMillisPassed();
+		if (BoatController.gameOver) {
+			time = controller.getMillisPassed();
+			if (time > controller.milliTimeLimit)
+				time = controller.milliTimeLimit;
+		}
 		double min = time / MIN;
 		double sec = (time - min * MIN) / SEC;
 		return (int) min + ":" + (String.format("%.2f", sec));

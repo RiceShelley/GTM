@@ -29,9 +29,7 @@ public class BoatListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		if (BoatController.gameOver) {
-			controller.dispose();
-		}
+		
 	}
 
 	@Override
@@ -45,6 +43,9 @@ public class BoatListener implements MouseListener {
 		}
 		else {
 			BoatController.paused = false;
+		}
+		if (BoatController.gameOver) {
+			controller.replay();
 		}
 	}
 
