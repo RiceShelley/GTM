@@ -34,7 +34,7 @@ public class MenuScreen extends JLayeredPane {
 	 */
 	private static final long serialVersionUID = 6097571045147215752L; // added in PCM
 	public static final ImageManager IMAGE = new ImageManager();
-	// private static final Dimension size = new Dimension(1920, 1080);
+	//private static final Dimension size = new Dimension(1920, 1080);
 	private static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public static final int frameWidth = size.width;
@@ -63,7 +63,7 @@ public class MenuScreen extends JLayeredPane {
 		frame.setVisible(true);
 
 		crabController = new CrabController(this);
-		boatController = new BoatController(this);		
+		boatController = new BoatController(this);
 		cubeController = new CubeController(this);
 
 		wave = new Wave();
@@ -162,6 +162,7 @@ public class MenuScreen extends JLayeredPane {
 		// TODO Auto-generated method stub
 		if (prevController != null)
 			prevController.dispose();
+		
 		menuButton.setVisible(false);
 		crabButton.setVisible(true);
 		boatButton.setVisible(true);
@@ -216,5 +217,5 @@ public class MenuScreen extends JLayeredPane {
 	public void hideMenuButton() {
 		menuButton.setVisible(false);
 	}
-	
+
 }

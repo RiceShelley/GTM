@@ -13,26 +13,29 @@ public class PlayScreen {
 	static Color otherColor = Color.BLACK;
 	static double colorCount = 0;
 	static double colorMaxDuration = 15;
-	static Rectangle heartSize = new Rectangle(50,50);
+	static Rectangle heartSize = new Rectangle(0, 0, MenuScreen.frameWidth / 40, MenuScreen.frameHeight / 20);
 	static int scoreBuffer = 30;
-	
+
 	public static void drawPlay(Graphics g) {
 		drawProgress(CrabController.score, g);
 		drawHearts(CrabGameWorld.lives, g);
-		if (SaltCloud.getTrailState() == SaltCloud.TrailState.DROUGHT_ENTRY) drawDroughtMessage(g);
-		if (SaltCloud.getTrailState() == SaltCloud.TrailState.STORM_ENTRY) drawStormMessage(g);
+		if (SaltCloud.getTrailState() == SaltCloud.TrailState.DROUGHT_ENTRY)
+			drawDroughtMessage(g);
+		if (SaltCloud.getTrailState() == SaltCloud.TrailState.STORM_ENTRY)
+			drawStormMessage(g);
 		drawLives(g);
 	}
 
 	private static void drawHearts(int lives, Graphics g) {
 		// TODO Auto-generated method stub
 		int heartOriginX = scoreBuffer;
-		int heartOriginY = scoreBuffer*4;
-		for (int i = 0; i < lives; i ++) {
-			g.drawImage(MenuScreen.IMAGE.get(IMAGES.HEART), heartOriginX + heartSize.width*i, heartOriginY,  heartSize.height, heartSize.width, null);
+		int heartOriginY = (scoreBuffer * 2 + (MenuScreen.frameHeight / 15)) + heartSize.height / 2;
+		for (int i = 0; i < lives; i++) {
+			g.drawImage(MenuScreen.IMAGE.get(IMAGES.HEART), (int) (heartOriginX + heartSize.width * i * 1.3), heartOriginY,
+					heartSize.height, heartSize.width, null);
 		}
 	}
-	
+
 	/**
 	 * Draw the score/progress bar
 	 *
@@ -42,15 +45,15 @@ public class PlayScreen {
 		int scoreOriginX = scoreBuffer;
 		int scoreOriginY = scoreBuffer * 2;
 		int scoreWidth = CrabGameWorld.WORLD_WIDTH - scoreBuffer * 2;
-		int scoreHeight = 40;
+		int scoreHeight = MenuScreen.frameHeight / 15;
 
 		double scoreFillPercentage;
 		double scoreFill;
 		scoreFillPercentage = (double) score / CrabController.MAX_SCORE;
 		scoreFill = scoreFillPercentage * scoreWidth;
 
-		g.drawImage(MenuScreen.IMAGE.get(IMAGES.GREEN_BAR), scoreOriginX, scoreOriginY, (int) scoreFill,
-				scoreHeight, null);
+		g.drawImage(MenuScreen.IMAGE.get(IMAGES.GREEN_BAR), scoreOriginX, scoreOriginY, (int) scoreFill, scoreHeight,
+				null);
 
 		int littleBitOfSpace = 10;
 
