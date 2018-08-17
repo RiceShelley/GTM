@@ -12,7 +12,6 @@ import static main.java.crabGame.model.SaltCloud.getTrailState;
 
 /**
  * @author Zachary
- *         <p>
  *         This class is the game class that includes all elements that exist in
  *         the game and are displayed on screen. It updates their positions and
  *         checks for any and all collisions.
