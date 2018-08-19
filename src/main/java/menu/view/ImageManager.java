@@ -75,8 +75,8 @@ public class ImageManager {
 			images.put(fileName, bufferedImage);
 			return bufferedImage;
 		} catch (IOException e) {
-			e.printStackTrace();
 			System.out.println(fileName);
+			e.printStackTrace();
 		} // try catch
 		return null;
 	}

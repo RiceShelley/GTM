@@ -66,8 +66,8 @@ public enum IMAGES {
 	QUESTION_MARK("/main/resources/images/QuestionMark.png"),
 	TUT_BG("/main/resources/images/tutorialBackground.png"),
 	// The following are the new ending faces for the dice game
-	DICE_ALLIGATOR("/main/resources/images/alligatorDie.png"),
 	DICE_BOAT("/main/resources/images/boatDie.png"),
+	DICE_HORSESHOECRAB("/main/resources/images/horseshoeCrabDie.png"),
 	DICE_CATFISH("/main/resources/images/catfishDie.png"),
 	DICE_CLAM("/main/resources/images/clamDie.png"),
 	DICE_CORDGRASS("/main/resources/images/cordgrassDie.png"),
