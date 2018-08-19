@@ -34,7 +34,6 @@ public class WorldRenderer {
 	 * Draws a CrabGamePanel's game, should call all other draw methods
 	 */
 	public static void render(Graphics g) {
-
 		drawBackground(g);
 		drawCrabbies(CrabGameWorld.crabbies, g);
 		drawEnemies(CrabGameWorld.enemies, g);
@@ -116,7 +115,7 @@ public class WorldRenderer {
 //	 */
 	static void drawFact(Friend friend, Graphics g) {
 		g.setColor(Color.BLACK);
-		g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), 30));
+		g.setFont(g.getFont().deriveFont(g.getFont().getStyle(), MenuScreen.frameHeight / 30));
 		friend.setTextSize(g.getFontMetrics().stringWidth(Friend.facts[friend.getFriendCounter()]));
 		g.drawString(Friend.facts[friend.getFriendCounter()],
 				(int) (friend.getBounds().getX() - 300 + friend.getBounds().getWidth()),

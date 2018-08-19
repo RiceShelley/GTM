@@ -27,6 +27,12 @@ public class Friend extends Mover {
 		// Friends start down in the bottom moveRight corner and move across, carrying a
 		// fun fact along with them
 
+		if (MenuScreen.frameHeight > 1200 && MenuScreen.frameWidth > 2000) {
+			super.movementVelocity = .3;
+		} else {
+			super.movementVelocity = .2;
+		}
+		
 		pFriendCounter = friendCounter;
 		super.setyPos(y - (pFriendCounter * 50));
 		friendCounter++;

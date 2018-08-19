@@ -11,6 +11,7 @@ import main.java.menu.view.MenuScreen;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.*;
 import java.util.Collections;
 
@@ -22,7 +23,16 @@ import static main.java.crabGame.CrabController.paused;
 public class CrabGameListeners implements KeyListener, MouseListener, MouseMotionListener {
 
 	// Keyboard actions //
+	
+	public static Rectangle[] r = new Rectangle[3];
+	
 
+	public CrabGameListeners() {
+		for (int i = 0; i < 3; i++) {
+			r[i] = new Rectangle();
+		}
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// System.out.println("KeyTyped: " + e);
@@ -97,17 +107,22 @@ public class CrabGameListeners implements KeyListener, MouseListener, MouseMotio
 		// see if player clicked right answer
 		if (CrabController.paused) {
 			Point p = e.getPoint();
-			int offset = 50;
-			int ans = 0;
+			int offset = 0;
+			int ans = -1;
 			for (int i = 0; i < 3; i++) {
-				int start = (MenuScreen.frameHeight / 2 + offset) - 18;
-				int end = start + 25;
+				int start = (MenuScreen.frameHeight / 2 + offset) - CrabGamePanel.fontSize;
+				int end = start + CrabGamePanel.fontSize;
+				r[i].x = start;
+				r[i].y = end;
 				if (p.getY() > start && p.getY() < end) {
 					ans = i;
 					break;
 				}
-				offset += 50;
+				offset += MenuScreen.frameHeight / 10;
 			}
+			if (ans == -1)
+				return;
+			
 			String str = Question.questions.get(CrabGamePanel.qNum).getAnswers().get(ans);
 			if (Question.questions.get(CrabGamePanel.qNum).isRightAnswer(str)) {
 				Question.qaState = 1;

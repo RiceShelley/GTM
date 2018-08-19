@@ -138,8 +138,8 @@ public class CrabController extends MGController {
 	@Override
 	public void dispose() {
 		System.out.println("Dispose Called");
-		enemySpawnTimer.stop();
-		menu.hideMenuButton();
+		enemySpawnTimer.stop(); 
+		//menu.hideMenuButton();
 		reset();
 	}
 
