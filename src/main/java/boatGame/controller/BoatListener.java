@@ -3,6 +3,7 @@ package main.java.boatGame.controller;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Timer;
 
 import main.java.boatGame.model.BoatWorld;
 
@@ -44,7 +45,14 @@ public class BoatListener implements MouseListener {
 		else {
 			BoatController.paused = false;
 		}
+		
 		if (BoatController.gameOver) {
+			try {
+				Thread.sleep(2400); // To avoid skipping the end screen
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			controller.replay();
 		}
 	}
