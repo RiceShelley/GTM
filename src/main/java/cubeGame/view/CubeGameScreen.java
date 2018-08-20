@@ -53,6 +53,8 @@ public class CubeGameScreen extends MGView {
 	private boolean showingTutorial = true;
 
 	public CubeGameScreen(CubeController control, MenuScreen menu) {
+		endingTimer = new Timer();
+		
 		this.menu = menu;
 		this.control = control;
 		this.setBounds(0, 0, MenuScreen.frameWidth, MenuScreen.frameHeight);
@@ -209,9 +211,10 @@ public class CubeGameScreen extends MGView {
 	public void scheduleEndingTimer(int secs) {
 		try {
 			endingTimer.cancel();
-			endingTimer.purge();
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			// In case there is a different kind of exception, do nothing still
 		} finally {
 			endingTimer = new Timer();
 			endingTimer.schedule(new TimerTask() {

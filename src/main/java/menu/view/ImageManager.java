@@ -77,7 +77,7 @@ public class ImageManager {
 		} catch (IOException e) {
 			System.out.println(fileName);
 			e.printStackTrace();
-		} // try catch
+		}
 		return null;
 	}
 
