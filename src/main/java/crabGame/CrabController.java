@@ -158,8 +158,9 @@ public class CrabController extends MGController {
 	 * What happens while a crabby overlaps a saltCloud
 	 */
 	public static void incrementScore() {
-		if (score <= MAX_SCORE)
-			score++;
+		if (score <= MAX_SCORE && game.checkGameStatePlay()) {
+			score+=4;
+		}
 		if (score == MAX_SCORE / 4) {
 			difficultyLevel++;
 			System.out.println("difficulty level increased to " + difficultyLevel);

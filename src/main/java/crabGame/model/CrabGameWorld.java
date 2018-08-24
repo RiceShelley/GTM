@@ -213,11 +213,6 @@ public class CrabGameWorld {
 	private static void checkEnemyCollision(Crabby crabby) {
 		for (Enemy enemy : enemies) {
 			Rectangle newBounds = new Rectangle(enemy.getBounds());
-			newBounds.x += (newBounds.width / 1.5) / 2;
-			newBounds.y += (newBounds.height / 1.5) / 2;
-			newBounds.width /= 1.5;
-			newBounds.height /= 1.5;
-			
 			if (crabby.getState() != Mover.State.SAFE && crabby.getBounds().intersects(newBounds))
 				crabby.hitEnemy();
 		}
