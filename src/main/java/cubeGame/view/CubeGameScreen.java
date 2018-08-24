@@ -106,13 +106,13 @@ public class CubeGameScreen extends MGView {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+			
 				scheduleEndingTimer(60);
 				if (showingTutorial) {
 					showingTutorial = false;
 					control.getWorld().rollDice();
 				} else if (showingEnd) {
-					menu.replayCubeGame();
+					menu.exitGame();
 					try {
 						endingTimer.cancel();
 					} catch (IllegalStateException e) {
@@ -122,7 +122,6 @@ public class CubeGameScreen extends MGView {
 					showingTutorial = false;
 					control.getWorld().rollDice();
 				}
-
 			}
 
 			// Unimplemented mouse methods
@@ -211,9 +210,8 @@ public class CubeGameScreen extends MGView {
 	public void scheduleEndingTimer(int secs) {
 		try {
 			endingTimer.cancel();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// In case there is a different kind of exception, do nothing still
 		} finally {
 			endingTimer = new Timer();

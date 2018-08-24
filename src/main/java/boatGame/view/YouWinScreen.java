@@ -17,6 +17,7 @@ public class YouWinScreen extends JPanel {
 
 	public YouWinScreen() {
 		this.setSize(MenuScreen.frameWidth, MenuScreen.frameHeight);
+		
 	}
 
 	@Override

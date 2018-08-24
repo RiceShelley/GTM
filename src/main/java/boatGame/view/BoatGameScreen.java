@@ -47,8 +47,8 @@ public class BoatGameScreen extends MGView {
 	Rectangle oysterLoc = new Rectangle(120, 220, 250, 50);
 	Rectangle rockLoc = new Rectangle(120, 370, 250, 50);
 	Rectangle cordgrassLoc = new Rectangle(120, 555, 250, 50);
-	Rectangle endScoreLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 100, MenuScreen.frameHeight - 1500);
-	Rectangle endTimeLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 500, MenuScreen.frameHeight - 300);
+	Rectangle endScoreLoc = new Rectangle(250, 150, MenuScreen.frameWidth - 400, MenuScreen.frameHeight - 1500);
+	Rectangle endTimeLoc = new Rectangle(250, 250, MenuScreen.frameWidth - 400, MenuScreen.frameHeight + 200);
 
 	BufferedImage sea = ImageManager.get(IMAGES.WATER);
 	BufferedImage tut = ImageManager.get(IMAGES.BOAT_TUTORIAL);

@@ -219,5 +219,9 @@ public class MenuScreen extends JLayeredPane {
 	public void hideMenuButton() {
 		menuButton.setVisible(false);
 	}
-
+	
+	// Same effect as hitting the menu button
+	public void exitGame() {
+		menuButton.doClick();
+	}
 }

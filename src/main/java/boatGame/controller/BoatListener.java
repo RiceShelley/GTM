@@ -7,6 +7,7 @@ import java.util.Timer;
 
 import main.java.boatGame.model.BoatWorld;
 
+
 public class BoatListener implements MouseListener {
 	
 	BoatController controller;
@@ -48,12 +49,13 @@ public class BoatListener implements MouseListener {
 		
 		if (BoatController.gameOver) {
 			try {
-				Thread.sleep(2400); // To avoid skipping the end screen
+				Thread.sleep(1000); // To avoid skipping the end screen
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			controller.replay();
+			controller.menu.exitGame();
+			
 		}
 	}
 
