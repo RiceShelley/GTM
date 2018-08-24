@@ -101,6 +101,7 @@ public class BoatController extends MGController implements ActionListener {
 			 view.displayEnd();
 			 timer.stop();
 		}
+
 	}
 
 	public int getMillisPassed() {
