@@ -3,6 +3,7 @@ package main.java.crabGame.model;
 import main.java.crabGame.CrabController;
 import main.java.menu.view.MenuScreen;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -211,7 +212,13 @@ public class CrabGameWorld {
 	 */
 	private static void checkEnemyCollision(Crabby crabby) {
 		for (Enemy enemy : enemies) {
-			if (crabby.getState() != Mover.State.SAFE && crabby.getBounds().intersects(enemy.getBounds()))
+			Rectangle newBounds = new Rectangle(enemy.getBounds());
+			newBounds.x += (newBounds.width / 1.5) / 2;
+			newBounds.y += (newBounds.height / 1.5) / 2;
+			newBounds.width /= 1.5;
+			newBounds.height /= 1.5;
+			
+			if (crabby.getState() != Mover.State.SAFE && crabby.getBounds().intersects(newBounds))
 				crabby.hitEnemy();
 		}
 	}
