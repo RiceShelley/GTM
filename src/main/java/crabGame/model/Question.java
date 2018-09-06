@@ -1,7 +1,14 @@
 package main.java.crabGame.model;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import main.java.cubeGame.controller.SheetManager;
+import main.java.menu.view.ImageManager;
 
 /**
  * This class creates the questions and answers that appear
@@ -16,10 +23,13 @@ public class Question {
 	/**
 	 * Creates instance of Question
 	 *
-	 * @param p   prompt to display at top of frame
-	 * @param correctAnswer  the correct answer (if the corresponding button is selected, the game will continue)
-	 * @param wrongAnswerOne an incorrect answer (selecting the corresponding button will not distanceSoFar the game)
-	 * @param wrongAnswerTwo an incorrect answer (selecting the corresponding button will not distanceSoFar the game)
+	 * @param p              prompt to display at top of frame
+	 * @param correctAnswer  the correct answer (if the corresponding button is
+	 *                       selected, the game will continue)
+	 * @param wrongAnswerOne an incorrect answer (selecting the corresponding button
+	 *                       will not distanceSoFar the game)
+	 * @param wrongAnswerTwo an incorrect answer (selecting the corresponding button
+	 *                       will not distanceSoFar the game)
 	 */
 	public Question(String p, String correctAnswer, String wrongAnswerOne, String wrongAnswerTwo) {
 		this.prompt = p;
@@ -35,36 +45,30 @@ public class Question {
 	}
 
 	public static void load() {
-		questions.add(new Question("Which of these animals live in an estuary?", "Crab", "Bear", "Human"));
-		questions.add(new Question("Which of these animals live in an estuary?", "Fish", "Giraffe", "Rhino"));
-		questions.add(new Question("Which of these animals live in an estuary?", "Turtle", "Elephant", "Tiger"));
-		questions.add(new Question("Is an estuary made of...?", "Salt and Fresh Water", "Salt Water", "Fresh Water"));
-		questions.add(new Question("These structures are the best at keeping the estuary from being washed away.", "Gabions", "Sea Walls", "Bulkheads"));
-		questions.add(new Question("How do crabs find their way to the estuary?", "Smelling the saltiness", "Internal compass", "Asking for directions"));
-		questions.add(new Question("Where do crabs give birth to their young?", "Salt Water", "Fresh Water", "In the Estuary"));
-		questions.add(new Question("In what state are the NERR's located?", "Delaware", "Oklahoma", "Canada"));
-		questions.add(new Question("In what state are the NERR's located?", "Florida", "Nevada", "Kansas"));
-		questions.add(new Question("In what state are the NERR's located?", "Texas", "Europe", "Idaho"));
-		questions.add(new Question("Which of these can change the saltiness of an estuary?", "Storms", "Tuesdays", "Sunshine"));
-		questions.add(new Question("Which of these can change the saltiness of an estuary?", "Drought", "Wind", "Winter"));
-		questions.add(new Question("Which of these can change the saltiness of an estuary?", "Construction", "Summer", "Clouds"));
-		questions.add(new Question("Gabions are made of what natural resource.", "Oyster Shells", "Concrete", "Wood"));
-		questions.add(new Question("Which of these is a type of estuary?", "Bar-Built Estuary", "Salt and Vinegar Estuary", "Geometric Estuary"));
-		questions.add(new Question("Which of these is a type of estuary?", "Coastal Plains Estuary", "Coniferous Estuary", "Bubble Estuary"));
-		questions.add(new Question("Which of these is a type of estuary?", "Fjord Estuary", "Refrigerator Estuary", "iEstuary"));
-		questions.add(new Question("Which of these is a type of estuary?", "Tectonic Estuary", "Gemstone Estuary", "Big and Tall Estuary"));
-		questions.add(new Question("What are the sediment deposits at the end of rivers called?", "Deltas", "Gammas", "Omegas"));
-		questions.add(new Question("Fish use these to breathe underwater.", "Gills", "Wings", "Horns"));
-		questions.add(new Question("Crabs are this type of animal.", "Crustaceans", "Mammals", "Dinosaurs"));
-		questions.add(new Question("Turtles are this type of animal", "Reptiles", "Insects", "Rodents"));
-		questions.add(new Question("Which of these is the name of a fish?", "Sea Bass", "Tony", "Pomegranate"));
-		questions.add(new Question("Which of these is the name of a fish?", "Pickerel", "Grizzly", "Square"));
-		questions.add(new Question("Which of these is the name of a fish?", "Trout", "Emerald", "Snapchat"));
+		InputStream in = Question.class.getResourceAsStream("/main/resources/questions.txt");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+		String line = "";
+		while (true) {
+			try {
+				line = reader.readLine();
+				if (line == null)
+					break;
+				line = line.replaceAll("\"", "");
+				String q[] = line.split(", ");
+				questions.add(new Question(q[0], q[1], q[2], q[3]));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 		Collections.shuffle(questions);
 	}
 
 	/**
-	 * shuffles the answer so they will appear in a random order when the prompt appears
+	 * shuffles the answer so they will appear in a random order when the prompt
+	 * appears
 	 */
 	public void shuffle() {
 		Collections.shuffle(this.answers);
